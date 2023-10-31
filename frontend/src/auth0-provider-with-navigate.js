@@ -27,6 +27,7 @@ const Auth0ProviderWithNavigate = ({ children }) => {
         redirect_uri: redirectUri,
         screen_hint: "signup",
         audience: audience,
+        prompt: 'consent'
       }}
       onRedirectCallback={onRedirectCallback}
     >

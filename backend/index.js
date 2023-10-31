@@ -187,17 +187,16 @@ app.get('/getCalendarList', async (req, res) => {
           console.log(error);
           res.send("pas ok")
         });
-});  
+});  */
 
-app.get('/insertGoogleAgenda', async(req, res)=>{
-
+app.post('/insertGoogleAgenda', async(req, res)=>{
     const options = { 
         method: "POST",
         url: "https://www.googleapis.com/calendar/v3/calendars",
-        headers: { Authorization: `Bearer ya29.a0AfB_byAZ4tlOkTnBbpHAsnQR1ZdJ1D2WGOuAdVpDR8fP6RFBNbEywKw1aKOiyHwmXsNEHAkqDs7BzQdQrF8gM-_6yZqyyq8bHxxbjZ3AT3QBEeadBZKrKIS5J_Y5_AmAsfGMYQ24_l7WoYRDMK7lzjH6lsY8e-oeEuIaCgYKAUMSARESFQGOcNnC61pRklEyLG8pkgiPFP61iQ0170`},
+        headers: { Authorization: `Bearer ya29.a0AfB_byCCDDfAtT030uFWN038mG_beU2uJUHTBYLnM4tCflRrKkAHKmuxtJ2zZOraDue0TgEPbz4K4CfhS2jxdbQ1hn-y14zxmDJw0Xhf3V_TH0RVOzU08Vt1jcItJkoe1VaXSf78VtdF-47sCc9UuZL4iUn11rW3jDpyaCgYKAeASARESFQGOcNnChm4XmuYyNElqyioZ2Tq2rg0171`},
         data: {
-            "summary": "test calendar title2",
-            "description": "test description"
+            "summary": req.body.summary,
+            "description": req.body.description
         }
       };
       axios(options)
@@ -206,12 +205,13 @@ app.get('/insertGoogleAgenda', async(req, res)=>{
           res.send('ok')
         })
         .catch(error => {
-          console.log(error);
+          //console.log(error);
+          console.log(req.body.summary)
           res.send("pas ok")
         });
 
 })
-
+/*
 app.get('/insertEventInAgenda', async(req, res)=>{
 
     const options = { 
@@ -247,7 +247,6 @@ app.get('/', async (req, res) => {
 });
 */
 app.get('/tete', async (req, res) => {
-  console.log(req.body)
   res.json({message: "blabla", message: req.body});
 });
 
