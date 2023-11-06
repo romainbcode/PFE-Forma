@@ -149,8 +149,7 @@ export const Chatbot = () => {
                 onChange={handleInputChange}
                 onKeyPress={handleInputKeyPress}
                 sx={{
-                  marginLeft: "5px",
-                  marginBottom: "5px",
+                  margin: "5px 0 5px 5px",
                   "& label": { color: "#FFFFFE" },
                   "& label.Mui-focused": { color: "#FFFFFE" },
                   "& .MuiOutlinedInput-root": {
