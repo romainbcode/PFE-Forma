@@ -1,31 +1,42 @@
-const dotenv = require('dotenv');
-const express = require('express');
-const http = require('http');
-const morgan = require('morgan');
-const path = require('path');
+const dotenv = require("dotenv");
+const express = require("express");
+const http = require("http");
+const morgan = require("morgan");
+const path = require("path");
 //const router = require('./routes/index');
-const { auth } = require('express-openid-connect');
-const axios = require('axios');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+const { auth } = require("express-openid-connect");
+const axios = require("axios");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+
+const { createFormation } = require("./controllers/formationController");
+const { createUser } = require("./controllers/userController");
+const { createQuiz } = require("./controllers/quizController");
 
 dotenv.load();
 
 const app = express();
 
-app.use(morgan('dev'));
+mongoose
+  .connect(process.env.DATABASE, {})
+  .then(() => {
+    console.log("DB connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+app.use(morgan("dev"));
 app.use(express.json());
 
-app.use(cors())
-
+app.use(cors());
 
 const port = process.env.PORT || 3000;
 
-const cliend_id = process.env.CLIENT_ID
-const cliend_secret = process.env.CLIENT_SECRET
-const domaine = process.env.DOMAINE
-
-
+const cliend_id = process.env.CLIENT_ID;
+const cliend_secret = process.env.CLIENT_SECRET;
+const domaine = process.env.DOMAINE;
 
 //app.use('/', router);
 
@@ -78,35 +89,33 @@ app.get('/getRoleUser/:id_user', async(req, res)=>{
 })
 */
 
-app.post('/getTokenAuth', async(req, res)=>{
-    const options = {
-        method: 'POST',
-        url: `https://${domaine}/oauth/token`,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        data: {
-            client_id: cliend_id,
-            client_secret: cliend_secret,
-            audience: `https://${domaine}/api/v2/`,
-            grant_type: 'client_credentials',
-            
-            //Lien qui explique pourquoi avec l'api qu'on utilise il est pas possible d'avoir de refreshtoken : https://community.auth0.com/t/having-trouble-enabling-allow-offline-access/30803/2
-            //code: 'mettre le token que je recois au moment de l'authentification',
-        },
-      };
-    await axios(options)
-    .then(response => {
-      
-        res.status(200).json({
-          token_access: response.data.access_token
-        })
-    })
-    .catch(error => {
-        res.send(error)
-    });
+app.post("/getTokenAuth", async (req, res) => {
+  const options = {
+    method: "POST",
+    url: `https://${domaine}/oauth/token`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      client_id: cliend_id,
+      client_secret: cliend_secret,
+      audience: `https://${domaine}/api/v2/`,
+      grant_type: "client_credentials",
 
-})
+      //Lien qui explique pourquoi avec l'api qu'on utilise il est pas possible d'avoir de refreshtoken : https://community.auth0.com/t/having-trouble-enabling-allow-offline-access/30803/2
+      //code: 'mettre le token que je recois au moment de l'authentification',
+    },
+  };
+  await axios(options)
+    .then((response) => {
+      res.status(200).json({
+        token_access: response.data.access_token,
+      });
+    })
+    .catch((error) => {
+      res.send(error);
+    });
+});
 
 /*
 //Mettre uniquement le grant type : authorizatiion_code (inutile il y est deja)
@@ -132,10 +141,8 @@ app.get('/updateClient', async(req, res)=>{
       });
 })*/
 
-
-
-app.get('/getTokenGoogle/:tokenauth', async (req, res) => {
-    /*console.log("okoktoken", req)
+app.get("/getTokenGoogle/:tokenauth", async (req, res) => {
+  /*console.log("okoktoken", req)
     let { token_type, access_token, refresh } = req.oidc.accessToken;
     console.log("prout", access_token, refresh)
     const products = await axios.get(`https://${process.env.DOMAINE}/api/v2/users`, {
@@ -149,26 +156,24 @@ app.get('/getTokenGoogle/:tokenauth', async (req, res) => {
     //console.log(products.data[0].identities[0])
     res.send(`O: ${products.data[0].identities[0].access_token}`);
     */
-   tokenAuth = req.params.tokenauth
-   console.log(req)
-    const options2 = {
-      method: 'GET',
-      url: `https://${domaine}/api/v2/users`,
-      headers: {
-          Authorization: `Bearer ${tokenAuth}`,
-      },
-      
-    };
-    await axios(options2)
-    .then(response => {
-      console.log(response)
-        res.send({message: "réponse token google", message:response.data[0]})
+  tokenAuth = req.params.tokenauth;
+  console.log(req);
+  const options2 = {
+    method: "GET",
+    url: `https://${domaine}/api/v2/users`,
+    headers: {
+      Authorization: `Bearer ${tokenAuth}`,
+    },
+  };
+  await axios(options2)
+    .then((response) => {
+      console.log(response);
+      res.send({ message: "réponse token google", message: response.data[0] });
     })
-    .catch(error => {
-        res.send(error)
-    });  
-  });
-
+    .catch((error) => {
+      res.send(error);
+    });
+});
 
 /*
 app.get('/getCalendarList', async (req, res) => {
@@ -189,28 +194,30 @@ app.get('/getCalendarList', async (req, res) => {
         });
 });  */
 
-app.post('/insertGoogleAgenda', async(req, res)=>{
-    const options = { 
-        method: "POST",
-        url: "https://www.googleapis.com/calendar/v3/calendars",
-        headers: { Authorization: `Bearer ya29.a0AfB_byCCDDfAtT030uFWN038mG_beU2uJUHTBYLnM4tCflRrKkAHKmuxtJ2zZOraDue0TgEPbz4K4CfhS2jxdbQ1hn-y14zxmDJw0Xhf3V_TH0RVOzU08Vt1jcItJkoe1VaXSf78VtdF-47sCc9UuZL4iUn11rW3jDpyaCgYKAeASARESFQGOcNnChm4XmuYyNElqyioZ2Tq2rg0171`},
-        data: {
-            "summary": req.body.summary,
-            "description": req.body.description
-        }
-      };
-      axios(options)
-        .then(response => {
-          console.log(response.data);
-          res.send('ok')
-        })
-        .catch(error => {
-          //console.log(error);
-          console.log(req.body.summary)
-          res.send("pas ok")
-        });
-
-})
+app.post("/insertGoogleAgenda", async (req, res) => {
+  const options = {
+    method: "POST",
+    url: "https://www.googleapis.com/calendar/v3/calendars",
+    headers: {
+      Authorization: `Bearer ya29.a0AfB_byCsRbFxRYwNdLuC94idRsVCdsmH4ztlRSfXET7-WghLkJmcljc0sLdcLIQ6vEm0VzSnPLpW_dqL-GPO61HCDCkLfmjSztIpxqqrhstXkcodZPYbIVyK3Hc3kCTpEy_E0rD-Fs39qDcPlIeMJ82Q6CzqL7v6ZUDlaCgYKAVcSARESFQGOcNnC8La3NQMtxx1fijpruVskKQ0171`,
+    },
+    data: {
+      summary: req.body.summary,
+      description: req.body.description,
+    },
+  };
+  axios(options)
+    .then((response) => {
+      console.log(response.data);
+      res.send("ok");
+    })
+    .catch((error) => {
+      //console.log(error);
+      console.log(req.body.summary);
+      console.log(error);
+      res.send("pas ok");
+    });
+});
 /*
 app.get('/insertEventInAgenda', async(req, res)=>{
 
@@ -246,17 +253,14 @@ app.get('/', async (req, res) => {
     res.send(req.oidc.accessToken);
 });
 */
-app.get('/tete', async (req, res) => {
-  res.json({message: "blabla", message: req.body});
+app.get("/tete", async (req, res) => {
+  res.json({ message: "blabla", message: req.body });
 });
 
+app.post("/addFormation", createFormation);
+app.post("/addUser", createUser);
+app.post("/addQuiz", createQuiz);
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-  });
-
-
-
-
-
-
+  console.log(`Example app listening at http://localhost:${port}`);
+});
