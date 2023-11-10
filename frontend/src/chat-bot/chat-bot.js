@@ -8,7 +8,7 @@ import { ChevronsUp } from "lucide-react";
 export const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
-  const [showHeader, setShowHeader] = useState(true);
+  const [showFullChatbot, setshowFullChatbot] = useState(true);
 
   const handleSendMessage = () => {
     if (userInput.trim() !== "") {
@@ -33,7 +33,7 @@ export const Chatbot = () => {
   };
 
   const switchChatbotHeader = () => {
-    setShowHeader(!showHeader);
+    setshowFullChatbot(!showFullChatbot);
   };
 
   return (
@@ -46,7 +46,7 @@ export const Chatbot = () => {
         width: "300px",
       }}
     >
-      {showHeader ? (
+      {!showFullChatbot ? (
         <Box>
           <Button
             onClick={switchChatbotHeader}
