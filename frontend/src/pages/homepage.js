@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Navbar } from "../components/navbar";
 import { Chatbot } from "../chat-bot/chat-bot";
 import axios from "axios";
 import { Box, Typography, Button, Link, Paper, Container } from "@mui/material";
@@ -113,7 +112,6 @@ export const Homepage = () => {
 
   return (
     <>
-      <Navbar />
       <Box
         sx={{
           position: "absolute",
@@ -287,7 +285,6 @@ export const Homepage = () => {
       </Button>
           {isloading ? <Loader /> : <div>C'est chargé</div>}
           */}
-
       <div style={{ position: "absolute", bottom: 0, right: 0 }}>
         <Chatbot />
       </div>
