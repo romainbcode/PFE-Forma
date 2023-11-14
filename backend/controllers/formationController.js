@@ -24,7 +24,7 @@ exports.createFormation = async (req, res, next) => {
               description_sous_chapitre: descsouschapitre,
               corps_texte_image: [
                 {
-                  text: text,
+                  texte: text,
                   texte_attention: textattention,
                   texte_conseil: textconseil,
                 },

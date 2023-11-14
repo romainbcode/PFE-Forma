@@ -116,10 +116,10 @@ const FormationSchema = new mongoose.Schema(
         id_user: {
           type: ObjectId,
           ref: "User",
-          required: [
+          /*required: [
             true,
             "Un avis doit forcemment être associé à un utilisateur.",
-          ],
+          ],*/
         },
         note_sur5: {
           type: Number,
