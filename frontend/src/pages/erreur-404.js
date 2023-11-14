@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
-
+import logo_404_erreur from "../assets/erreur404.png";
 export const Erreur404 = () => {
   return (
     <Box
@@ -13,6 +13,7 @@ export const Erreur404 = () => {
         textAlign: "center",
       }}
     >
+      <img src={logo_404_erreur} alt="erreur404_logo" />
       <h1>404 Error</h1>
       <h1>Page Not Found</h1>
       <Link to="/" style={{ color: "#FFFFFE" }}>
