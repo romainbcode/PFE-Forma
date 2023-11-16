@@ -36,3 +36,17 @@ exports.getFormationsRecente = async (req, res, next) => {
     });
   }
 };
+
+exports.getFormationsById = async (req, res, next) => {
+  try {
+    const formationById = await Formation.findById(req.params._id);
+    res.status(200).json({
+      success: true,
+      formationById,
+    });
+  } catch (error) {
+    res.satus(400).json({
+      success: false,
+    });
+  }
+};
