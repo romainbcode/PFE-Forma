@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { Box, Typography, Button, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import { FormationCard } from "../components/formationcard/formationCard";
@@ -6,21 +6,26 @@ import axios from "axios";
 import { Loader } from "../components/loader/loader";
 
 export const ChoixFormation = () => {
-  const [formationsRecentes, setFormationsRecentes] = useState([1, 2, 3]);
-  const [isloading, setLoading] = useState(false);
+  const [formationsRecentes, setFormationsRecentes] = useState([]);
+  const [isloading, setIsLoading] = useState(true);
 
-  const getFormationsRecentes = async () => {
+  const getFormationsRecentes = useCallback(async () => {
     try {
-      isloading(false);
+      const { data } = await axios.get(
+        "http://localhost:3000/formations/recente"
+      );
+      setFormationsRecentes(data.formations);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
-  };
+  });
+
+  const memoizedFormationsRecentes = useMemo(() => getFormationsRecentes, []);
 
   useEffect(() => {
-    console.log(formationsRecentes);
-    //getFormationsRecentes();
-  });
+    setFormationsRecentes(memoizedFormationsRecentes);
+  }, [memoizedFormationsRecentes]);
 
   return (
     <Box
@@ -38,7 +43,10 @@ export const ChoixFormation = () => {
             formationsRecentes &&
             formationsRecentes.map((formationRecente, index) => (
               <Grid item xs={2} sm={4} md={4} key={index}>
-                <FormationCard titre="titre" description="description" />
+                <FormationCard
+                  titre={formationRecente.titre}
+                  description={formationRecente.description}
+                />
               </Grid>
             ))
           )}
