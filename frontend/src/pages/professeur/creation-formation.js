@@ -52,7 +52,7 @@ export const CreationFormation = () => {
     description: yup
       .string()
       .max(
-        10,
+        50,
         "La description de votre formation ne doit pas contenir plus de 50 caractères."
       )
       .required("Vous devez obligatoirement ajouter une description."),
@@ -76,55 +76,54 @@ export const CreationFormation = () => {
           .required(
             "Tous les chapitres doivent obligatoirement avoir une description."
           ),
-        sous_chapitre: yup
-          .array(
-            yup.object({
-              titre_sous_chapitre: yup
-                .string()
-                .max(
-                  50,
-                  "Les titres de vos sous-chapitres ne doivent pas dépasser 50 caractères."
-                )
-                .required(
-                  "Tous les sous-chapitres doivent obligatoirement avoir un titre."
-                ),
-              description_sous_chapitre: yup
-                .string()
-                .max(
-                  400,
-                  "Les descriptions de vos sous-chapitres ne doivent pas dépasser 400 caractères."
-                )
-                .required(
-                  "Tous les sous-chapitres doivent obligatoirement avoir une description."
-                ),
-              corps_texte_image: yup.array(
-                yup.object({
-                  texte: yup
-                    .string()
-                    .max(
-                      400,
-                      "Les textes ne doivent pas dépasser 400 caractères."
-                    )
-                    .required(
-                      "Un sous-chapitre doit obligatoirement avoir du texte."
-                    ),
-                  texte_attention: yup
-                    .string()
-                    .max(
-                      400,
-                      "Les textes_attentions ne doivent pas dépasser 400 caractères."
-                    ),
-                  texte_conseil: yup
-                    .string()
-                    .max(
-                      400,
-                      "Les textes_conseils ne doivent pas dépasser 400 caractères."
-                    ),
-                })
+        sous_chapitre: yup.array(
+          yup.object({
+            titre_sous_chapitre: yup
+              .string()
+              .max(
+                50,
+                "Les titres de vos sous-chapitres ne doivent pas dépasser 50 caractères."
+              )
+              .required(
+                "Tous les sous-chapitres doivent obligatoirement avoir un titre."
               ),
-            })
-          )
-          .min(2, "You must add a minimum of 2 answers"),
+            description_sous_chapitre: yup
+              .string()
+              .max(
+                400,
+                "Les descriptions de vos sous-chapitres ne doivent pas dépasser 400 caractères."
+              )
+              .required(
+                "Tous les sous-chapitres doivent obligatoirement avoir une description."
+              ),
+            corps_texte_image: yup.array(
+              yup.object({
+                texte: yup
+                  .string()
+                  .max(
+                    400,
+                    "Les textes ne doivent pas dépasser 400 caractères."
+                  )
+                  .required(
+                    "Un sous-chapitre doit obligatoirement avoir du texte."
+                  ),
+                texte_attention: yup
+                  .string()
+                  .max(
+                    400,
+                    "Les textes_attentions ne doivent pas dépasser 400 caractères."
+                  ),
+                texte_conseil: yup
+                  .string()
+                  .max(
+                    400,
+                    "Les textes_conseils ne doivent pas dépasser 400 caractères."
+                  ),
+              })
+            ),
+          })
+        ),
+        //.min(2, "You must add a minimum of 2 answers"),
       })
     ),
   });
@@ -147,10 +146,6 @@ export const CreationFormation = () => {
   const onSubmit = (values) => {
     createNewFormation(values);
   };
-
-  useEffect(() => {
-    //getFormationsRecentes();
-  });
 
   return (
     <>
