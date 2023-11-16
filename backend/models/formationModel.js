@@ -3,9 +3,13 @@ const { ObjectId } = mongoose.Schema;
 
 const FormationSchema = new mongoose.Schema(
   {
-    title: {
+    titre: {
       type: String,
       trim: true,
+      maxlength: [
+        50,
+        "Le titre de votre formation ne doit pas contenir plus de 50 caractères.",
+      ],
       required: [true, "Votre formation doit obligatoirement avoir un titre."],
     },
     description: {
@@ -75,7 +79,7 @@ const FormationSchema = new mongoose.Schema(
             corps_texte_image: [
               {
                 completed: { type: Date, default: Date.now },
-                text: {
+                texte: {
                   type: String,
                   trim: true,
                   maxlength: [
@@ -93,7 +97,7 @@ const FormationSchema = new mongoose.Schema(
                   trim: true,
                   maxlength: [
                     400,
-                    "Les textes_atttentions ne doivent pas dépasser 400 caractères.",
+                    "Les textes_attentions ne doivent pas dépasser 400 caractères.",
                   ],
                 },
                 texte_conseil: {
@@ -116,10 +120,10 @@ const FormationSchema = new mongoose.Schema(
         id_user: {
           type: ObjectId,
           ref: "User",
-          /*required: [
+          required: [
             true,
             "Un avis doit forcemment être associé à un utilisateur.",
-          ],*/
+          ],
         },
         note_sur5: {
           type: Number,
