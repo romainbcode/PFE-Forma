@@ -22,3 +22,17 @@ exports.createFormation = async (req, res, next) => {
     });
   }
 };
+
+exports.getFormationsRecente = async (req, res, next) => {
+  try {
+    const formations = await Formation.find().sort({ createdAt: -1 });
+    res.status(200).json({
+      success: true,
+      formations,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+    });
+  }
+};
