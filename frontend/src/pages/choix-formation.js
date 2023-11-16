@@ -42,12 +42,14 @@ export const ChoixFormation = () => {
           ) : (
             formationsRecentes &&
             formationsRecentes.map((formationRecente, index) => (
-              <Grid item xs={2} sm={4} md={4} key={index}>
-                <FormationCard
-                  titre={formationRecente.titre}
-                  description={formationRecente.description}
-                />
-              </Grid>
+              <Link to={`/formation/${formationRecente._id}`}>
+                <Grid item xs={2} sm={4} md={4} key={index}>
+                  <FormationCard
+                    titre={formationRecente.titre}
+                    description={formationRecente.description}
+                  />
+                </Grid>
+              </Link>
             ))
           )}
         </Grid>
