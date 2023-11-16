@@ -99,7 +99,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { BookCopy, Home } from "lucide-react";
+import { BookCopy, Home, BookText } from "lucide-react";
 import { styled, alpha } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
@@ -167,20 +167,30 @@ const StyledMenu = styled((props) => (
 
 export const Navbar = () => {
   const { logout, isAuthenticated } = useAuth0();
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-
   const handleLogout = () => {
     logout();
   };
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const [anchorMenuFormation, setAnchorMenuFormation] = React.useState(null);
+  const openMenuFormation = Boolean(anchorMenuFormation);
+
+  const handleClickMenuFormation = (event) => {
+    setAnchorMenuFormation(event.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleCloseMenuFormation = () => {
+    setAnchorMenuFormation(null);
   };
+
+  const [anchorMenuContactez, setAnchorMenuContactez] = React.useState(null);
+  const openMenuContactez = Boolean(anchorMenuContactez);
+
+  const handleClickMenuContactez = (event) => {
+    setAnchorMenuContactez(event.currentTarget);
+  };
+  const handleCloseMenuContactez = () => {
+    setAnchorMenuContactez(null);
+  };
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -218,13 +228,15 @@ export const Navbar = () => {
             }}
           >
             <Button
-              id="demo-customized-button"
-              aria-controls={open ? "demo-customized-menu" : undefined}
+              id="demo-customized-buttonFormation"
+              aria-controls={
+                openMenuFormation ? "demo-customized-menuFormation" : undefined
+              }
               aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
+              aria-expanded={openMenuFormation ? "true" : undefined}
               variant="contained"
               disableElevation
-              onClick={handleClick}
+              onClick={handleClickMenuFormation}
               endIcon={<KeyboardArrowDownIcon />}
               sx={{
                 bgcolor: "transparent",
@@ -239,45 +251,58 @@ export const Navbar = () => {
               Formation
             </Button>
             <StyledMenu
-              id="demo-customized-menu"
+              id="demo-customized-menuFormation"
               MenuListProps={{
-                "aria-labelledby": "demo-customized-button",
+                "aria-labelledby": "demo-customized-buttonFormation",
               }}
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
+              anchorEl={anchorMenuFormation}
+              open={openMenuFormation}
+              onClose={handleCloseMenuFormation}
             >
-              <MenuItem onClick={handleClose} disableRipple>
-                <EditIcon />
-                Edit
+              <Divider sx={{ my: 1 }}>Utilisateur</Divider>
+              <MenuItem onClick={handleCloseMenuFormation} disableRipple>
+                <Link
+                  style={{ textDecoration: "none", color: "black" }}
+                  to="/formations"
+                >
+                  <BookText />
+                  Formations
+                </Link>
               </MenuItem>
-              <MenuItem onClick={handleClose} disableRipple>
-                <FileCopyIcon />
-                Duplicate
+              <Divider sx={{ my: 1 }}>Professeur</Divider>
+              <MenuItem onClick={handleCloseMenuFormation} disableRipple>
+                <Link
+                  style={{ textDecoration: "none", color: "black" }}
+                  to="/formations/create"
+                >
+                  <BookText />
+                  Créer une formation
+                </Link>
               </MenuItem>
-
-              <Divider sx={{ my: 1 }} />
-
-              <MenuItem onClick={handleClose} disableRipple>
-                <ArchiveIcon />
-                Archive
-              </MenuItem>
-              <MenuItem onClick={handleClose} disableRipple>
+              <MenuItem onClick={handleCloseMenuFormation} disableRipple>
                 <MoreHorizIcon />
                 More
               </MenuItem>
             </StyledMenu>
-
-            <Home color="#ff8906" style={{ marginLeft: 5, marginRight: 5 }} />
+            <Link
+              style={{
+                textDecoration: "none",
+              }}
+              to="/"
+            >
+              <Home color="#ff8906" style={{ marginLeft: 5, marginRight: 5 }} />
+            </Link>
 
             <Button
-              id="demo-customized-button"
-              aria-controls={open ? "demo-customized-menu" : undefined}
+              id="demo-customized-buttonContatez"
+              aria-controls={
+                openMenuContactez ? "demo-customized-menuContactez" : undefined
+              }
               aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
+              aria-expanded={openMenuContactez ? "true" : undefined}
               variant="contained"
               disableElevation
-              onClick={handleClick}
+              onClick={handleClickMenuContactez}
               endIcon={<KeyboardArrowDownIcon />}
               sx={{
                 bgcolor: "transparent",
@@ -292,30 +317,30 @@ export const Navbar = () => {
               Contactez
             </Button>
             <StyledMenu
-              id="demo-customized-menu"
+              id="demo-customized-menuContactez"
               MenuListProps={{
-                "aria-labelledby": "demo-customized-button",
+                "aria-labelledby": "demo-customized-buttonContactez",
               }}
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
+              anchorEl={anchorMenuContactez}
+              open={openMenuContactez}
+              onClose={handleCloseMenuContactez}
             >
-              <MenuItem onClick={handleClose} disableRipple>
+              <MenuItem onClick={handleCloseMenuContactez} disableRipple>
                 <EditIcon />
                 Edit
               </MenuItem>
-              <MenuItem onClick={handleClose} disableRipple>
+              <MenuItem onClick={handleCloseMenuContactez} disableRipple>
                 <FileCopyIcon />
                 Duplicate
               </MenuItem>
 
               <Divider sx={{ my: 1 }} />
 
-              <MenuItem onClick={handleClose} disableRipple>
+              <MenuItem onClick={handleCloseMenuContactez} disableRipple>
                 <ArchiveIcon />
                 Archive
               </MenuItem>
-              <MenuItem onClick={handleClose} disableRipple>
+              <MenuItem onClick={handleCloseMenuContactez} disableRipple>
                 <MoreHorizIcon />
                 More
               </MenuItem>
