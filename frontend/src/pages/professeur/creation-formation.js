@@ -15,12 +15,13 @@ import { Formik, Form, Field, FieldArray } from "formik";
 import { Trash2 } from "lucide-react";
 import { PlusSquare } from "lucide-react";
 import { Toaster, toast } from "sonner";
+import * as yup from "yup";
 
 export const CreationFormation = () => {
   const [isloading, setLoading] = useState(false);
 
   const initialValues = {
-    title: "",
+    titre: "",
     description: "",
     chapitre: [
       {
@@ -40,18 +41,111 @@ export const CreationFormation = () => {
     avis: [{ note_sur5: 0 }],
   };
 
+  const validationSchema = yup.object({
+    titre: yup
+      .string()
+      .max(
+        50,
+        "Le titre de votre formation ne doit pas contenir plus de 50 caractères."
+      )
+      .required("Votre formation doit obligatoirement avoir un titre."),
+    description: yup
+      .string()
+      .max(
+        10,
+        "La description de votre formation ne doit pas contenir plus de 50 caractères."
+      )
+      .required("Vous devez obligatoirement ajouter une description."),
+    chapitre: yup.array(
+      yup.object({
+        titre_chapitre: yup
+          .string()
+          .max(
+            50,
+            "Les titres de vos chapitres ne doivent pas dépasser 50 caractères."
+          )
+          .required(
+            "Tous les chapitres doivent obligatoirement avoir un titre."
+          ),
+        description_chapitre: yup
+          .string()
+          .max(
+            400,
+            "La description de votre chapitre ne doit pas dépasser 400 caractères."
+          )
+          .required(
+            "Tous les chapitres doivent obligatoirement avoir une description."
+          ),
+        sous_chapitre: yup
+          .array(
+            yup.object({
+              titre_sous_chapitre: yup
+                .string()
+                .max(
+                  50,
+                  "Les titres de vos sous-chapitres ne doivent pas dépasser 50 caractères."
+                )
+                .required(
+                  "Tous les sous-chapitres doivent obligatoirement avoir un titre."
+                ),
+              description_sous_chapitre: yup
+                .string()
+                .max(
+                  400,
+                  "Les descriptions de vos sous-chapitres ne doivent pas dépasser 400 caractères."
+                )
+                .required(
+                  "Tous les sous-chapitres doivent obligatoirement avoir une description."
+                ),
+              corps_texte_image: yup.array(
+                yup.object({
+                  texte: yup
+                    .string()
+                    .max(
+                      400,
+                      "Les textes ne doivent pas dépasser 400 caractères."
+                    )
+                    .required(
+                      "Un sous-chapitre doit obligatoirement avoir du texte."
+                    ),
+                  texte_attention: yup
+                    .string()
+                    .max(
+                      400,
+                      "Les textes_attentions ne doivent pas dépasser 400 caractères."
+                    ),
+                  texte_conseil: yup
+                    .string()
+                    .max(
+                      400,
+                      "Les textes_conseils ne doivent pas dépasser 400 caractères."
+                    ),
+                })
+              ),
+            })
+          )
+          .min(2, "You must add a minimum of 2 answers"),
+      })
+    ),
+  });
+
   const createNewFormation = async (values) => {
     try {
-      //const data = await axios.post("/addFormation", values);
+      console.log(values);
+
+      const data = await axios.post(
+        "http://localhost:3000/addFormation",
+        values
+      );
+      console.log(data);
+      toast.success("Création de la formation avec succès !");
     } catch (error) {
       console.log(error);
+      toast.error("Erreur lors de la création de la formation !");
     }
   };
   const onSubmit = (values) => {
-    //createNewFormation(values);
-
-    toast.success("ok");
-    toast.error("ma");
+    createNewFormation(values);
   };
 
   useEffect(() => {
@@ -60,7 +154,12 @@ export const CreationFormation = () => {
 
   return (
     <>
-      <Formik onSubmit={onSubmit} initialValues={initialValues}>
+      <Toaster expand={true} richColors />
+      <Formik
+        onSubmit={onSubmit}
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+      >
         {(formik) => {
           const { values, errors, touched } = formik;
           return (
@@ -77,18 +176,14 @@ export const CreationFormation = () => {
               >
                 <Box
                   sx={{
-                    bgcolor: "primary.mainGreenDark",
-                    height: "fit-content",
-                    width: "85%",
-                    mb: 2,
-                    padding: 5,
-                    borderRadius: "10px",
-                    boxShadow: "0 3px 10px #000",
+                    width: "100%",
+                    paddingLeft: 3,
+                    paddingRight: 3,
                   }}
                 >
                   <Typography
                     variant="h5"
-                    sx={{ pb: 4, color: "primary.themewhite" }}
+                    sx={{ pb: 4, color: "primary.headLine" }}
                   >
                     Créer sa formation
                   </Typography>
@@ -101,7 +196,10 @@ export const CreationFormation = () => {
                         sx={{
                           mb: 3,
                           width: "50%",
-                          "& label": { color: "primary.headLine" },
+                          input: {
+                            color: "primary.headLine",
+                          },
+                          "& label": { color: "primary.paragraph" },
                           "& label.Mui-focused": { color: "#FFFFFE" },
                           "& .MuiOutlinedInput-root": {
                             "& fieldset": {
@@ -114,20 +212,23 @@ export const CreationFormation = () => {
                           },
                         }}
                         autoComplete="off"
-                        name="title"
-                        placeholder="title"
+                        name="titre"
+                        placeholder="Titre"
                         label="Titre de la formation"
-                        value={values.title}
+                        value={values.titre}
                         as={TextField}
-                        error={touched.title && Boolean(errors.title)}
-                        helperText={touched.title && errors.title}
+                        error={touched.titre && Boolean(errors.titre)}
+                        helperText={touched.titre && errors.titre}
                       />
                       <Field
                         sx={{
                           mb: 3,
                           width: "50%",
                           fieldset: { borderColor: "primary.themewhite" },
-                          "& label": { color: "primary.headLine" },
+                          input: {
+                            color: "primary.headLine",
+                          },
+                          "& label": { color: "primary.paragraph" },
                           "& label.Mui-focused": { color: "#FFFFFE" },
                           "& .MuiOutlinedInput-root": {
                             "& fieldset": {
@@ -143,6 +244,7 @@ export const CreationFormation = () => {
                         name="description"
                         placeholder="description"
                         label="Description de la formation"
+                        value={values.description}
                         as={TextField}
                         error={
                           touched.description && Boolean(errors.description)
@@ -200,7 +302,10 @@ export const CreationFormation = () => {
                                     fieldset: {
                                       borderColor: "primary.themewhite",
                                     },
-                                    "& label": { color: "primary.headLine" },
+                                    input: {
+                                      color: "primary.headLine",
+                                    },
+                                    "& label": { color: "primary.paragraph" },
                                     "& label.Mui-focused": { color: "#FFFFFE" },
                                     "& .MuiOutlinedInput-root": {
                                       "& fieldset": {
@@ -225,7 +330,10 @@ export const CreationFormation = () => {
                                     fieldset: {
                                       borderColor: "primary.themewhite",
                                     },
-                                    "& label": { color: "primary.headLine" },
+                                    input: {
+                                      color: "primary.headLine",
+                                    },
+                                    "& label": { color: "primary.paragraph" },
                                     "& label.Mui-focused": { color: "#FFFFFE" },
                                     "& .MuiOutlinedInput-root": {
                                       "& fieldset": {
@@ -268,14 +376,14 @@ export const CreationFormation = () => {
                               name={`chapitre.${index}.sous_chapitre`}
                               id={`chapitre.${index}.sous_chapitre`}
                               value={values.chapitre[index].sous_chapitre}
-                              render={(arrayAnswer) => (
+                              render={(tabSousChapitre) => (
                                 <Box
                                   className="formContainer"
                                   style={{ width: "100%" }}
                                 >
                                   {values.chapitre[index].sous_chapitre.map(
                                     (TestCase2, index2) => (
-                                      <div
+                                      <Box
                                         style={{
                                           width: "90%",
                                           display: "flex",
@@ -283,6 +391,7 @@ export const CreationFormation = () => {
                                           float: "right",
                                           marginBottom: "10px",
                                         }}
+                                        key={index2}
                                       >
                                         <Box
                                           sx={{
@@ -299,8 +408,11 @@ export const CreationFormation = () => {
                                                 borderColor:
                                                   "primary.themewhite",
                                               },
-                                              "& label": {
+                                              input: {
                                                 color: "primary.headLine",
+                                              },
+                                              "& label": {
+                                                color: "primary.paragraph",
                                               },
                                               "& label.Mui-focused": {
                                                 color: "#FFFFFE",
@@ -322,6 +434,39 @@ export const CreationFormation = () => {
                                             label={`Chapitre : ${index}, Sous chapitre : ${index2}`}
                                             as={TextField}
                                           />
+                                          <Field
+                                            sx={{
+                                              width: "85%",
+                                              fieldset: {
+                                                borderColor:
+                                                  "primary.themewhite",
+                                              },
+                                              input: {
+                                                color: "primary.headLine",
+                                              },
+                                              "& label": {
+                                                color: "primary.paragraph",
+                                              },
+                                              "& label.Mui-focused": {
+                                                color: "#FFFFFE",
+                                              },
+                                              "& .MuiOutlinedInput-root": {
+                                                "& fieldset": {
+                                                  border: "2px solid",
+                                                  borderColor:
+                                                    "primary.button_background",
+                                                },
+                                                "&:hover fieldset": {
+                                                  borderColor:
+                                                    "primary.headLine",
+                                                },
+                                              },
+                                            }}
+                                            name={`chapitre.${index}.sous_chapitre.${index2}.description_sous_chapitre`}
+                                            placeholder="Answer text"
+                                            label={`Chapitre : ${index}, Description sous chapitre : ${index2}`}
+                                            as={TextField}
+                                          />
                                           <Box
                                             style={{
                                               width: "31%",
@@ -338,7 +483,7 @@ export const CreationFormation = () => {
                                                 height: "75%",
                                               }}
                                               onClick={() =>
-                                                arrayAnswer.remove(index2)
+                                                tabSousChapitre.remove(index2)
                                               }
                                               startIcon={<Trash2 />}
                                             >
@@ -369,12 +514,22 @@ export const CreationFormation = () => {
                                                 index2
                                               ].corps_texte_image.map(
                                                 (TestCase3, index3) => (
-                                                  <Box>
+                                                  <Box
+                                                    sx={{
+                                                      width: "90%",
+                                                      display: "flex",
+                                                      flexDirection: "column",
+                                                      float: "right",
+                                                      marginBottom: "10px",
+                                                    }}
+                                                    key={index3}
+                                                  >
                                                     <Box
                                                       sx={{
                                                         width: "100%",
                                                         alignItems: "center",
                                                         display: "flex",
+                                                        flexDirection: "row",
                                                       }}
                                                     >
                                                       <Field
@@ -384,9 +539,13 @@ export const CreationFormation = () => {
                                                             borderColor:
                                                               "primary.themewhite",
                                                           },
-                                                          "& label": {
+                                                          input: {
                                                             color:
                                                               "primary.headLine",
+                                                          },
+                                                          "& label": {
+                                                            color:
+                                                              "primary.paragraph",
                                                           },
                                                           "& label.Mui-focused":
                                                             {
@@ -412,23 +571,227 @@ export const CreationFormation = () => {
                                                         label={`Chapitre : ${index}, Sous chapitre : ${index2}, corps text : ${index3}`}
                                                         as={TextField}
                                                       />
+                                                      <Box
+                                                        style={{
+                                                          width: "31%",
+                                                          display: "flex",
+                                                          alignItems: "center",
+                                                          justifyContent:
+                                                            "center",
+                                                        }}
+                                                      >
+                                                        <Button
+                                                          variant="contained"
+                                                          color="error"
+                                                          sx={{
+                                                            width: "100%",
+                                                            height: "75%",
+                                                          }}
+                                                          onClick={() =>
+                                                            tabCorpsText.remove(
+                                                              index3
+                                                            )
+                                                          }
+                                                          startIcon={<Trash2 />}
+                                                        >
+                                                          Supprime ce corps de
+                                                          texte
+                                                        </Button>
+                                                      </Box>
+                                                    </Box>
+                                                    <Box
+                                                      sx={{
+                                                        width: "100%",
+                                                        alignItems: "center",
+                                                        display: "flex",
+                                                        flexDirection: "row",
+                                                        marginTop: 2,
+                                                        marginBottom: 2,
+                                                      }}
+                                                    >
+                                                      <Field
+                                                        sx={{
+                                                          width: "85%",
+                                                          fieldset: {
+                                                            borderColor:
+                                                              "primary.themewhite",
+                                                          },
+                                                          input: {
+                                                            color:
+                                                              "primary.headLine",
+                                                          },
+                                                          "& label": {
+                                                            color:
+                                                              "primary.paragraph",
+                                                          },
+                                                          "& label.Mui-focused":
+                                                            {
+                                                              color: "#FFFFFE",
+                                                            },
+                                                          "& .MuiOutlinedInput-root":
+                                                            {
+                                                              "& fieldset": {
+                                                                border:
+                                                                  "2px solid",
+                                                                borderColor:
+                                                                  "primary.button_background",
+                                                              },
+                                                              "&:hover fieldset":
+                                                                {
+                                                                  borderColor:
+                                                                    "primary.headLine",
+                                                                },
+                                                            },
+                                                        }}
+                                                        name={`chapitre.${index}.sous_chapitre.${index2}.corps_texte_image.${index3}.texte_attention`}
+                                                        placeholder="Answer text"
+                                                        label={`Chapitre : ${index}, Sous chapitre : ${index2}, texte_attention : ${index3}`}
+                                                        as={TextField}
+                                                      />
+                                                      <Box
+                                                        style={{
+                                                          width: "31%",
+                                                          display: "flex",
+                                                          alignItems: "center",
+                                                          justifyContent:
+                                                            "center",
+                                                        }}
+                                                      >
+                                                        <Button
+                                                          variant="contained"
+                                                          color="error"
+                                                          sx={{
+                                                            width: "100%",
+                                                            height: "75%",
+                                                          }}
+                                                          onClick={() =>
+                                                            tabCorpsText.remove(
+                                                              index3
+                                                            )
+                                                          }
+                                                          startIcon={<Trash2 />}
+                                                        >
+                                                          Supprime ce corps de
+                                                          texte attention
+                                                        </Button>
+                                                      </Box>
+                                                    </Box>
+                                                    <Box
+                                                      sx={{
+                                                        width: "100%",
+                                                        alignItems: "center",
+                                                        display: "flex",
+                                                        flexDirection: "row",
+                                                      }}
+                                                    >
+                                                      <Field
+                                                        sx={{
+                                                          width: "85%",
+                                                          fieldset: {
+                                                            borderColor:
+                                                              "primary.themewhite",
+                                                          },
+                                                          input: {
+                                                            color:
+                                                              "primary.headLine",
+                                                          },
+                                                          "& label": {
+                                                            color:
+                                                              "primary.paragraph",
+                                                          },
+                                                          "& label.Mui-focused":
+                                                            {
+                                                              color: "#FFFFFE",
+                                                            },
+                                                          "& .MuiOutlinedInput-root":
+                                                            {
+                                                              "& fieldset": {
+                                                                border:
+                                                                  "2px solid",
+                                                                borderColor:
+                                                                  "primary.button_background",
+                                                              },
+                                                              "&:hover fieldset":
+                                                                {
+                                                                  borderColor:
+                                                                    "primary.headLine",
+                                                                },
+                                                            },
+                                                        }}
+                                                        name={`chapitre.${index}.sous_chapitre.${index2}.corps_texte_image.${index3}.texte_conseil`}
+                                                        placeholder="Answer text"
+                                                        label={`Chapitre : ${index}, Sous chapitre : ${index2}, corps text : ${index3}`}
+                                                        as={TextField}
+                                                      />
+                                                      <Box
+                                                        style={{
+                                                          width: "31%",
+                                                          display: "flex",
+                                                          alignItems: "center",
+                                                          justifyContent:
+                                                            "center",
+                                                        }}
+                                                      >
+                                                        <Button
+                                                          variant="contained"
+                                                          color="error"
+                                                          sx={{
+                                                            width: "100%",
+                                                            height: "75%",
+                                                          }}
+                                                          onClick={() =>
+                                                            tabCorpsText.remove(
+                                                              index3
+                                                            )
+                                                          }
+                                                          startIcon={<Trash2 />}
+                                                        >
+                                                          Supprime ce corps de
+                                                          texte conseil
+                                                        </Button>
+                                                      </Box>
                                                     </Box>
                                                   </Box>
                                                 )
                                               )}
+                                              <Button
+                                                variant="contained"
+                                                onClick={() => {
+                                                  tabCorpsText.push({
+                                                    texte: "",
+                                                    texte_attention: "",
+                                                    texte_conseil: "",
+                                                  });
+                                                }}
+                                                sx={{
+                                                  width: "25%",
+                                                  height: "50%",
+                                                  bgcolor: "#dad7cd",
+                                                }}
+                                                endIcon={<PlusSquare />}
+                                              >
+                                                Ajouter un sous-chapitre
+                                              </Button>
                                             </Box>
                                           )}
                                         />
-                                      </div>
+                                      </Box>
                                     )
                                   )}
 
                                   <Button
                                     variant="contained"
                                     onClick={() => {
-                                      arrayAnswer.push({
-                                        answerText: "",
-                                        stateAnswer: false,
+                                      tabSousChapitre.push({
+                                        titre_sous_chapitre: "",
+                                        description_sous_chapitre: "",
+                                        corps_texte_image: [
+                                          {
+                                            texte: "",
+                                            texte_attention: "",
+                                            texte_conseil: "",
+                                          },
+                                        ],
                                       });
                                     }}
                                     sx={{
@@ -449,11 +812,19 @@ export const CreationFormation = () => {
                           variant="contained"
                           onClick={() => {
                             tabChapitre.push({
-                              question: "",
-                              answer: [
+                              titre_chapitre: "",
+                              description_chapitre: "",
+                              sous_chapitre: [
                                 {
-                                  answerText: "",
-                                  stateAnswer: false,
+                                  titre_sous_chapitre: "",
+                                  description_sous_chapitre: "",
+                                  corps_texte_image: [
+                                    {
+                                      texte: "",
+                                      texte_attention: "",
+                                      texte_conseil: "",
+                                    },
+                                  ],
                                 },
                               ],
                             });
@@ -471,21 +842,13 @@ export const CreationFormation = () => {
                     )}
                   />
 
-                  <Toaster expand={true} richColors />
-                  <button
-                    onClick={() =>
-                      toast.success("Formation créée avec succès !")
-                    }
-                  >
-                    Créer sa formation
-                  </button>
                   <Button
                     sx={{ mt: 2 }}
                     type="submit"
                     variant="contained"
                     color="success"
                   >
-                    Add this quiz
+                    Créer la formation
                   </Button>
                 </Box>
               </Box>
