@@ -11,6 +11,8 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const { createFormation } = require("./controllers/formationController");
+const { getFormationsRecente } = require("./controllers/formationController");
+
 const { createUser } = require("./controllers/userController");
 const { createQuiz } = require("./controllers/quizController");
 
@@ -260,6 +262,7 @@ app.get("/tete", async (req, res) => {
 app.post("/addFormation", createFormation);
 app.post("/addUser", createUser);
 app.post("/addQuiz", createQuiz);
+app.get("/formations/recente", getFormationsRecente);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
