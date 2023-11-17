@@ -7,8 +7,14 @@ export const SousChapText = (props) => {
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       {props.textes &&
         props.textes.map((texte, index) => (
-          <Box key={index} sx={{ marginBottom: 5 }}>
-            {texte.texte}
+          <Box key={index}>
+            <Box sx={{ marginBottom: 5 }}>{texte.texte}</Box>
+            <Box sx={{ marginBottom: 5, bgcolor: "red" }}>
+              <Typography>{texte.texte_attention}</Typography>
+            </Box>
+            <Box sx={{ marginBottom: 5, bgcolor: "blue" }}>
+              <Typography>{texte.texte_conseil}</Typography>
+            </Box>
           </Box>
         ))}
     </Box>
