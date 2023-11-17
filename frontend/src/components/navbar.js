@@ -280,8 +280,13 @@ export const Navbar = () => {
                 </Link>
               </MenuItem>
               <MenuItem onClick={handleCloseMenuFormation} disableRipple>
-                <MoreHorizIcon />
-                More
+                <Link
+                  style={{ textDecoration: "none", color: "black" }}
+                  to="/quizs/create"
+                >
+                  <BookText />
+                  Créer un quiz
+                </Link>
               </MenuItem>
             </StyledMenu>
             <Link
