@@ -48,8 +48,22 @@ export const Formation = () => {
       >
         {chapitresFormations &&
           chapitresFormations.map((chapitre, index) => (
-            <Link to={`/formation/${formation_id}/${chapitre._id}`}>
-              <ListeChapitreFormation chapitre={chapitre} />
+            <Link
+              reloadDocument
+              to={`/formation/${formation_id}/${chapitre._id}`}
+              style={{
+                textDecoration: "none",
+              }}
+            >
+              <Box
+                sx={{
+                  color: "primary.headLine",
+                  fontWeight: "bold",
+                  textDecoration: "underline",
+                }}
+              >
+                <ListeChapitreFormation chapitre={chapitre} />
+              </Box>
             </Link>
           ))}
       </Box>
