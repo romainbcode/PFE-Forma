@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Box, Typography, Button, Link } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Box, Typography, Button } from "@mui/material";
+import { useParams, Link } from "react-router-dom";
 import { Loader } from "../components/loader/loader";
 import { ChapitreDescriptionAccueil } from "../components/chapitre-description-accueil";
 import { format } from "date-fns";
@@ -11,6 +11,7 @@ export const FormationAccueil = (props) => {
   const [formationById, setFormationById] = useState([]);
   const [chapitresFormation, setChapitresFormation] = useState([]);
   const [dateCreation, setDateCreation] = useState();
+  const [idPremierChapitre, setIdPremierChapitre] = useState("");
   const [isloading, setIsLoading] = useState(true);
 
   const { formation_id } = useParams();
@@ -20,10 +21,11 @@ export const FormationAccueil = (props) => {
         "http://localhost:3000/formation/" + formation_id
       );
       setFormationById(data.formationById);
-      const date = new Date(formationById.createdAt);
+      const date = new Date(data.formationById.createdAt);
       const dateformatted = format(date, "dd/MM/yyyy");
       setDateCreation(dateformatted);
-      setChapitresFormation(formationById.chapitre);
+      setChapitresFormation(data.formationById.chapitre);
+      setIdPremierChapitre(data.formationById.chapitre[0]._id);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -53,7 +55,9 @@ export const FormationAccueil = (props) => {
           </Box>
         ))
       )}
-      <Link to={`/formation/${formationById._id}`}>OK</Link>
+      <Link to={`/formation/${formationById._id}/${idPremierChapitre}`}>
+        <Button>Commencer la formation</Button>
+      </Link>
     </Box>
   );
 };
