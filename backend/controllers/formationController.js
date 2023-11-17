@@ -60,6 +60,7 @@ exports.getChapitreById = async (req, res, next) => {
     );
     res.status(200).json({
       success: true,
+      formationById,
       chapitreById,
     });
   } catch (error) {
