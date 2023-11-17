@@ -43,10 +43,10 @@ const QuizSchema = new mongoose.Schema(
         id_user: {
           type: ObjectId,
           ref: "User",
-          /*required: [
+          required: [
             true,
             "Une note doit forcemment être associé à un utilisateur.",
-          ],*/
+          ],
         },
         score_pourcentage: {
           type: Number,
