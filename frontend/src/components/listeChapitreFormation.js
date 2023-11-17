@@ -1,16 +1,8 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Box, Typography, Button } from "@mui/material";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import React from "react";
+import { Box } from "@mui/material";
 
 export const ListeChapitreFormation = (props) => {
-  const { formation_id, chapitre_foramtion_id } = useParams();
-
-  useEffect(() => {
-    console.log(formation_id, "      ", chapitre_foramtion_id);
-  });
-
-  return <Box>formationById.titre</Box>;
+  return <Box>{props.chapitre.titre_chapitre}</Box>;
 };
 
 export default ListeChapitreFormation;
