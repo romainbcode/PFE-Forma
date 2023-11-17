@@ -1,20 +1,10 @@
 const Quiz = require("../models/quizModel");
 
 exports.createQuiz = async (req, res, next) => {
-  const reponsetexte = "reponse texte";
+  const { question_reponse } = req.body;
   try {
     const quiz = await Quiz.create({
-      question_reponse: [
-        {
-          question: "question",
-          reponse: [{ reponse_texte: reponsetexte, etat_reponse: true }],
-        },
-      ],
-      note: [
-        {
-          score_pourcentage: 80,
-        },
-      ],
+      question_reponse: question_reponse,
     });
 
     res.status(201).json({
