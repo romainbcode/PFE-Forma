@@ -1,4 +1,5 @@
 const Formation = require("../models/formationModel");
+const { ObjectId } = require("mongodb");
 
 exports.createFormation = async (req, res, next) => {
   const { titre } = req.body;
@@ -39,13 +40,30 @@ exports.getFormationsRecente = async (req, res, next) => {
 
 exports.getFormationsById = async (req, res, next) => {
   try {
-    const formationById = await Formation.findById(req.params._id);
+    const formationById = await Formation.findById(req.params.idformation);
     res.status(200).json({
       success: true,
       formationById,
     });
   } catch (error) {
-    res.satus(400).json({
+    res.status(400).json({
+      success: false,
+    });
+  }
+};
+
+exports.getChapitreById = async (req, res, next) => {
+  try {
+    const formationById = await Formation.findById(req.params.idformation);
+    const chapitreById = await formationById.chapitre.find((chap) =>
+      chap._id.equals(req.params.idchapitre)
+    );
+    res.status(200).json({
+      success: true,
+      chapitreById,
+    });
+  } catch (error) {
+    res.status(400).json({
       success: false,
     });
   }
