@@ -13,6 +13,7 @@ const mongoose = require("mongoose");
 const { createFormation } = require("./controllers/formationController");
 const { getFormationsRecente } = require("./controllers/formationController");
 const { getFormationsById } = require("./controllers/formationController");
+const { getChapitreById } = require("./controllers/formationController");
 
 const { createUser } = require("./controllers/userController");
 const { createQuiz } = require("./controllers/quizController");
@@ -264,7 +265,9 @@ app.post("/addFormation", createFormation);
 app.post("/addUser", createUser);
 app.post("/addQuiz", createQuiz);
 app.get("/formations/recente", getFormationsRecente);
-app.get("/formation/:_id", getFormationsById);
+app.get("/formation/:idformation", getFormationsById);
+app.get("/formation/:idformation/:idchapitre", getChapitreById);
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
