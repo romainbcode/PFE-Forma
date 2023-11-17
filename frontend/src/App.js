@@ -5,7 +5,7 @@ import { Erreur404 } from "./pages/erreur-404";
 import { ChoixFormation } from "./pages/choix-formation";
 import { CreationFormation } from "./pages/professeur/creation-formation";
 import { FormationAccueil } from "./pages/formationAccueil";
-
+import { Formation } from "./pages/formation";
 export const App = () => {
   return (
     <Routes>
@@ -13,6 +13,10 @@ export const App = () => {
       <Route path="/formations" element={<ChoixFormation />} />
       <Route path="/formations/create" element={<CreationFormation />} />
       <Route path="/formation/:formation_id" element={<FormationAccueil />} />
+      <Route
+        path="/formation/:formation_id/:chapitre_id"
+        element={<Formation />}
+      />
       <Route path="*" element={<Erreur404 />} />
     </Routes>
   );
