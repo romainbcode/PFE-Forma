@@ -166,7 +166,7 @@ const StyledMenu = styled((props) => (
 }));
 
 export const Navbar = () => {
-  const { logout, isAuthenticated } = useAuth0();
+  const { logout, isAuthenticated, user } = useAuth0();
   const handleLogout = () => {
     logout();
   };
@@ -191,6 +191,17 @@ export const Navbar = () => {
     setAnchorMenuContactez(null);
   };
 
+  const [anchorMenuUtilisateur, setAnchorMenuUtilisateur] =
+    React.useState(null);
+  const openMenuUtilisateur = Boolean(anchorMenuUtilisateur);
+
+  const handleClickMenuUtilisateur = (event) => {
+    setAnchorMenuUtilisateur(event.currentTarget);
+  };
+  const handleCloseMenuUtilisateur = () => {
+    setAnchorMenuUtilisateur(null);
+  };
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -208,6 +219,26 @@ export const Navbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const createNewUser = async (value) => {
+    try {
+      const data = await axios.post("http://localhost:3000/addUser", {
+        id_user_auth: value,
+      });
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      createNewUser(user.sub);
+    } else {
+      console.log("pas auth");
+    }
+  });
 
   return (
     <AppBar
@@ -419,70 +450,51 @@ export const Navbar = () => {
                   display: "flex",
                 }}
               >
-                <Tooltip title="Informations utilisateur">
-                  <IconButton onClick={handleOpenUserMenu}>
-                    <UserCircle2 color="#ff8906" />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: "35px" }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                <Button
+                  id="demo-customized-buttonUtilisateur"
+                  aria-controls={
+                    openMenuContactez
+                      ? "demo-customized-menuUtilisateur"
+                      : undefined
+                  }
+                  aria-haspopup="true"
+                  aria-expanded={openMenuUtilisateur ? "true" : undefined}
+                  variant="contained"
+                  disableElevation
+                  onClick={handleClickMenuUtilisateur}
+                  endIcon={<UserCircle2 color="#ff8906" />}
+                  sx={{
+                    bgcolor: "transparent",
+                    color: color_headLine,
+                    fontWeight: "bold",
+                    ":hover": {
+                      bgcolor: "red",
+                    },
                   }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                ></Button>
+                <StyledMenu
+                  id="demo-customized-menuUtilisateur"
+                  MenuListProps={{
+                    "aria-labelledby": "demo-customized-buttonUtilisateur",
                   }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
+                  anchorEl={anchorMenuUtilisateur}
+                  open={openMenuUtilisateur}
+                  onClose={handleCloseMenuUtilisateur}
                 >
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography>
-                      <Link
-                        style={{
-                          textDecoration: "none",
-                          color: "#000",
-                          fontWeight: "bold",
-                        }}
-                        to="/user/information"
-                      >
-                        Information
-                      </Link>
-                    </Typography>
+                  <MenuItem onClick={handleCloseMenuUtilisateur} disableRipple>
+                    <EditIcon />
+                    Information
                   </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography>
-                      <Link
-                        style={{
-                          textDecoration: "none",
-                          color: "#000",
-                          fontWeight: "bold",
-                        }}
-                        to="/user/securite"
-                      >
-                        Sécurité
-                      </Link>
-                    </Typography>
+                  <MenuItem onClick={handleCloseMenuUtilisateur} disableRipple>
+                    <FileCopyIcon />
+                    Sécurité
                   </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography>
-                      <Link
-                        style={{
-                          textDecoration: "none",
-                          color: "#000",
-                          fontWeight: "bold",
-                        }}
-                        onClick={handleLogout}
-                      >
-                        Deconnexion
-                      </Link>
-                    </Typography>
+
+                  <MenuItem onClick={handleCloseMenuUtilisateur} disableRipple>
+                    <ArchiveIcon />
+                    Deconnexion
                   </MenuItem>
-                </Menu>
+                </StyledMenu>
               </Box>
             ) : (
               <></>
