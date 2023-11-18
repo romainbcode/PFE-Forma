@@ -7,6 +7,10 @@ import { CreationFormation } from "./pages/professeur/creation-formation";
 import { FormationAccueil } from "./pages/formationAccueil";
 import { Formation } from "./pages/formation";
 import { CreationQuiz } from "./pages/professeur/creation-quiz";
+import { BadgesUtilisateur } from "./pages/utilisateur-parametres/badges-utilisateur";
+import { InformationsUtilisateur } from "./pages/utilisateur-parametres/informations-utilisateur";
+import { ScoresUtilisateur } from "./pages/utilisateur-parametres/scores-utilisateur";
+
 export const App = () => {
   return (
     <Routes>
@@ -19,6 +23,12 @@ export const App = () => {
         path="/formation/:formation_id/:chapitre_id"
         element={<Formation />}
       />
+      <Route path="/utilisateur/badges" element={<BadgesUtilisateur />} />
+      <Route
+        path="/utilisateur/informations"
+        element={<InformationsUtilisateur />}
+      />
+      <Route path="/utilisateur/scores" element={<ScoresUtilisateur />} />
       <Route path="*" element={<Erreur404 />} />
     </Routes>
   );
