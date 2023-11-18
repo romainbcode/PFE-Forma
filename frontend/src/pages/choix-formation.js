@@ -35,7 +35,7 @@ export const ChoixFormation = () => {
       }}
     >
       <Box>
-        <Typography>Formations récentes : </Typography>
+        <Typography sx={{ marginBottom: 4 }}>Formations récentes : </Typography>
         <Grid container spacing={{ xs: 2, md: 3 }}>
           {isloading ? (
             <Loader />
@@ -43,7 +43,14 @@ export const ChoixFormation = () => {
             formationsRecentes &&
             formationsRecentes.map((formationRecente, index) => (
               <Link to={`/formation/${formationRecente._id}`}>
-                <Grid item xs={2} sm={4} md={4} key={index}>
+                <Grid
+                  item
+                  xs={2}
+                  sm={4}
+                  md={4}
+                  key={index}
+                  sx={{ marginLeft: 2, marginRight: 2 }}
+                >
                   <FormationCard
                     titre={formationRecente.titre}
                     description={formationRecente.description}
