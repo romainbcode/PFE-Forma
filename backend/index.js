@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const path = require("path");
 const routerProf = require("./routes/professeur");
 const routerChargement = require("./routes/chargement");
+const routerAdmin = require("./routes/admin");
 const { auth } = require("express-openid-connect");
 const axios = require("axios");
 const cors = require("cors");
@@ -37,6 +38,7 @@ const domaine = process.env.DOMAINE;
 
 app.use("/", routerProf);
 app.use("/", routerChargement);
+app.use("/", routerAdmin);
 
 /*
 app.get('/addCourse', async(req, res)=>{
