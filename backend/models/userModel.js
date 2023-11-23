@@ -36,6 +36,19 @@ const UserSchema = new mongoose.Schema(
       },
     ],
     niveau: { type: Number },
+    formationInscrite: [
+      {
+        id_formation: {
+          type: ObjectId,
+          ref: "Formation",
+          required: [
+            true,
+            "L'id de la formation doit forcemment être renseigné dans la liste des formations où l'utilisateur est inscrit.",
+          ],
+        },
+        date_inscription: { type: Date, default: Date.now },
+      },
+    ],
     badge: [
       {
         id_quiz: {
