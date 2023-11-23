@@ -6,6 +6,7 @@ import { SousChapTitreDescritpion } from "../components/formation-informations/s
 import { ChapTitreDescritpion } from "../components/formation-informations/chap-titre-desc";
 import { ListeChapitreFormation } from "../components/listeChapitreFormation";
 import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const Formation = () => {
   const { formation_id, chapitre_id } = useParams();
@@ -14,6 +15,8 @@ export const Formation = () => {
   const [sousChapitres, setSousChapitres] = useState([]);
   const [chapitresFormations, setChapitresFormation] = useState([]);
   const [isloading, setIsLoading] = useState(true);
+
+  const { user } = useAuth0();
 
   const getChapitreById = useCallback(async () => {
     try {
@@ -34,6 +37,21 @@ export const Formation = () => {
   useEffect(() => {
     setChapitreById(memoizedChapitreById);
   }, [memoizedChapitreById]);
+
+  const addFormationInscription = async () => {
+    try {
+      await axios.post("/api-node/user/addFormationInscription", {
+        id_user_auth: user.sub,
+        id_formation: formation_id,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    addFormationInscription();
+  });
 
   return (
     <Box>
