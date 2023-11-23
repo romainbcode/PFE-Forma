@@ -10,6 +10,7 @@ import { CreationQuiz } from "./pages/professeur/creation-quiz";
 import { BadgesUtilisateur } from "./pages/utilisateur-parametres/badges-utilisateur";
 import { InformationsUtilisateur } from "./pages/utilisateur-parametres/informations-utilisateur";
 import { ScoresUtilisateur } from "./pages/utilisateur-parametres/scores-utilisateur";
+import { FormationInscrite } from "./pages/formationInscrite";
 
 export const App = () => {
   return (
@@ -22,6 +23,10 @@ export const App = () => {
       <Route
         path="/formation/:formation_id/:chapitre_id"
         element={<Formation />}
+      />
+      <Route
+        path="/utilisateur/formation/inscrit"
+        element={<FormationInscrite />}
       />
       <Route path="/utilisateur/badges" element={<BadgesUtilisateur />} />
       <Route
