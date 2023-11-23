@@ -300,6 +300,16 @@ export const Navbar = () => {
                   Formations
                 </Link>
               </MenuItem>
+              <MenuItem onClick={handleCloseMenuFormation} disableRipple>
+                <Link
+                  style={{ textDecoration: "none", color: "black" }}
+                  to="/utilisateur/formation/inscrit"
+                >
+                  <BookText />
+                  Formations inscrit
+                </Link>
+              </MenuItem>
+
               <Divider sx={{ my: 1 }}>Professeur</Divider>
               <MenuItem onClick={handleCloseMenuFormation} disableRipple>
                 <Link
