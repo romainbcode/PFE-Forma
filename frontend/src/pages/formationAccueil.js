@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { Loader } from "../components/loader/loader";
 import { ChapitreDescriptionAccueil } from "../components/chapitre-description-accueil";
 import { format } from "date-fns";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import axios from "axios";
 
@@ -13,13 +14,15 @@ export const FormationAccueil = (props) => {
   const [dateCreation, setDateCreation] = useState();
   const [idPremierChapitre, setIdPremierChapitre] = useState("");
   const [isloading, setIsLoading] = useState(true);
+  const [etatEnvoieMail, setEtatEnvoieMail] = useState(false);
 
   const { formation_id } = useParams();
+
+  const { user } = useAuth0();
+
   const getFormationById = useCallback(async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:3000/formation/" + formation_id
-      );
+      const { data } = await axios.get("/api-node/formation/" + formation_id);
       setFormationById(data.formationById);
       const date = new Date(data.formationById.createdAt);
       const dateformatted = format(date, "dd/MM/yyyy");
@@ -37,6 +40,18 @@ export const FormationAccueil = (props) => {
   useEffect(() => {
     setFormationById(memoizedFormationById);
   }, [memoizedFormationById]);
+
+  const mailUtilisateur = async () => {
+    try {
+      await axios.post("http://localhost:3002/mail", {
+        nomUser: user.name,
+        emailUser: user.email,
+        nomFormation: formationById.titre,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Box>
@@ -56,7 +71,7 @@ export const FormationAccueil = (props) => {
         ))
       )}
       <Link to={`/formation/${formationById._id}/${idPremierChapitre}`}>
-        <Button>Commencer la formation</Button>
+        <Button onClick={mailUtilisateur()}>Commencer la formation</Button>
       </Link>
     </Box>
   );
