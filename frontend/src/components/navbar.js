@@ -222,7 +222,7 @@ export const Navbar = () => {
 
   const createNewUser = async (value) => {
     try {
-      const data = await axios.post("http://localhost:3000/addUser", {
+      const data = await axios.post("/api-node/addUser", {
         id_user_auth: value,
       });
 
