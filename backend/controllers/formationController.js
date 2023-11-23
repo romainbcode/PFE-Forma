@@ -69,3 +69,21 @@ exports.getChapitreById = async (req, res, next) => {
     });
   }
 };
+
+exports.supprimeFormation = async (req, res, next) => {
+  const { _id } = req.body;
+  console.log("icicicicicii");
+  console.log(_id); /*
+  try {
+    const formation = await Formation.findByIdAndDelete(req.params.id);
+    res.status(200).json({
+      success: true,
+      message: "Formation supprimé correctement !",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Erreur au momement de supprimé la formation !",
+    });
+  }*/
+};
