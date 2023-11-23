@@ -73,7 +73,7 @@ exports.getChapitreById = async (req, res, next) => {
 exports.supprimeFormation = async (req, res, next) => {
   const { _id } = req.body;
   console.log("icicicicicii");
-  console.log(_id); /*
+  console.log(_id);
   try {
     const formation = await Formation.findByIdAndDelete(req.params.id);
     res.status(200).json({
@@ -85,5 +85,5 @@ exports.supprimeFormation = async (req, res, next) => {
       success: false,
       message: "Erreur au momement de supprimé la formation !",
     });
-  }*/
+  }
 };
