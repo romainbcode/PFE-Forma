@@ -61,7 +61,7 @@ export const CreationQuiz = () => {
 
   const createNewQuiz = async (values) => {
     try {
-      await axios.post("http://localhost:3000/addQuiz", values);
+      await axios.post("/api-node/addQuiz", values);
       toast.success("Création du quiz avec succès !");
     } catch (error) {
       toast.error("Erreur lors de la création du quiz !");

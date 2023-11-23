@@ -8,7 +8,7 @@ import {
   TextField,
   Checkbox,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Loader } from "../../components/loader/loader";
 import { Formik, Form, Field, FieldArray } from "formik";
@@ -128,18 +128,14 @@ export const CreationFormation = () => {
     ),
   });
 
+  const navigate = useNavigate();
+
   const createNewFormation = async (values) => {
     try {
-      console.log(values);
-
-      const data = await axios.post(
-        "http://localhost:3000/addFormation",
-        values
-      );
-      console.log(data);
+      await axios.post("/api-node/addFormation", values);
       toast.success("Création de la formation avec succès !");
+      navigate("/formations");
     } catch (error) {
-      console.log(error);
       toast.error("Erreur lors de la création de la formation !");
     }
   };

@@ -11,9 +11,7 @@ export const ChoixFormation = () => {
 
   const getFormationsRecentes = useCallback(async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:3000/formations/recente"
-      );
+      const { data } = await axios.get("/api-node/formations/recente");
       setFormationsRecentes(data.formations);
       setIsLoading(false);
     } catch (error) {

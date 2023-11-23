@@ -18,7 +18,7 @@ export const Formation = () => {
   const getChapitreById = useCallback(async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3000/formation/" + formation_id + "/" + chapitre_id
+        "/api-node/formation/" + formation_id + "/" + chapitre_id
       );
       setChapitreById(data.chapitreById);
       setSousChapitres(data.chapitreById.sous_chapitre);
