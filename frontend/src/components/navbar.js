@@ -329,6 +329,16 @@ export const Navbar = () => {
                   Créer un quiz
                 </Link>
               </MenuItem>
+              <Divider sx={{ my: 1 }}>Admin</Divider>
+              <MenuItem onClick={handleCloseMenuFormation} disableRipple>
+                <Link
+                  style={{ textDecoration: "none", color: "black" }}
+                  to="/admin/dashboard/formations"
+                >
+                  <BookText />
+                  Tableau des formations
+                </Link>
+              </MenuItem>
             </StyledMenu>
             <Link
               style={{
