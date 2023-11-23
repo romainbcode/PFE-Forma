@@ -3,20 +3,13 @@ const express = require("express");
 const http = require("http");
 const morgan = require("morgan");
 const path = require("path");
-//const router = require('./routes/index');
+const routerProf = require("./routes/professeur");
+const routerChargement = require("./routes/chargement");
 const { auth } = require("express-openid-connect");
 const axios = require("axios");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-
-const { createFormation } = require("./controllers/formationController");
-const { getFormationsRecente } = require("./controllers/formationController");
-const { getFormationsById } = require("./controllers/formationController");
-const { getChapitreById } = require("./controllers/formationController");
-
-const { createUser } = require("./controllers/userController");
-const { createQuiz } = require("./controllers/quizController");
 
 dotenv.load();
 
@@ -42,7 +35,8 @@ const cliend_id = process.env.CLIENT_ID;
 const cliend_secret = process.env.CLIENT_SECRET;
 const domaine = process.env.DOMAINE;
 
-//app.use('/', router);
+app.use("/", routerProf);
+app.use("/", routerChargement);
 
 /*
 app.get('/addCourse', async(req, res)=>{
@@ -257,16 +251,6 @@ app.get('/', async (req, res) => {
     res.send(req.oidc.accessToken);
 });
 */
-app.get("/tete", async (req, res) => {
-  res.json({ message: "blabla", message: req.body });
-});
-
-app.post("/addFormation", createFormation);
-app.post("/addUser", createUser);
-app.post("/addQuiz", createQuiz);
-app.get("/formations/recente", getFormationsRecente);
-app.get("/formation/:idformation", getFormationsById);
-app.get("/formation/:idformation/:idchapitre", getChapitreById);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
