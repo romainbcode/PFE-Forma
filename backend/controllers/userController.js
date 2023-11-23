@@ -12,13 +12,13 @@ exports.createUser = async (req, res, next) => {
         niveau: 1,
       });
 
-      res.status(201).json({
+      res.status(200).json({
         success: true,
         user,
         message: "Utilisateur ajouté à la BDD.",
       });
     } else {
-      res.status(200).json({
+      res.status(201).json({
         success: true,
         userExistant,
         message: "Utilisateur déjà enregistré dans la BDD.",
@@ -31,23 +31,39 @@ exports.createUser = async (req, res, next) => {
   }
 };
 
-exports.getUserByIdUserAuth = async (req, res, next) => {
-  const { iduserauth } = req.params;
+exports.addInscriptionFormationUser = async (req, res, next) => {
+  const { id_user_auth, id_formation } = req.body;
+
   try {
-    const userExistant = await User.findOne({
-      id_user_auth: iduserauth,
+    const formationsUser = await User.findOne({
+      id_user_auth: id_user_auth,
     });
-    console.log(userExistant);
-    if (userExistant) {
+    const idFormationDejaPresente = formationsUser.formationInscrite.some(
+      (element) => element.id_formation.equals(id_formation)
+    );
+    if (!idFormationDejaPresente) {
+      const user = await User.findOneAndUpdate(
+        {
+          id_user_auth: id_user_auth,
+        },
+        {
+          $push: {
+            formationInscrite: {
+              id_formation: id_formation,
+            },
+          },
+        },
+        { new: true }
+      );
+
       res.status(200).json({
         success: true,
-        userExistant,
-        message: "Utilisateur déjà enregistré dans la BDD.",
+        user,
       });
     } else {
-      res.status(200).json({
-        success: false,
-        message: "Utilisateur non enregistré dans la BDD.",
+      res.status(201).json({
+        success: true,
+        message: "Utilisateur déjà inscrit à cette formation !",
       });
     }
   } catch (error) {
