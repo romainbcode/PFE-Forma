@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Formation = require("../models/formationModel");
 
 exports.createUser = async (req, res, next) => {
   const { id_user_auth } = req.body;
@@ -35,13 +36,13 @@ exports.addInscriptionFormationUser = async (req, res, next) => {
   const { id_user_auth, id_formation } = req.body;
 
   try {
-    const formationsUser = await User.findOne({
+    const user_ = await User.findOne({
       id_user_auth: id_user_auth,
     });
-    const idFormationDejaPresente = formationsUser.formationInscrite.some(
-      (element) => element.id_formation.equals(id_formation)
+    const formationDejaPresente = user_.formationInscrite.some((element) =>
+      element.id_formation.equals(id_formation)
     );
-    if (!idFormationDejaPresente) {
+    if (!formationDejaPresente) {
       const user = await User.findOneAndUpdate(
         {
           id_user_auth: id_user_auth,
@@ -66,6 +67,41 @@ exports.addInscriptionFormationUser = async (req, res, next) => {
         message: "Utilisateur déjà inscrit à cette formation !",
       });
     }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+    });
+  }
+};
+
+exports.getAllFormationsInscrites = async (req, res, next) => {
+  const { id_user_auth } = req.body;
+
+  try {
+    const user = await User.findOne({
+      id_user_auth: id_user_auth,
+    });
+
+    const formations = user.formationInscrite;
+
+    //Set pour garantir l'unicité des ids
+    const uniqueFormationIds = new Set();
+
+    formations.forEach((item) => {
+      uniqueFormationIds.add(item.id_formation.toString());
+    });
+
+    // Convertissez l'ensemble en tableau pour le résultat final
+    const formationIdsArray = Array.from(uniqueFormationIds);
+
+    const formationsInscrit = await Formation.find({
+      _id: { $in: formationIdsArray },
+    });
+
+    res.status(200).json({
+      success: true,
+      formationsInscrit,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
