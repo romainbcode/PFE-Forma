@@ -11,7 +11,7 @@ import { BadgesUtilisateur } from "./pages/utilisateur-parametres/badges-utilisa
 import { InformationsUtilisateur } from "./pages/utilisateur-parametres/informations-utilisateur";
 import { ScoresUtilisateur } from "./pages/utilisateur-parametres/scores-utilisateur";
 import { FormationInscrite } from "./pages/formationInscrite";
-
+import { AdminDashboard } from "./pages/admin/admin-dashboard";
 export const App = () => {
   return (
     <Routes>
@@ -34,6 +34,7 @@ export const App = () => {
         element={<InformationsUtilisateur />}
       />
       <Route path="/utilisateur/scores" element={<ScoresUtilisateur />} />
+      <Route path="/admin/dashboard/formations" element={<AdminDashboard />} />
       <Route path="*" element={<Erreur404 />} />
     </Routes>
   );
