@@ -1,13 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Typography,
-  Button,
-  Grid,
-  Stack,
-  TextField,
-  Checkbox,
-} from "@mui/material";
+import React, { useCallback, useMemo, useEffect, useState } from "react";
+import { Box, Typography, Button, Stack, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Loader } from "../../components/loader/loader";
@@ -16,9 +8,10 @@ import { Trash2 } from "lucide-react";
 import { PlusSquare } from "lucide-react";
 import { Toaster, toast } from "sonner";
 import * as yup from "yup";
-
+import { useAuth0 } from "@auth0/auth0-react";
 export const CreationFormation = () => {
   const [isloading, setLoading] = useState(false);
+  const { user } = useAuth0();
 
   const initialValues = {
     titre: "",
@@ -132,6 +125,7 @@ export const CreationFormation = () => {
 
   const createNewFormation = async (values) => {
     try {
+      values["id_user_auth"] = user.sub;
       await axios.post("/api-node/addFormation", values);
       toast.success("Création de la formation avec succès !");
       navigate("/formations");
