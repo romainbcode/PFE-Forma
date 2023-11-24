@@ -7,6 +7,7 @@ import { ChapTitreDescritpion } from "../components/formation-informations/chap-
 import { ListeChapitreFormation } from "../components/listeChapitreFormation";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import { AffichageQuiz } from "../components/formation-informations/affichage-quiz/affichage-quiz.js";
 
 export const Formation = () => {
   const { formation_id, chapitre_id } = useParams();
@@ -15,7 +16,7 @@ export const Formation = () => {
   const [sousChapitres, setSousChapitres] = useState([]);
   const [chapitresFormations, setChapitresFormation] = useState([]);
   const [quizId, setQuizId] = useState("");
-  const [oui, setOui] = useState();
+  const [oui, setOui] = useState([]);
   const [isloading, setIsLoading] = useState(true);
 
   const { user } = useAuth0();
@@ -26,7 +27,6 @@ export const Formation = () => {
         "/api-node/formation/" + formation_id + "/" + chapitre_id
       );
       setChapitreById(data.chapitreById);
-      console.log("chapitre : ", data.chapitreById);
       setQuizId(data.chapitreById.Quiz);
       setSousChapitres(data.chapitreById.sous_chapitre);
       setChapitresFormation(data.formationById.chapitre);
@@ -62,17 +62,24 @@ export const Formation = () => {
       const { data } = await axios.post("/api-node/quiz", {
         id_quiz: quizId,
       });
-      setOui(data);
-      console.log("coucou", data);
+      setOui(data.quiz.question_reponse);
+      console.log("coucou", data.quiz.question_reponse);
     } catch (error) {
-      console.log(error);
+      console.log("ERREUR", error);
     }
   });
-  const memoizedQuiz = useMemo(() => test, []);
+
+  const memoizedQuiz = useMemo(() => test, [test]);
 
   useEffect(() => {
-    setOui(memoizedQuiz);
-  }, [memoizedQuiz]);
+    const fetchData = async () => {
+      if (oui.length === 0) {
+        // Si FormationsInscrit est vide, appelez à nouveau la fonction
+        await memoizedQuiz();
+      }
+    };
+    fetchData();
+  }, [oui, memoizedQuiz]);
 
   return (
     <Box>
@@ -128,6 +135,22 @@ export const Formation = () => {
                 titre={sousChapitre.titre_sous_chapitre}
                 description={sousChapitre.description_sous_chapitre}
                 texte={sousChapitre.corps_texte_image}
+              />
+            </Box>
+          ))
+        )}
+      </Box>
+      <Box>
+        {isloading ? (
+          <Loader />
+        ) : (
+          Array.isArray(oui) &&
+          oui.map((q, index) => (
+            <Box key={index}>
+              <AffichageQuiz
+                question={q.question}
+                answers={q.reponse}
+                numQuestion={index + 1}
               />
             </Box>
           ))
