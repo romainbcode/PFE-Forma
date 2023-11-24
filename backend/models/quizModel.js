@@ -3,6 +3,22 @@ const { ObjectId } = mongoose.Schema;
 
 const QuizSchema = new mongoose.Schema(
   {
+    titre: {
+      type: String,
+      trim: true,
+      maxlength: [
+        50,
+        "Le titre de votre quiz ne doit pas contenir plus de 50 caractères.",
+      ],
+      required: [true, "Votre quiz doit obligatoirement avoir un titre."],
+    },
+    createdBy: {
+      type: String,
+      required: [
+        true,
+        "Un quiz doit forcemment être associé à un utilisateur.",
+      ],
+    },
     question_reponse: [
       {
         question: {
