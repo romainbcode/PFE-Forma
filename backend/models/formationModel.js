@@ -21,7 +21,13 @@ const FormationSchema = new mongoose.Schema(
       ],
       required: [true, "Vous devez obligatoirement ajouter une description."],
     },
-    id_auteur: { type: ObjectId, ref: "User" },
+    createdBy: {
+      type: String,
+      required: [
+        true,
+        "Une formation doit forcemment être associé à un professeur.",
+      ],
+    },
     chapitre: [
       {
         completed: { type: Date, default: Date.now },
