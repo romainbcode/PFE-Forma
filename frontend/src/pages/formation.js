@@ -7,7 +7,7 @@ import { ChapTitreDescritpion } from "../components/formation-informations/chap-
 import { ListeChapitreFormation } from "../components/listeChapitreFormation";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import { AffichageQuiz } from "../components/formation-informations/affichage-quiz/affichage-quiz.js";
+import { AffichageQuiz } from "../components/formation-informations/affichage-quiz.js";
 
 export const Formation = () => {
   const { formation_id, chapitre_id } = useParams();
