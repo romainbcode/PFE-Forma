@@ -12,6 +12,8 @@ import { InformationsUtilisateur } from "./pages/utilisateur-parametres/informat
 import { ScoresUtilisateur } from "./pages/utilisateur-parametres/scores-utilisateur";
 import { FormationInscrite } from "./pages/formationInscrite";
 import { AdminDashboard } from "./pages/admin/admin-dashboard";
+import { FormationProfesseur } from "./pages/professeur/formation-professeur";
+import { QuizsInFormation } from "./pages/professeur/quizs-in-formation";
 export const App = () => {
   return (
     <Routes>
@@ -35,6 +37,11 @@ export const App = () => {
       />
       <Route path="/utilisateur/scores" element={<ScoresUtilisateur />} />
       <Route path="/admin/dashboard/formations" element={<AdminDashboard />} />
+      <Route path="/professeur/formations" element={<FormationProfesseur />} />
+      <Route
+        path="/professeur/formation/quiz-in/:formation_id"
+        element={<QuizsInFormation />}
+      />
       <Route path="*" element={<Erreur404 />} />
     </Routes>
   );
