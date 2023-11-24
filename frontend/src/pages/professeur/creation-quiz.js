@@ -15,9 +15,13 @@ import { Trash2 } from "lucide-react";
 import { PlusSquare } from "lucide-react";
 import { Toaster, toast } from "sonner";
 import * as yup from "yup";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const CreationQuiz = () => {
+  const { user } = useAuth0();
+
   const initialValues = {
+    titre: "",
     question_reponse: [
       {
         question: "",
@@ -61,6 +65,7 @@ export const CreationQuiz = () => {
 
   const createNewQuiz = async (values) => {
     try {
+      values["id_user_auth"] = user.sub;
       await axios.post("/api-node/addQuiz", values);
       toast.success("Création du quiz avec succès !");
     } catch (error) {
@@ -106,6 +111,41 @@ export const CreationQuiz = () => {
                   >
                     Créer son quiz
                   </Typography>
+                  <Box>
+                    <Stack
+                      direction={{ xs: "column", sm: "row" }}
+                      spacing={{ xs: 1, sm: 2, md: 4 }}
+                    >
+                      <Field
+                        sx={{
+                          mb: 3,
+                          width: "50%",
+                          input: {
+                            color: "primary.headLine",
+                          },
+                          "& label": { color: "primary.paragraph" },
+                          "& label.Mui-focused": { color: "#FFFFFE" },
+                          "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                              border: "2px solid",
+                              borderColor: "primary.button_background",
+                            },
+                            "&:hover fieldset": {
+                              borderColor: "primary.headLine",
+                            },
+                          },
+                        }}
+                        autoComplete="off"
+                        name="titre"
+                        placeholder="Titre"
+                        label="Titre du quiz"
+                        value={values.titre}
+                        as={TextField}
+                        error={touched.titre && Boolean(errors.titre)}
+                        helperText={touched.titre && errors.titre}
+                      />
+                    </Stack>
+                  </Box>
 
                   <FieldArray
                     type="question_reponse"
