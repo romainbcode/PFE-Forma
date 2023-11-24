@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
 const Formation = require("../models/formationModel");
+const Quiz = require("../models/quizModel");
 
 exports.createUser = async (req, res, next) => {
   const { id_user_auth } = req.body;
@@ -57,12 +58,12 @@ exports.addInscriptionFormationUser = async (req, res, next) => {
         { new: true }
       );
 
-      res.status(200).json({
+      res.status(201).json({
         success: true,
         user,
       });
     } else {
-      res.status(201).json({
+      res.status(200).json({
         success: true,
         message: "Utilisateur déjà inscrit à cette formation !",
       });
@@ -101,6 +102,24 @@ exports.getAllFormationsInscrites = async (req, res, next) => {
     res.status(200).json({
       success: true,
       formationsInscrit,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+    });
+  }
+};
+
+exports.getAllQuizsUser = async (req, res, next) => {
+  const { id_user_auth } = req.body;
+  try {
+    const quizs = await Quiz.find({
+      createdBy: id_user_auth,
+    });
+
+    res.status(200).json({
+      success: true,
+      quizs,
     });
   } catch (error) {
     res.status(500).json({
