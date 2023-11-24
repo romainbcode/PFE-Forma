@@ -14,6 +14,8 @@ export const Formation = () => {
   const [chapitreById, setChapitreById] = useState([]);
   const [sousChapitres, setSousChapitres] = useState([]);
   const [chapitresFormations, setChapitresFormation] = useState([]);
+  const [quizId, setQuizId] = useState("");
+  const [oui, setOui] = useState();
   const [isloading, setIsLoading] = useState(true);
 
   const { user } = useAuth0();
@@ -24,6 +26,8 @@ export const Formation = () => {
         "/api-node/formation/" + formation_id + "/" + chapitre_id
       );
       setChapitreById(data.chapitreById);
+      console.log("chapitre : ", data.chapitreById);
+      setQuizId(data.chapitreById.Quiz);
       setSousChapitres(data.chapitreById.sous_chapitre);
       setChapitresFormation(data.formationById.chapitre);
       setIsLoading(false);
@@ -52,6 +56,23 @@ export const Formation = () => {
   useEffect(() => {
     addFormationInscription();
   });
+
+  const test = useCallback(async () => {
+    try {
+      const { data } = await axios.post("/api-node/quiz", {
+        id_quiz: quizId,
+      });
+      setOui(data);
+      console.log("coucou", data);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  const memoizedQuiz = useMemo(() => test, []);
+
+  useEffect(() => {
+    setOui(memoizedQuiz);
+  }, [memoizedQuiz]);
 
   return (
     <Box>
