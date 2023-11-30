@@ -5,7 +5,11 @@ export const AffichageQuiz = (props) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
 
   const handleAnswerClick = (answer) => {
-    setSelectedAnswer(answer.reponse_texte);
+    props.onQuizClick(answer._id);
+    setSelectedAnswer(answer._id);
+    if (selectedAnswer != null) {
+      setSelectedAnswer(answer._id);
+    }
   };
 
   return (
@@ -17,14 +21,16 @@ export const AffichageQuiz = (props) => {
         {props.answers.map((answer, index) => (
           <ListItem
             key={index}
-            button
             onClick={() => handleAnswerClick(answer)}
+            button
             style={{
+              width: "80%",
               padding: 10,
               marginBottom: 10,
               border: "1px solid #ddd",
+              borderRadius: 10,
               backgroundColor:
-                selectedAnswer === answer.reponse_texte ? "blue" : "inherit",
+                selectedAnswer === answer._id ? "blue" : "inherit",
             }}
           >
             {answer.reponse_texte}
