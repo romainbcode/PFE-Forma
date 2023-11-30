@@ -8,7 +8,8 @@ import { ListeChapitreFormation } from "../components/listeChapitreFormation";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AffichageQuiz } from "../components/formation-informations/affichage-quiz.js";
-
+import { Toaster, toast } from "sonner";
+import { PopUpValidationReponsesQuiz } from "../components/pop-ups/pop-up-validationReponsesQuiz.js";
 export const Formation = () => {
   const { formation_id, chapitre_id } = useParams();
 
@@ -81,8 +82,42 @@ export const Formation = () => {
     fetchData();
   }, [oui, memoizedQuiz]);
 
+  const [reponses, setReponses] = useState({});
+  const [openPopUp, setOpenPopUp] = useState(false);
+
+  const handleOpenPopUp = () => {
+    setOpenPopUp(true);
+  };
+
+  const handleClosePopUp = () => {
+    setOpenPopUp(false);
+  };
+
+  const handleQuizClick = (index, question_id, reponse) => {
+    // Mettre à jour la réponse pour un indice spécifique
+    setReponses({
+      ...reponses,
+      [index]: { question_id: question_id, reponse_id: reponse },
+    });
+  };
+
+  const onSubmit = async () => {
+    try {
+      await axios.post("/api-node/user/questionReponse/sendReponses", {
+        id_user_auth: user.sub,
+        quiz_id: quizId,
+        reponses: reponses,
+      });
+      toast.success("Vos réponses au quiz ont bien été enregistré !");
+      handleOpenPopUp();
+    } catch (error) {
+      toast.error("Vos réponses au quiz n'ont pas bien été enregistré !");
+    }
+  };
+
   return (
     <Box>
+      <Toaster expand={true} richColors />
       <Box
         sx={{
           position: "absolute",
@@ -151,10 +186,21 @@ export const Formation = () => {
                 question={q.question}
                 answers={q.reponse}
                 numQuestion={index + 1}
+                onQuizClick={(reponse) =>
+                  handleQuizClick(index, q._id, reponse)
+                }
               />
             </Box>
           ))
         )}
+        <Button variant="contained" color="success" onClick={() => onSubmit()}>
+          TET
+        </Button>
+
+        <PopUpValidationReponsesQuiz
+          open={openPopUp}
+          onClose={handleClosePopUp}
+        />
       </Box>
     </Box>
   );
