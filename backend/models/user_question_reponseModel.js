@@ -3,16 +3,15 @@ const { ObjectId } = mongoose.Schema;
 
 const UserQuestionReponseSchema = new mongoose.Schema(
   {
+    id_user: {
+      type: String,
+      required: [
+        true,
+        "Un utilisateur doit forcemment être associé à une liste de questions et de réponses.",
+      ],
+    },
     user_question_reponse: [
       {
-        id_user: {
-          type: ObjectId,
-          ref: "User",
-          required: [
-            true,
-            "Un utilisateur doit forcemment être associé à une liste de questions et de réponses.",
-          ],
-        },
         id_quiz: {
           type: ObjectId,
           ref: "Quiz",
@@ -21,7 +20,7 @@ const UserQuestionReponseSchema = new mongoose.Schema(
             "Un quiz doit forcemment être associé à une liste de questions et de réponses.",
           ],
         },
-        question: [
+        question_reponse: [
           {
             id_question: {
               type: ObjectId,
@@ -31,25 +30,22 @@ const UserQuestionReponseSchema = new mongoose.Schema(
                 "L'id de la question doit forcemment être renseigné.",
               ],
             },
-            reponse: [
-              {
-                id_reponse: {
-                  type: ObjectId,
-                  ref: "Quiz",
-                  required: [
-                    true,
-                    "L'id de la réponse doit forcemment être renseigné.",
-                  ],
-                },
-                etat_reponse_user: {
-                  type: Boolean,
-                  required: [
-                    true,
-                    "L'état de la réponse doit forcemment être renseigné.",
-                  ],
-                },
-              },
-            ],
+            id_reponse: {
+              type: ObjectId,
+              ref: "Quiz",
+              required: [
+                true,
+                "L'id de la réponse doit forcemment être renseigné.",
+              ],
+            },
+            etat_reponse_user: {
+              type: Boolean,
+              default: false,
+              required: [
+                true,
+                "L'état de la réponse doit forcemment être renseigné.",
+              ],
+            },
             date_reponse: { type: Date, default: Date.now },
           },
         ],
