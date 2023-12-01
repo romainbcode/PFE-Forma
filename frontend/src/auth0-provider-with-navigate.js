@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 const Auth0ProviderWithNavigate = ({ children }) => {
   const navigate = useNavigate();
 
-  const domain = process.env.REACT_APP_DOMAINE
-  const clientId = process.env.REACT_APP_CLIENT_ID
-  const redirectUri = process.env.REACT_APP_REDIRECT_URI
-  const audience = process.env.REACT_APP_AUDIENCE
+  const domain = process.env.REACT_APP_DOMAINE;
+  const clientId = process.env.REACT_APP_CLIENT_ID;
+  const redirectUri = process.env.REACT_APP_REDIRECT_URI;
+  const audience = process.env.REACT_APP_AUDIENCE;
 
   const onRedirectCallback = (appState) => {
     navigate(appState?.returnTo || window.location.pathname);
@@ -18,7 +18,6 @@ const Auth0ProviderWithNavigate = ({ children }) => {
     return null;
   }
 
-  
   return (
     <Auth0Provider
       domain={domain}
@@ -27,7 +26,8 @@ const Auth0ProviderWithNavigate = ({ children }) => {
         redirect_uri: redirectUri,
         screen_hint: "signup",
         audience: audience,
-        prompt: 'consent'
+        prompt: "consent",
+        scope: "openid email profile read:users read:roles",
       }}
       onRedirectCallback={onRedirectCallback}
     >
