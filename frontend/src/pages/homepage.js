@@ -93,11 +93,12 @@ export const Homepage = () => {
           <Box sx={{ marginTop: 5, display: "flex", justifyContent: "center" }}>
             <Button
               sx={{
-                paddingLeft: 4,
-                paddingRight: 4,
+                marginLeft: 4,
+                marginRight: 4,
                 bgcolor: "primary.button_background",
                 borderRadius: 3,
                 fontWeight: "bold",
+                width: "50%",
               }}
             >
               <Link sx={{ textDecoration: "none" }} to="/login">
@@ -106,119 +107,92 @@ export const Homepage = () => {
             </Button>
           </Box>
         </Box>
-        <Box sx={{ position: "inherit", right: "12%", width: "50%" }}>
-          <Container
+        <Paper
+          sx={{
+            width: "200px",
+            height: "200px",
+            position: "absolute",
+            top: "0%",
+            right: "20%",
+            bgcolor: "primary.button_background",
+            color: "primary.headLine",
+            boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+            zIndex: 1,
+            transition: "transform 0.3s ease, z-index 0s",
+            "&:hover": {
+              transform: "scale(1.2)",
+              zIndex: 1000,
+            },
+          }}
+        >
+          <Typography
             sx={{
-              display: "flex",
-              justifyContent: "flex-end", // Aligner les composants sur le côté droit
-              height: "100vh", // 100% de la hauteur de la vue
-              alignItems: "flex-start",
+              textAlign: "center",
+              fontWeight: "bold",
+              fontSize: "30px",
             }}
           >
-            <Paper
-              sx={{
-                width: "200px",
-                height: "200px",
-                position: "absolute",
-                top: "0%",
-                left: "60%",
-                bgcolor: "primary.button_background",
-                color: "primary.headLine",
-
-                boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-              }}
-            >
-              <Typography
-                sx={{
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  fontSize: "30px",
-                }}
-              >
-                IA
-              </Typography>
-            </Paper>
-            <Paper
-              sx={{
-                width: "200px",
-                height: "200px",
-                position: "absolute",
-                top: "19%",
-                left: "78%",
-                bgcolor: "primary.button_background",
-                color: "primary.headLine",
-                boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-              }}
-            >
-              <Typography
-                sx={{
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  fontSize: "30px",
-                }}
-              >
-                Formation
-              </Typography>
-            </Paper>
-            <Paper
-              sx={{
-                width: "200px",
-                height: "200px",
-                position: "absolute",
-                top: "34%",
-                left: "61%",
-                bgcolor: "primary.button_background",
-                color: "primary.headLine",
-                boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-              }}
-            >
-              <Typography
-                sx={{
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  fontSize: "30px",
-                }}
-              >
-                Cours en direct
-              </Typography>
-            </Paper>
-          </Container>
-        </Box>
+            IA
+          </Typography>
+        </Paper>
+        <Paper
+          sx={{
+            width: "200px",
+            height: "200px",
+            position: "absolute",
+            top: "35%",
+            right: "10%",
+            bgcolor: "primary.button_background",
+            color: "primary.headLine",
+            boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+            zIndex: 2,
+            transition: "transform 0.3s ease, z-index 0s",
+            "&:hover": {
+              transform: "scale(1.2)",
+              zIndex: 1000,
+            },
+          }}
+        >
+          <Typography
+            sx={{
+              textAlign: "center",
+              fontWeight: "bold",
+              fontSize: "30px",
+            }}
+          >
+            Formation
+          </Typography>
+        </Paper>
+        <Paper
+          sx={{
+            width: "200px",
+            height: "200px",
+            position: "absolute",
+            top: "70%",
+            right: "20%",
+            bgcolor: "primary.button_background",
+            color: "primary.headLine",
+            boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+            zIndex: 3,
+            transition: "transform 0.3s ease, z-index 0s",
+            "&:hover": {
+              transform: "scale(1.2)",
+              zIndex: 1000,
+            },
+          }}
+        >
+          <Typography
+            sx={{
+              textAlign: "center",
+              fontWeight: "bold",
+              fontSize: "30px",
+            }}
+          >
+            Cours en direct
+          </Typography>
+        </Paper>
       </Box>
-      {/*<div className="page-layout">
-        <div className="page-layout__content" />
-        dede
-      </div>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <label>
-            summary
-            <input type="text" value={summary} onChange={handleChangeSummary} />
-          </label>
-          <label>
-            description
-            <input
-              type="text"
-              value={description}
-              onChange={handleChangeDescription}
-            />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-      </div>*/}
 
-      {/*
-      <Button sx={{ bgcolor: "red" }} onClick={createNewFormation}>
-        Add FORMATION
-      </Button>
-      <Button sx={{ bgcolor: "green" }} onClick={createNewUser}>
-        Add USER
-      </Button>
-      <Button sx={{ bgcolor: "cyan" }} onClick={createNewQuiz}>
-        Add Quiz
-      </Button>
-          {isloading ? <Loader /> : <div>C'est chargé</div>}
-          */}
       <div style={{ position: "absolute", bottom: 0, right: 0 }}>
         <Chatbot />
       </div>
