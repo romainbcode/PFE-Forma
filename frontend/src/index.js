@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Auth0ProviderWithHistory from "./auth0-provider-with-navigate";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./components/themeColor.js";
-import { Navbar } from "./components/navbar";
+import { Navbar } from "./components/nav-bar/navbar.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
