@@ -6,6 +6,7 @@ const path = require("path");
 const routerProf = require("./routes/professeur");
 const routerChargement = require("./routes/chargement");
 const routerAdmin = require("./routes/admin");
+const routerUser = require("./routes/user");
 const { auth } = require("express-openid-connect");
 const axios = require("axios");
 const cors = require("cors");
@@ -39,6 +40,7 @@ const domaine = process.env.DOMAINE;
 app.use("/", routerProf);
 app.use("/", routerChargement);
 app.use("/", routerAdmin);
+app.use("/", routerUser);
 
 /*
 app.get('/addCourse', async(req, res)=>{
@@ -66,28 +68,28 @@ app.get('/addCourse', async(req, res)=>{
       });
 })
 
-
-app.get('/getRoleUser/:id_user', async(req, res)=>{
-    const id_user = req.params.id_user
-    const options = {
-        method: 'GET',
-        url: `https://testpfe.eu.auth0.com/api/v2/users/${id_user}/roles`,
-        headers: {
-          'content-Type': 'application/json',
-          Authorization: `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZBZ0NQUFF6MUtrMGtjS1NmeTFQNyJ9.eyJpc3MiOiJodHRwczovL3Rlc3RwZmUuZXUuYXV0aDAuY29tLyIsInN1YiI6ImdSRVdyQlA3N0RKclY5b1hwZlBQSjJibWxkYzZINTIzQGNsaWVudHMiLCJhdWQiOiJodHRwczovL3Rlc3RwZmUuZXUuYXV0aDAuY29tL2FwaS92Mi8iLCJpYXQiOjE2OTg0MDU4MTksImV4cCI6MTY5ODQ5MjIxOSwiYXpwIjoiZ1JFV3JCUDc3REpyVjlvWHBmUFBKMmJtbGRjNkg1MjMiLCJzY29wZSI6InJlYWQ6dXNlcnMgcmVhZDp1c2VyX2lkcF90b2tlbnMgcmVhZDpyb2xlcyByZWFkOmNsaWVudF9jcmVkZW50aWFscyIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.nPjqvN2XXOpDZfbK0Px57L3agIqqJns5fo4n0RV9dWg-5fYt7m4j_MUO_qm6at0O0f0upWoETR3eim5Gq7kReM-awCCT4nl-A-xhWcklkQCktNc7REIBmdQK4oT1Z5-TkAub4PppFYibozP4px7jfGeE_r_xwoV912fwqVFOZBO7QoHzO-5LeZUgSgQIRV8RUe0xyCUcD-DQAmwRNtY_gd_VzhfZ0ukgVWoKZoiexOZeEvv_s83M8c8RAIkazkI4AS6gZCmV9Qo5bTG0YOft5x_IF9BuENQEQAQ66jAhvMtZZ-hXaeQFoyg0-LKIOcaqYeqckuUI2L6wl6Ygd6fAkw`,
-          
-        },
-      };
-  
-    axios(options)
-    .then(response => {
-        res.send(response.data)
-    })
-    .catch(error => {
-        res.send(error)
-    });
-})
 */
+
+app.post("/getRoleUser2", async (req, res) => {
+  //const id_user = req.params.id_user;
+  const { id_user_auth, idtoken } = req.body;
+  const options = {
+    method: "GET",
+    url: `https://${domaine}/api/v2/users/${id_user_auth}/roles`,
+    headers: {
+      "content-Type": "application/json",
+      Authorization: `Bearer ${idtoken}`,
+    },
+  };
+
+  await axios(options)
+    .then((response) => {
+      res.send(response.data);
+    })
+    .catch((error) => {
+      res.send(error);
+    });
+});
 
 app.post("/getTokenAuth", async (req, res) => {
   const options = {
