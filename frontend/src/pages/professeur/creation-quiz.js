@@ -16,6 +16,7 @@ import { PlusSquare } from "lucide-react";
 import { Toaster, toast } from "sonner";
 import * as yup from "yup";
 import { useAuth0 } from "@auth0/auth0-react";
+import { QuestionReponseQuiz } from "../../components/formulaire-quiz/question-reponse-quiz";
 
 export const CreationQuiz = () => {
   const { user } = useAuth0();
@@ -83,6 +84,10 @@ export const CreationQuiz = () => {
         onSubmit={onSubmit}
         initialValues={initialValues}
         validationSchema={validationSchema}
+        //Permet de ne pas faire la vérification quand on quitte le focus d'un élement
+        validateOnBlur={false}
+        //Permet de ne pas faire la vérification à chaque changement
+        validateOnChange={false}
       >
         {(formik) => {
           const { values, errors, touched } = formik;
@@ -148,259 +153,26 @@ export const CreationQuiz = () => {
                   </Box>
 
                   <FieldArray
-                    type="question_reponse"
                     name="question_reponse"
-                    id="question_reponse"
-                    value={values.question_reponse}
-                    render={(QuestionReponse) => (
-                      <Box
-                        sx={{
-                          backgroundColor: "primary.mainGreenLight",
-                          padding: 3,
-                          mb: 2,
-                          borderRadius: "10px",
-                          boxShadow: "0 3px 10px #000",
-                        }}
-                      >
-                        {values.question_reponse.map(
-                          (mapQuestionReponse, index) => (
-                            <div
-                              className="formContainer"
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                marginBottom: "20px",
-                              }}
-                              key={index}
-                            >
-                              <Box
-                                style={{
-                                  width: "100%",
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  height: "100%",
-                                  marginBottom: "10px",
-                                }}
-                              >
-                                <Box
-                                  sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    width: "100%",
-                                  }}
-                                >
-                                  <Field
-                                    sx={{
-                                      width: "100%",
-                                      fieldset: {
-                                        borderColor: "primary.themewhite",
-                                      },
-                                      input: {
-                                        color: "primary.headLine",
-                                      },
-                                      "& label": { color: "primary.paragraph" },
-                                      "& label.Mui-focused": {
-                                        color: "#FFFFFE",
-                                      },
-                                      "& .MuiOutlinedInput-root": {
-                                        "& fieldset": {
-                                          border: "2px solid",
-                                          borderColor:
-                                            "primary.button_background",
-                                        },
-                                        "&:hover fieldset": {
-                                          borderColor: "primary.headLine",
-                                        },
-                                      },
-                                      marginRight: 2,
-                                    }}
-                                    name={`question_reponse.${index}.question`}
-                                    placeholder="Question"
-                                    label={`Question : ${index}`}
-                                    as={TextField}
-                                  />
-                                </Box>
-                                <Box
-                                  style={{
-                                    marginLeft: 10,
-                                    display: "flex",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <Button
-                                    variant="contained"
-                                    color="error"
-                                    sx={{ width: "100%", height: "75%" }}
-                                    onClick={() =>
-                                      QuestionReponse.remove(index)
-                                    }
-                                    startIcon={<Trash2 />}
-                                  >
-                                    Supprime cette question et ses réponses
-                                  </Button>
-                                </Box>
-                              </Box>
-                              <FieldArray
-                                type={`question_reponse.${index}.reponse`}
-                                name={`question_reponse.${index}.reponse`}
-                                id={`question_reponse.${index}.reponse`}
-                                value={values.question_reponse[index].reponse}
-                                render={(Reponse) => (
-                                  <Box
-                                    sx={{
-                                      backgroundColor: "primary.mainGreenLight",
-                                      padding: 3,
-                                      mb: 2,
-                                      borderRadius: "10px",
-                                      boxShadow: "0 3px 10px #000",
-                                    }}
-                                  >
-                                    {values.question_reponse[index].reponse.map(
-                                      (mapReponse, index2) => (
-                                        <div
-                                          className="formContainer"
-                                          style={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            alignItems: "center",
-                                            marginBottom: "20px",
-                                          }}
-                                          key={index2}
-                                        >
-                                          <Box
-                                            style={{
-                                              width: "100%",
-                                              display: "flex",
-                                              flexDirection: "row",
-                                              height: "100%",
-                                              marginBottom: "10px",
-                                            }}
-                                          >
-                                            <Box
-                                              sx={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                width: "100%",
-                                              }}
-                                            >
-                                              <Field
-                                                sx={{
-                                                  width: "100%",
-                                                  fieldset: {
-                                                    borderColor:
-                                                      "primary.themewhite",
-                                                  },
-                                                  input: {
-                                                    color: "primary.headLine",
-                                                  },
-                                                  "& label": {
-                                                    color: "primary.paragraph",
-                                                  },
-                                                  "& label.Mui-focused": {
-                                                    color: "#FFFFFE",
-                                                  },
-                                                  "& .MuiOutlinedInput-root": {
-                                                    "& fieldset": {
-                                                      border: "2px solid",
-                                                      borderColor:
-                                                        "primary.button_background",
-                                                    },
-                                                    "&:hover fieldset": {
-                                                      borderColor:
-                                                        "primary.headLine",
-                                                    },
-                                                  },
-                                                  marginRight: 2,
-                                                }}
-                                                name={`question_reponse.${index}.reponse.${index2}.reponse_texte`}
-                                                placeholder="Question"
-                                                label={`Question : ${index}, Reponse : ${index2}`}
-                                                as={TextField}
-                                              />
-                                            </Box>
-                                            <Box
-                                              style={{
-                                                marginLeft: "10px",
-                                                marginRight: "10px",
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                              }}
-                                            >
-                                              <Field
-                                                sx={{
-                                                  height: "20px",
-                                                  width: "20px",
-                                                  alignItems: "center",
-                                                  mr: 1,
-                                                  color: "primary.themewhite",
-                                                }}
-                                                name={`question_reponse.${index}.reponse.${index2}.etat_reponse`}
-                                                as={Checkbox}
-                                              />
-                                              True/False
-                                            </Box>
-                                            <Box
-                                              style={{
-                                                marginLeft: 10,
-                                                display: "flex",
-                                                alignItems: "center",
-                                              }}
-                                            >
-                                              <Button
-                                                variant="contained"
-                                                color="error"
-                                                sx={{
-                                                  width: "100%",
-                                                  height: "75%",
-                                                }}
-                                                onClick={() =>
-                                                  Reponse.remove(index2)
-                                                }
-                                                startIcon={<Trash2 />}
-                                              >
-                                                Supprimez cette réponse
-                                              </Button>
-                                            </Box>
-                                          </Box>
-                                        </div>
-                                      )
-                                    )}
-                                    <Button
-                                      variant="contained"
-                                      onClick={() => {
-                                        Reponse.push({
-                                          reponse_texte: "",
-                                          etat_reponse: false,
-                                        });
-                                      }}
-                                      sx={{
-                                        width: "55%",
-                                        height: "50%",
-                                        bgcolor: "#dad7cd",
-                                      }}
-                                      endIcon={<PlusSquare />}
-                                    >
-                                      Ajouter une réponse
-                                    </Button>
-                                  </Box>
-                                )}
-                              />
-                            </div>
-                          )
-                        )}
+                    render={(arrayHelpers) => (
+                      <div>
+                        {formik.values.question_reponse.map((_, index) => (
+                          <QuestionReponseQuiz
+                            key={index}
+                            index={index}
+                            formik={formik}
+                          />
+                        ))}
                         <Button
                           variant="contained"
-                          onClick={() => {
-                            QuestionReponse.push({
+                          onClick={() =>
+                            arrayHelpers.push({
                               question: "",
                               reponse: [
                                 { reponse_texte: "", etat_reponse: false },
                               ],
-                            });
-                          }}
+                            })
+                          }
                           sx={{
                             width: "25%",
                             height: "50%",
@@ -410,7 +182,7 @@ export const CreationQuiz = () => {
                         >
                           Ajouter une question
                         </Button>
-                      </Box>
+                      </div>
                     )}
                   />
 
