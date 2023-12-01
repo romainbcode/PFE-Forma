@@ -3,7 +3,7 @@ const Formation = require("../models/formationModel");
 const Quiz = require("../models/quizModel");
 
 exports.createUser = async (req, res, next) => {
-  const { id_user_auth } = req.body;
+  const { id_user_auth, role } = req.body;
   try {
     const userExistant = await User.findOne({
       id_user_auth: id_user_auth,
@@ -12,6 +12,7 @@ exports.createUser = async (req, res, next) => {
       const user = await User.create({
         id_user_auth: id_user_auth,
         niveau: 1,
+        role: role,
       });
 
       res.status(200).json({
@@ -126,4 +127,34 @@ exports.getAllQuizsUser = async (req, res, next) => {
       success: false,
     });
   }
+};
+
+const axios = require("axios");
+const cliend_id = process.env.CLIENT_ID;
+const cliend_secret = process.env.CLIENT_SECRET;
+const domaine = process.env.DOMAINE;
+
+exports.getRoleUser = async (req, res) => {
+  const { id_user_auth, idtoken } = req.body;
+  console.log(id_user_auth, idtoken);
+  const options = {
+    method: "GET",
+    url: `https://${domaine}/api/v2/users/${id_user_auth}/roles`,
+    headers: {
+      "content-Type": "application/json",
+      Authorization: `Bearer ${idtoken}`,
+    },
+  };
+
+  await axios(options)
+    .then((response) => {
+      console.log("ok");
+
+      res.send(response.data);
+    })
+    .catch((error) => {
+      console.log("pas ok", error.message);
+
+      res.send(error);
+    });
 };
