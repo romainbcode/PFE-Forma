@@ -128,33 +128,3 @@ exports.getAllQuizsUser = async (req, res, next) => {
     });
   }
 };
-
-const axios = require("axios");
-const cliend_id = process.env.CLIENT_ID;
-const cliend_secret = process.env.CLIENT_SECRET;
-const domaine = process.env.DOMAINE;
-
-exports.getRoleUser = async (req, res) => {
-  const { id_user_auth, idtoken } = req.body;
-  console.log(id_user_auth, idtoken);
-  const options = {
-    method: "GET",
-    url: `https://${domaine}/api/v2/users/${id_user_auth}/roles`,
-    headers: {
-      "content-Type": "application/json",
-      Authorization: `Bearer ${idtoken}`,
-    },
-  };
-
-  await axios(options)
-    .then((response) => {
-      console.log("ok");
-
-      res.send(response.data);
-    })
-    .catch((error) => {
-      console.log("pas ok", error.message);
-
-      res.send(error);
-    });
-};
