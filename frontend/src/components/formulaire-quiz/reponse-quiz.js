@@ -1,6 +1,7 @@
 import React from "react";
-import Trash2 from "@mui/icons-material/Delete"; // Remplacez par l'icône appropriée
+import Trash2 from "@mui/icons-material/Delete";
 import { Box, Button, TextField, Checkbox } from "@mui/material";
+
 export const ReponseQuiz = ({ questionIndex, reponseIndex, formik }) => {
   const { values, handleChange } = formik;
 
@@ -10,8 +11,9 @@ export const ReponseQuiz = ({ questionIndex, reponseIndex, formik }) => {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        marginBottom: "10px",
-        marginTop: "10px",
+        marginBottom: 3,
+        marginTop: 3,
+        marginLeft: 8,
       }}
     >
       <TextField
@@ -43,7 +45,6 @@ export const ReponseQuiz = ({ questionIndex, reponseIndex, formik }) => {
               borderColor: "primary.headLine",
             },
           },
-          marginRight: 2,
         }}
       />
       <Checkbox
@@ -53,6 +54,7 @@ export const ReponseQuiz = ({ questionIndex, reponseIndex, formik }) => {
             .etat_reponse
         }
         onChange={handleChange}
+        sx={{ marginRight: 2, marginLeft: 2 }}
       />
       <Button
         variant="contained"

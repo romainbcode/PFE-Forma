@@ -12,6 +12,7 @@ export const theme = createTheme({
       stroke: "#000",
       secondary: "#f25f4c",
       tertiary: "#e53170",
+      button_add: "#4682B4",
     },
   },
 });

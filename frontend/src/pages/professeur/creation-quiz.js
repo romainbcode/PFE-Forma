@@ -1,17 +1,7 @@
-import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Typography,
-  Button,
-  Grid,
-  Stack,
-  TextField,
-  Checkbox,
-} from "@mui/material";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Box, Typography, Button, Stack, TextField } from "@mui/material";
 import axios from "axios";
 import { Formik, Form, Field, FieldArray } from "formik";
-import { Trash2 } from "lucide-react";
 import { PlusSquare } from "lucide-react";
 import { Toaster, toast } from "sonner";
 import * as yup from "yup";
@@ -120,10 +110,10 @@ export const CreationQuiz = () => {
                     <Stack
                       direction={{ xs: "column", sm: "row" }}
                       spacing={{ xs: 1, sm: 2, md: 4 }}
+                      sx={{ marginBottom: 3 }}
                     >
                       <Field
                         sx={{
-                          mb: 3,
                           width: "50%",
                           input: {
                             color: "primary.headLine",
@@ -176,9 +166,10 @@ export const CreationQuiz = () => {
                           sx={{
                             width: "25%",
                             height: "50%",
-                            bgcolor: "#dad7cd",
+                            bgcolor: "primary.button_add",
+                            color: "primary.headLine",
                           }}
-                          endIcon={<PlusSquare />}
+                          startIcon={<PlusSquare />}
                         >
                           Ajouter une question
                         </Button>

@@ -1,8 +1,9 @@
 import React from "react";
-import { ReponseQuiz } from "./reponse-quiz"; // Assurez-vous d'importer le composant Reponse
-import Trash2 from "@mui/icons-material/Delete"; // Remplacez par l'icône appropriée
+import { ReponseQuiz } from "./reponse-quiz";
+import Trash2 from "@mui/icons-material/Delete";
 import { Box, Button, TextField } from "@mui/material";
 import { FieldArray } from "formik";
+import { PlusSquare } from "lucide-react";
 
 export const QuestionReponseQuiz = ({ index, formik }) => {
   const { values, handleChange, setFieldValue } = formik;
@@ -21,14 +22,21 @@ export const QuestionReponseQuiz = ({ index, formik }) => {
         marginBottom: "20px",
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "row" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+          alignItems: "center",
+        }}
+      >
         <TextField
           name={`question_reponse.${index}.question`}
           label={`Question : ${index}`}
           value={values.question_reponse[index].question}
           onChange={handleChange}
           sx={{
-            width: "100%",
+            width: "80%",
             fieldset: {
               borderColor: "primary.themewhite",
             },
@@ -62,13 +70,13 @@ export const QuestionReponseQuiz = ({ index, formik }) => {
           }
           startIcon={<Trash2 />}
         >
-          Supprime cette question et ses réponses
+          Supprimez cette question et ses réponses
         </Button>
       </Box>
       <FieldArray
         name={`question_reponse.${index}.reponse`}
         render={(arrayHelpers) => (
-          <div>
+          <Box sx={{ width: "100%" }}>
             {values.question_reponse[index].reponse.map((_, reponseIndex) => (
               <ReponseQuiz
                 key={reponseIndex}
@@ -82,10 +90,12 @@ export const QuestionReponseQuiz = ({ index, formik }) => {
               onClick={() =>
                 arrayHelpers.push({ reponse_texte: "", etat_reponse: false })
               }
+              sx={{ bgcolor: "primary.button_add", color: "primary.headLine" }}
+              startIcon={<PlusSquare />}
             >
               Ajouter une réponse
             </Button>
-          </div>
+          </Box>
         )}
       />
     </Box>
