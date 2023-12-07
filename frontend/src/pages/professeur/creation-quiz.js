@@ -1,5 +1,12 @@
 import React from "react";
-import { Box, Typography, Button, Stack, TextField } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Stack,
+  TextField,
+  Divider,
+} from "@mui/material";
 import axios from "axios";
 import { Formik, Form, Field, FieldArray } from "formik";
 import { PlusSquare } from "lucide-react";
@@ -8,6 +15,23 @@ import * as yup from "yup";
 import { useAuth0 } from "@auth0/auth0-react";
 import { QuestionReponseQuiz } from "../../components/formulaire-quiz/question-reponse-quiz";
 
+const textFieldStyles = {
+  width: "100%",
+  input: {
+    color: "primary.headLine",
+  },
+  "& label": { color: "primary.paragraph" },
+  "& label.Mui-focused": { color: "#FFFFFE" },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      border: "2px solid",
+      borderColor: "primary.button_background",
+    },
+    "&:hover fieldset": {
+      borderColor: "primary.headLine",
+    },
+  },
+};
 export const CreationQuiz = () => {
   const { user } = useAuth0();
 
@@ -113,23 +137,7 @@ export const CreationQuiz = () => {
                       sx={{ marginBottom: 3 }}
                     >
                       <Field
-                        sx={{
-                          width: "50%",
-                          input: {
-                            color: "primary.headLine",
-                          },
-                          "& label": { color: "primary.paragraph" },
-                          "& label.Mui-focused": { color: "#FFFFFE" },
-                          "& .MuiOutlinedInput-root": {
-                            "& fieldset": {
-                              border: "2px solid",
-                              borderColor: "primary.button_background",
-                            },
-                            "&:hover fieldset": {
-                              borderColor: "primary.headLine",
-                            },
-                          },
-                        }}
+                        sx={textFieldStyles}
                         autoComplete="off"
                         name="titre"
                         placeholder="Titre"
@@ -145,7 +153,14 @@ export const CreationQuiz = () => {
                   <FieldArray
                     name="question_reponse"
                     render={(arrayHelpers) => (
-                      <div>
+                      <Box
+                        sx={{
+                          backgroundColor: "primary.mainGreenLight",
+                          padding: 3,
+                          borderRadius: "10px",
+                          boxShadow: "0 3px 10px #000",
+                        }}
+                      >
                         {formik.values.question_reponse.map((_, index) => (
                           <QuestionReponseQuiz
                             key={index}
@@ -153,6 +168,7 @@ export const CreationQuiz = () => {
                             formik={formik}
                           />
                         ))}
+
                         <Button
                           variant="contained"
                           onClick={() =>
@@ -168,12 +184,13 @@ export const CreationQuiz = () => {
                             height: "50%",
                             bgcolor: "primary.button_add",
                             color: "primary.headLine",
+                            width: "100%",
                           }}
                           startIcon={<PlusSquare />}
                         >
                           Ajouter une question
                         </Button>
-                      </div>
+                      </Box>
                     )}
                   />
 
