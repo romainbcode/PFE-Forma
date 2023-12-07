@@ -186,8 +186,7 @@ export const CreationFormation = () => {
               <Box
                 sx={{
                   width: "100%",
-                  paddingLeft: 3,
-                  paddingRight: 3,
+                  padding: 3,
                 }}
               >
                 <Typography
@@ -196,9 +195,37 @@ export const CreationFormation = () => {
                 >
                   Créer sa formation
                 </Typography>
-                <Box sx={{ mt: 1, mb: 2 }}>
+                <Box
+                  sx={{
+                    mt: 1,
+                    mb: 2,
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
                   <Field
-                    sx={textFieldStyles}
+                    sx={{
+                      width: "50%",
+                      marginRight: 5,
+                      fieldset: {
+                        borderColor: "primary.themewhite",
+                      },
+                      input: {
+                        color: "primary.headLine",
+                      },
+                      "& label": { color: "primary.paragraph" },
+                      "& label.Mui-focused": { color: "#FFFFFE" },
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          border: "2px solid",
+                          borderColor: "primary.button_background",
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "primary.headLine",
+                        },
+                      },
+                    }}
                     autoComplete="off"
                     name="titre"
                     placeholder="Titre"
@@ -228,7 +255,14 @@ export const CreationFormation = () => {
                 <FieldArray
                   name="chapitre"
                   render={(arrayHelpers) => (
-                    <Box>
+                    <Box
+                      sx={{
+                        backgroundColor: "primary.mainGreenLight",
+                        padding: 3,
+                        borderRadius: "10px",
+                        boxShadow: "0 3px 10px #000",
+                      }}
+                    >
                       {formik.values.chapitre.map((_, index) => (
                         <ChapitreFormation
                           key={index}
@@ -238,6 +272,10 @@ export const CreationFormation = () => {
                       ))}
                       <Button
                         variant="contained"
+                        sx={{
+                          bgcolor: "primary.button_add",
+                          color: "primary.headLine",
+                        }}
                         onClick={() =>
                           arrayHelpers.push({
                             titre_chapitre: "",
@@ -268,7 +306,11 @@ export const CreationFormation = () => {
                   type="submit"
                   variant="contained"
                   color="success"
-                  sx={{ mt: 2 }}
+                  sx={{
+                    mt: 2,
+                    display: "flex",
+                    alignItems: "right",
+                  }}
                 >
                   Créer la formation
                 </Button>

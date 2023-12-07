@@ -1,8 +1,9 @@
 import React from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Divider } from "@mui/material";
 import { Field, FieldArray } from "formik";
 import ContenuTexteFormation from "./contenu-texte-formation";
-import PlusSquare from "@mui/icons-material/Add";
+import { PlusSquare } from "lucide-react";
+import Trash2 from "@mui/icons-material/Delete";
 
 const textFieldStyles = {
   width: "80%",
@@ -31,7 +32,7 @@ const SousChapitreFormation = ({
   formik,
 }) => {
   return (
-    <Box sx={{ mb: 2 }}>
+    <Box>
       <TextField
         name={`chapitre.${chapitreIndex}.sous_chapitre.${sousChapitreIndex}.titre_sous_chapitre`}
         label="Titre du Sous-Chapitre"
@@ -56,6 +57,26 @@ const SousChapitreFormation = ({
         margin="normal"
         sx={textFieldStyles}
       />
+      <Button
+        variant="contained"
+        color="error"
+        onClick={() =>
+          formik.setFieldValue(
+            `chapitre.${chapitreIndex}.sous_chapitre`,
+            formik.values.chapitre[chapitreIndex].sous_chapitre.filter(
+              (_, ctIndex) => ctIndex !== sousChapitreIndex
+            )
+          )
+        }
+        startIcon={<Trash2 />}
+      >
+        Supprimer ce sous-chapitre
+      </Button>
+      <Divider
+        color="white"
+        variant="middle"
+        sx={{ marginTop: 3, marginBottom: 2 }}
+      />
       <FieldArray
         name={`chapitre.${chapitreIndex}.sous_chapitre.${sousChapitreIndex}.corps_texte_image`}
         render={(arrayHelpers) => (
@@ -72,6 +93,12 @@ const SousChapitreFormation = ({
               />
             ))}
             <Button
+              variant="contained"
+              sx={{
+                bgcolor: "primary.button_add",
+                color: "primary.headLine",
+                width: "60%",
+              }}
               onClick={() =>
                 arrayHelpers.push({
                   texte: "",
@@ -81,7 +108,7 @@ const SousChapitreFormation = ({
               }
               startIcon={<PlusSquare />}
             >
-              Ajouter du contenu
+              Ajouter des textes
             </Button>
           </>
         )}

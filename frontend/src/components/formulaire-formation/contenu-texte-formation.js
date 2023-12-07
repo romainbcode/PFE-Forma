@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Divider } from "@mui/material";
 import Trash2 from "@mui/icons-material/Delete";
 const textFieldStyles = {
   width: "60%",
@@ -29,7 +29,11 @@ const ContenuTexteFormation = ({
   formik,
 }) => {
   return (
-    <Box sx={{ mb: 2 }}>
+    <Box
+      sx={{
+        marginTop: 1,
+      }}
+    >
       <TextField
         name={`chapitre.${chapitreIndex}.sous_chapitre.${sousChapitreIndex}.corps_texte_image.${texteIndex}.texte`}
         label="Texte"
@@ -54,6 +58,7 @@ const ContenuTexteFormation = ({
         margin="normal"
         sx={textFieldStyles}
       />
+
       <TextField
         name={`chapitre.${chapitreIndex}.sous_chapitre.${sousChapitreIndex}.corps_texte_image.${texteIndex}.texte_conseil`}
         label="Texte Conseil"
@@ -67,6 +72,8 @@ const ContenuTexteFormation = ({
         sx={textFieldStyles}
       />
       <Button
+        variant="contained"
+        color="error"
         onClick={() =>
           formik.setFieldValue(
             `chapitre.${chapitreIndex}.sous_chapitre.${sousChapitreIndex}.corps_texte_image`,
@@ -77,8 +84,13 @@ const ContenuTexteFormation = ({
         }
         startIcon={<Trash2 />}
       >
-        Supprimer ce contenu
+        Supprimer les textes
       </Button>
+      <Divider
+        color="white"
+        variant="middle"
+        sx={{ marginTop: 3, marginBottom: 2 }}
+      />
     </Box>
   );
 };

@@ -1,9 +1,9 @@
 import React from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Divider } from "@mui/material";
 import { Field, FieldArray } from "formik";
 import SousChapitreFormation from "./sous-chapitre-formation";
 import Trash2 from "@mui/icons-material/Delete";
-import PlusSquare from "@mui/icons-material/Add";
+import { PlusSquare } from "lucide-react";
 
 const textFieldStyles = {
   width: "90%",
@@ -28,7 +28,7 @@ const textFieldStyles = {
 
 const ChapitreFormation = ({ index, formik }) => {
   return (
-    <Box sx={{ mb: 2 }}>
+    <Box>
       <TextField
         name={`chapitre.${index}.titre_chapitre`}
         label="Titre du Chapitre"
@@ -47,6 +47,11 @@ const ChapitreFormation = ({ index, formik }) => {
         margin="normal"
         sx={textFieldStyles}
       />
+      <Divider
+        color="white"
+        variant="middle"
+        sx={{ marginTop: 3, marginBottom: 2 }}
+      />
       <FieldArray
         name={`chapitre.${index}.sous_chapitre`}
         render={(arrayHelpers) => (
@@ -62,6 +67,8 @@ const ChapitreFormation = ({ index, formik }) => {
               )
             )}
             <Button
+              variant="contained"
+              sx={{ bgcolor: "primary.button_add", color: "primary.headLine" }}
               onClick={() =>
                 arrayHelpers.push({
                   titre_sous_chapitre: "",
@@ -79,6 +86,8 @@ const ChapitreFormation = ({ index, formik }) => {
         )}
       />
       <Button
+        variant="contained"
+        color="error"
         onClick={() =>
           formik.setFieldValue(
             "chapitre",
