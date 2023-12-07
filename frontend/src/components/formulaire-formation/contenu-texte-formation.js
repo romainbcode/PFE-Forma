@@ -32,6 +32,8 @@ const ContenuTexteFormation = ({
     <Box
       sx={{
         marginTop: 1,
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <TextField
@@ -74,6 +76,7 @@ const ContenuTexteFormation = ({
       <Button
         variant="contained"
         color="error"
+        sx={{ width: "60%" }}
         onClick={() =>
           formik.setFieldValue(
             `chapitre.${chapitreIndex}.sous_chapitre.${sousChapitreIndex}.corps_texte_image`,

@@ -60,6 +60,7 @@ const SousChapitreFormation = ({
       <Button
         variant="contained"
         color="error"
+        sx={{ width: "80%" }}
         onClick={() =>
           formik.setFieldValue(
             `chapitre.${chapitreIndex}.sous_chapitre`,
@@ -110,6 +111,11 @@ const SousChapitreFormation = ({
             >
               Ajouter des textes
             </Button>
+            <Divider
+              color="white"
+              variant="middle"
+              sx={{ marginTop: 2, marginBottom: 2 }}
+            />
           </>
         )}
       />

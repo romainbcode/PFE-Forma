@@ -275,6 +275,7 @@ export const CreationFormation = () => {
                         sx={{
                           bgcolor: "primary.button_add",
                           color: "primary.headLine",
+                          width: "100%",
                         }}
                         onClick={() =>
                           arrayHelpers.push({

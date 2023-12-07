@@ -47,6 +47,22 @@ const ChapitreFormation = ({ index, formik }) => {
         margin="normal"
         sx={textFieldStyles}
       />
+      <Button
+        variant="contained"
+        color="error"
+        sx={{ width: "80%" }}
+        onClick={() =>
+          formik.setFieldValue(
+            "chapitre",
+            formik.values.chapitre.filter(
+              (_, chapitreIndex) => chapitreIndex !== index
+            )
+          )
+        }
+        startIcon={<Trash2 />}
+      >
+        Supprimer ce chapitre
+      </Button>
       <Divider
         color="white"
         variant="middle"
@@ -68,7 +84,11 @@ const ChapitreFormation = ({ index, formik }) => {
             )}
             <Button
               variant="contained"
-              sx={{ bgcolor: "primary.button_add", color: "primary.headLine" }}
+              sx={{
+                bgcolor: "primary.button_add",
+                color: "primary.headLine",
+                width: "80%",
+              }}
               onClick={() =>
                 arrayHelpers.push({
                   titre_sous_chapitre: "",
@@ -82,24 +102,14 @@ const ChapitreFormation = ({ index, formik }) => {
             >
               Ajouter un sous-chapitre
             </Button>
+            <Divider
+              color="white"
+              variant="middle"
+              sx={{ marginTop: 2, marginBottom: 2 }}
+            />
           </>
         )}
       />
-      <Button
-        variant="contained"
-        color="error"
-        onClick={() =>
-          formik.setFieldValue(
-            "chapitre",
-            formik.values.chapitre.filter(
-              (_, chapitreIndex) => chapitreIndex !== index
-            )
-          )
-        }
-        startIcon={<Trash2 />}
-      >
-        Supprimer ce chapitre
-      </Button>
     </Box>
   );
 };
