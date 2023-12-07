@@ -7,17 +7,20 @@ import Auth0ProviderWithHistory from "./auth0-provider-with-navigate";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./components/themeColor.js";
 import { Navbar } from "./components/nav-bar/navbar.js";
+import { UserProvider } from "./userContexte.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Router>
-      <Auth0ProviderWithHistory>
-        <ThemeProvider theme={theme}>
-          <Navbar />
-          <App />
-        </ThemeProvider>
-      </Auth0ProviderWithHistory>
-    </Router>
+    <UserProvider>
+      <Router>
+        <Auth0ProviderWithHistory>
+          <ThemeProvider theme={theme}>
+            <Navbar />
+            <App />
+          </ThemeProvider>
+        </Auth0ProviderWithHistory>
+      </Router>
+    </UserProvider>
   </React.StrictMode>
 );

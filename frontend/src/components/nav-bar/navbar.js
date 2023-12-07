@@ -117,6 +117,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import { MenuFormation } from "./menu/menu-formation";
 import { MenuUser } from "./menu/menu-user";
+
+import { UserContext, UserProvider } from "../../userContexte";
+
 const color_headLine = "#fffffe";
 const color_buttonBackground = "#ff8906";
 const color_paragraphe = "#a7a9be";
@@ -223,7 +226,7 @@ export const Navbar = () => {
   };
 
   const [tokenAuth, setTokenAuth] = React.useState("");
-  const [roleUser, setRoleUser] = React.useState();
+  const { userInfo, updateUser } = React.useContext(UserContext);
 
   const getRoleUserAPI = async (id_user_auth) => {
     try {
@@ -241,11 +244,20 @@ export const Navbar = () => {
       axios(options)
         .then((response) => {
           if (response.data[0].name === "student") {
-            setRoleUser(1);
+            updateUser({
+              id_user_auth: id_user_auth,
+              role: 1,
+            });
           } else if (response.data[0].name === "teacher") {
-            setRoleUser(2);
+            updateUser({
+              id_user_auth: id_user_auth,
+              role: 2,
+            });
           } else {
-            setRoleUser(3);
+            updateUser({
+              id_user_auth: id_user_auth,
+              role: 3,
+            });
           }
         })
         .catch((error) => {
@@ -278,13 +290,18 @@ export const Navbar = () => {
   };
 
   React.useEffect(() => {
-    if (isAuthenticated) {
-      getTokenAuthAPI();
-      if (tokenAuth) {
-        getRoleUserAPI(user.sub);
+    if (userInfo === null || userInfo === "") {
+      console.log("pas de role");
+      if (isAuthenticated) {
+        getTokenAuthAPI();
+        if (tokenAuth) {
+          getRoleUserAPI(user.sub);
+        }
+      } else {
+        console.log("pas auth");
       }
     } else {
-      console.log("pas auth");
+      console.log("Role de : ", userInfo.id_user_auth, " est ", userInfo.role);
     }
   });
 
@@ -306,7 +323,7 @@ export const Navbar = () => {
               alignItems: "center",
             }}
           >
-            {isAuthenticated ? (
+            {isAuthenticated && userInfo ? (
               <Box>
                 <Button
                   id="demo-customized-buttonFormation"
@@ -338,7 +355,7 @@ export const Navbar = () => {
                   anchorEl={anchorMenuFormation}
                   open={openMenuFormation}
                   onClose={handleCloseMenuFormation}
-                  roleUser={roleUser}
+                  roleUser={userInfo.role}
                 />
               </Box>
             ) : (
