@@ -9,13 +9,24 @@ import { useAuth0 } from "@auth0/auth0-react";
 export const FormationInscrite = () => {
   const [formationsInscrit, setFormationsInscrit] = useState([]);
   const [isloading, setIsLoading] = useState(true);
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
 
   const getIdsFormationsInscrit = useCallback(async () => {
+    const token = await getAccessTokenSilently();
+    const config = {
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
+
     try {
-      const { data } = await axios.post("/api-node/user/getFormations", {
-        id_user_auth: user.sub,
-      });
+      const { data } = await axios.post(
+        "/api-node/user/getFormations",
+        {
+          id_user_auth: user.sub,
+        },
+        config
+      );
       setFormationsInscrit(data.formationsInscrit);
       setIsLoading(false);
     } catch (error) {
