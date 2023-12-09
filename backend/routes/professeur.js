@@ -6,10 +6,11 @@ const {
   getFormationsByProfesseur,
   addQuizInFormation,
 } = require("../controllers/formationController");
+const { isTeacher } = require("../middleware/auth");
 
-router.post("/addFormation", createFormation);
-router.post("/addQuiz", createQuiz);
-router.post("/professeur/formations", getFormationsByProfesseur);
-router.post("/professeur/addQuiz/formation", addQuizInFormation);
+router.post("/addFormation", isTeacher, createFormation);
+router.post("/addQuiz", isTeacher, createQuiz);
+router.post("/professeur/formations", isTeacher, getFormationsByProfesseur);
+router.post("/professeur/addQuiz/formation", isTeacher, addQuizInFormation);
 
 module.exports = router;

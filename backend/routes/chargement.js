@@ -5,29 +5,35 @@ const {
   getChapitreById,
   getFormationsById,
 } = require("../controllers/formationController");
-
 const {
   createUser,
   getAllQuizsUser,
   getAllFormationsInscrites,
   addInscriptionFormationUser,
 } = require("../controllers/userController");
-
-const { getQuizById } = require("../controllers/quizController");
-
 const {
   createUserQuestionReponse,
 } = require("../controllers/user_question_reponseController");
+const { getQuizById } = require("../controllers/quizController");
 
-router.get("/formations/recente", getFormationsRecente);
-router.get("/formation/:idformation", getFormationsById);
-router.get("/formation/:idformation/:idchapitre", getChapitreById);
-router.post("/addUser", createUser);
-router.post("/user/addFormationInscription", addInscriptionFormationUser);
-router.post("/user/getFormations", getAllFormationsInscrites);
-router.post("/user/quizs", getAllQuizsUser);
-router.post("/quiz", getQuizById);
+const { isUser } = require("../middleware/auth");
 
-router.post("/user/questionReponse/sendReponses", createUserQuestionReponse);
+router.get("/formations/recente", isUser, getFormationsRecente);
+router.get("/formation/:idformation", isUser, getFormationsById);
+router.get("/formation/:idformation/:idchapitre", isUser, getChapitreById);
+router.post("/addUser", isUser, createUser);
+router.post(
+  "/user/addFormationInscription",
+  isUser,
+  addInscriptionFormationUser
+);
+router.post("/user/getFormations", isUser, getAllFormationsInscrites);
+router.post("/user/quizs", isUser, getAllQuizsUser);
+router.post("/quiz", isUser, getQuizById);
+router.post(
+  "/user/questionReponse/sendReponses",
+  isUser,
+  createUserQuestionReponse
+);
 
 module.exports = router;
