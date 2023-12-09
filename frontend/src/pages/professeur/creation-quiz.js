@@ -33,7 +33,7 @@ const textFieldStyles = {
   },
 };
 export const CreationQuiz = () => {
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
 
   const initialValues = {
     titre: "",
@@ -79,9 +79,15 @@ export const CreationQuiz = () => {
   });
 
   const createNewQuiz = async (values) => {
+    const token = await getAccessTokenSilently();
+    const config = {
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
     try {
       values["id_user_auth"] = user.sub;
-      await axios.post("/api-node/addQuiz", values);
+      await axios.post("/api-node/addQuiz", values, config);
       toast.success("Création du quiz avec succès !");
     } catch (error) {
       toast.error("Erreur lors de la création du quiz !");

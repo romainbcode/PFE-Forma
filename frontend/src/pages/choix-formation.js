@@ -4,14 +4,22 @@ import { Link } from "react-router-dom";
 import { FormationCard } from "../components/formationcard/formationCard";
 import axios from "axios";
 import { Loader } from "../components/loader/loader";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const ChoixFormation = () => {
   const [formationsRecentes, setFormationsRecentes] = useState([]);
   const [isloading, setIsLoading] = useState(true);
+  const { getAccessTokenSilently } = useAuth0();
 
   const getFormationsRecentes = useCallback(async () => {
+    const token = await getAccessTokenSilently();
+    const config = {
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
     try {
-      const { data } = await axios.get("/api-node/formations/recente");
+      const { data } = await axios.get("/api-node/formations/recente", config);
       setFormationsRecentes(data.formations);
       setIsLoading(false);
     } catch (error) {

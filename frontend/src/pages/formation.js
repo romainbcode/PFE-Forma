@@ -20,12 +20,19 @@ export const Formation = () => {
   const [oui, setOui] = useState([]);
   const [isloading, setIsLoading] = useState(true);
 
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
 
   const getChapitreById = useCallback(async () => {
+    const token = await getAccessTokenSilently();
+    const config = {
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
     try {
       const { data } = await axios.get(
-        "/api-node/formation/" + formation_id + "/" + chapitre_id
+        "/api-node/formation/" + formation_id + "/" + chapitre_id,
+        config
       );
       setChapitreById(data.chapitreById);
       setQuizId(data.chapitreById.Quiz);
@@ -44,11 +51,21 @@ export const Formation = () => {
   }, [memoizedChapitreById]);
 
   const addFormationInscription = async () => {
+    const token = await getAccessTokenSilently();
+    const config = {
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
     try {
-      await axios.post("/api-node/user/addFormationInscription", {
-        id_user_auth: user.sub,
-        id_formation: formation_id,
-      });
+      await axios.post(
+        "/api-node/user/addFormationInscription",
+        {
+          id_user_auth: user.sub,
+          id_formation: formation_id,
+        },
+        config
+      );
     } catch (error) {
       console.log(error);
     }
@@ -59,10 +76,20 @@ export const Formation = () => {
   });
 
   const test = useCallback(async () => {
+    const token = await getAccessTokenSilently();
+    const config = {
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
     try {
-      const { data } = await axios.post("/api-node/quiz", {
-        id_quiz: quizId,
-      });
+      const { data } = await axios.post(
+        "/api-node/quiz",
+        {
+          id_quiz: quizId,
+        },
+        config
+      );
       setOui(data.quiz.question_reponse);
       console.log("coucou", data.quiz.question_reponse);
     } catch (error) {
@@ -102,12 +129,22 @@ export const Formation = () => {
   };
 
   const onSubmit = async () => {
+    const token = await getAccessTokenSilently();
+    const config = {
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
     try {
-      await axios.post("/api-node/user/questionReponse/sendReponses", {
-        id_user_auth: user.sub,
-        quiz_id: quizId,
-        reponses: reponses,
-      });
+      await axios.post(
+        "/api-node/user/questionReponse/sendReponses",
+        {
+          id_user_auth: user.sub,
+          quiz_id: quizId,
+          reponses: reponses,
+        },
+        config
+      );
       toast.success("Vos réponses au quiz ont bien été enregistré !");
       handleOpenPopUp();
     } catch (error) {

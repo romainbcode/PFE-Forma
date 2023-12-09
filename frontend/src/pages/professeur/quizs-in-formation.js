@@ -17,16 +17,23 @@ export const QuizsInFormation = (props) => {
   );
 
   const [quizs, setQuizs] = useState([]);
-  const [titreQuiz, setTitreQuiz] = useState("");
-  const [idQuiz, setIdQuiz] = useState("");
 
   const { formation_id } = useParams();
 
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
 
   const getFormationById = useCallback(async () => {
+    const token = await getAccessTokenSilently();
+    const config = {
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
     try {
-      const { data } = await axios.get("/api-node/formation/" + formation_id);
+      const { data } = await axios.get(
+        "/api-node/formation/" + formation_id,
+        config
+      );
       setFormationById(data.formationById);
       const date = new Date(data.formationById.createdAt);
       const dateformatted = format(date, "dd/MM/yyyy");
@@ -44,10 +51,20 @@ export const QuizsInFormation = (props) => {
   }, [memoizedFormationById]);
 
   const getQuizsUser = useCallback(async () => {
+    const token = await getAccessTokenSilently();
+    const config = {
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
     try {
-      const { data } = await axios.post("/api-node/user/quizs", {
-        id_user_auth: user.sub,
-      });
+      const { data } = await axios.post(
+        "/api-node/user/quizs",
+        {
+          id_user_auth: user.sub,
+        },
+        config
+      );
       setQuizs(data.quizs);
     } catch (error) {
       console.log(error);
@@ -73,6 +90,12 @@ export const QuizsInFormation = (props) => {
     const titreQuizSelection = titreQuizs[index];
     const quiz = quizs.find((q) => q.titre === titreQuizSelection);
     const id_quiz = quiz._id;
+    const token = await getAccessTokenSilently();
+    const config = {
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
     try {
       const { data } = await axios.post(
         "/api-node/professeur/addQuiz/formation",
@@ -80,7 +103,8 @@ export const QuizsInFormation = (props) => {
           id_formation: id_formation,
           id_quiz: id_quiz,
           id_chapitre: id_chapitre,
-        }
+        },
+        config
       );
     } catch (error) {
       console.log(error);

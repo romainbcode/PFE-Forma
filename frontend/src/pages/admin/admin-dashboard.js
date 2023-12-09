@@ -7,13 +7,21 @@ import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Toaster, toast } from "sonner";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const AdminDashboard = () => {
   const [formations, setFormations] = useState([]);
+  const { getAccessTokenSilently } = useAuth0();
 
   const getFormations = async () => {
+    const token = await getAccessTokenSilently();
+    const config = {
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
     try {
-      const { data } = await axios.get("/api-node/formations/recente");
+      const { data } = await axios.get("/api-node/formations/recente", config);
       setFormations(data.formations);
     } catch (error) {
       console.log(error);
@@ -21,12 +29,15 @@ export const AdminDashboard = () => {
   };
 
   const supprimeFormationById = async (e, id) => {
+    const token = await getAccessTokenSilently();
+    const config = {
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
     if (window.confirm("Are you sure you want to delete this post?")) {
-      console.log(id);
       try {
-        console.log(id);
-        await axios.delete(`/api-node/admin/supprime/formation/${id}`);
-        console.log(id);
+        await axios.delete(`/api-node/admin/supprime/formation/${id}`, config);
         toast.success("Suppresion de la formation avec succès !");
         getFormations();
       } catch (error) {

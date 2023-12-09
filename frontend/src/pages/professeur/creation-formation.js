@@ -34,7 +34,7 @@ const textFieldStyles = {
 
 export const CreationFormation = () => {
   const [isloading, setLoading] = useState(false);
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
 
   const initialValues = {
     titre: "",
@@ -147,9 +147,15 @@ export const CreationFormation = () => {
   const navigate = useNavigate();
 
   const createNewFormation = async (values) => {
+    const token = await getAccessTokenSilently();
+    const config = {
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
     try {
       values["id_user_auth"] = user.sub;
-      await axios.post("/api-node/addFormation", values);
+      await axios.post("/api-node/addFormation", values, config);
       toast.success("Création de la formation avec succès !");
     } catch (error) {
       toast.error("Erreur lors de la création de la formation !");

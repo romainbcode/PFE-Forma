@@ -18,11 +18,20 @@ export const FormationAccueil = (props) => {
 
   const { formation_id } = useParams();
 
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
 
   const getFormationById = useCallback(async () => {
+    const token = await getAccessTokenSilently();
+    const config = {
+      headers: {
+        Authorization: `${token}`,
+      },
+    };
     try {
-      const { data } = await axios.get("/api-node/formation/" + formation_id);
+      const { data } = await axios.get(
+        "/api-node/formation/" + formation_id,
+        config
+      );
       setFormationById(data.formationById);
       const date = new Date(data.formationById.createdAt);
       const dateformatted = format(date, "dd/MM/yyyy");
