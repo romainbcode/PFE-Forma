@@ -11,7 +11,7 @@ export const PopUpValidationReponsesQuiz = ({
   quiz_id,
   reponses,
 }) => {
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const [compteur, setCompteur] = useState(0);
   const [compteurTotal, setCompteurTotal] = useState(0);
   const [loaded, setLoaded] = useState(false);
@@ -62,7 +62,25 @@ export const PopUpValidationReponsesQuiz = ({
 
   const clickButton = async (req, res, next) => {
     if ((compteur / compteurTotal) * 100 >= 75) {
-      console.log("ok");
+      const token = await getAccessTokenSilently();
+      const config = {
+        headers: {
+          Authorization: `${token}`,
+        },
+      };
+      try {
+        const { data } = await axios.post(
+          "/api-node/user/addScoreQuiz",
+          {
+            id_user_auth: user.sub,
+            id_quiz: quiz_id,
+            scores_pourcentage: (compteur / compteurTotal) * 100,
+          },
+          config
+        );
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       console.log("pas ok");
     }

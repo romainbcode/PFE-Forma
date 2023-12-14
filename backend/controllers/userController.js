@@ -128,3 +128,33 @@ exports.getAllQuizsUser = async (req, res, next) => {
     });
   }
 };
+
+exports.addScoreFormationUser = async (req, res, next) => {
+  const { id_user_auth, id_quiz, scores_pourcentage } = req.body;
+
+  try {
+    const user = await User.findOneAndUpdate(
+      {
+        id_user_auth: id_user_auth,
+      },
+      {
+        $push: {
+          scores: {
+            id_quiz: id_quiz,
+            scores_pourcentage: scores_pourcentage,
+          },
+        },
+      },
+      { new: true }
+    );
+
+    res.status(201).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+    });
+  }
+};
