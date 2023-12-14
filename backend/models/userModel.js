@@ -28,10 +28,7 @@ const UserSchema = new mongoose.Schema(
         },
         completed: {
           type: Date,
-          required: [
-            true,
-            "La date d'ajout du score doit forcemment être renseigné.",
-          ],
+          default: Date.now,
         },
       },
     ],

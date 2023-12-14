@@ -56,9 +56,10 @@ const QuizSchema = new mongoose.Schema(
     ],
     note: [
       {
-        id_user: {
-          type: ObjectId,
-          ref: "User",
+        id_user_auth: {
+          type: String,
+          unique: true,
+          trim: true,
           required: [
             true,
             "Une note doit forcemment être associé à un utilisateur.",
