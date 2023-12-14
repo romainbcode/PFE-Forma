@@ -136,6 +136,7 @@ export const Formation = () => {
       },
     };
     try {
+      /*
       await axios.post(
         "/api-node/user/questionReponse/sendReponses",
         {
@@ -144,7 +145,7 @@ export const Formation = () => {
           reponses: reponses,
         },
         config
-      );
+      );*/
       toast.success("Vos réponses au quiz ont bien été enregistré !");
       handleOpenPopUp();
     } catch (error) {
@@ -259,6 +260,8 @@ export const Formation = () => {
             <PopUpValidationReponsesQuiz
               open={openPopUp}
               onClose={handleClosePopUp}
+              quiz_id={quizId}
+              reponses={reponses}
             />
           </Box>
         </Box>
