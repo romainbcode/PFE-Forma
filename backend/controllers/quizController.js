@@ -66,3 +66,31 @@ exports.getAllTrueReponseQuizById = async (req, res, next) => {
     });
   }
 };
+
+exports.addNoteQuiz = async (req, res, next) => {
+  const { id_quiz, id_user_auth, score_pourcentage } = req.body;
+
+  try {
+    const quiz = await Quiz.findByIdAndUpdate(
+      id_quiz,
+      {
+        $push: {
+          note: {
+            id_user_auth: id_user_auth,
+            score_pourcentage: score_pourcentage,
+          },
+        },
+      },
+      { new: true }
+    );
+
+    res.status(201).json({
+      success: true,
+      quiz,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+    });
+  }
+};

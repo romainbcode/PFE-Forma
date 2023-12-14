@@ -78,17 +78,40 @@ export const PopUpValidationReponsesQuiz = ({
           },
           config
         );
+        console.log("ajout dans user");
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        const { data } = await axios.post(
+          "/api-node/quiz/addNote",
+          {
+            id_quiz: quiz_id,
+            id_user_auth: user.sub,
+            score_pourcentage: (compteur / compteurTotal) * 100,
+          },
+          config
+        );
+        console.log("ajout dans quiz");
       } catch (error) {
         console.log(error);
       }
     } else {
-      console.log("pas ok");
+      console.log("Votre score doit être supérieur à 75% !");
     }
     onClose();
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal
+      open={open}
+      onClose={(event, reason) => {
+        if (reason !== "backdropClick") {
+          onClose();
+        }
+      }}
+      disableEscapeKeyDown
+    >
       <Box
         sx={{
           position: "absolute",
