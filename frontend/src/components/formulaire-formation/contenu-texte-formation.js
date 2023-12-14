@@ -9,6 +9,9 @@ const textFieldStyles = {
   input: {
     color: "primary.headLine",
   },
+  textarea: {
+    color: "primary.headLine",
+  },
   "& label": { color: "primary.paragraph" },
   "& label.Mui-focused": { color: "#FFFFFE" },
   "& .MuiOutlinedInput-root": {
@@ -47,6 +50,7 @@ const ContenuTexteFormation = ({
         fullWidth
         margin="normal"
         sx={textFieldStyles}
+        multiline
       />
       <TextField
         name={`chapitre.${chapitreIndex}.sous_chapitre.${sousChapitreIndex}.corps_texte_image.${texteIndex}.texte_attention`}
@@ -59,6 +63,7 @@ const ContenuTexteFormation = ({
         fullWidth
         margin="normal"
         sx={textFieldStyles}
+        multiline
       />
 
       <TextField
@@ -72,6 +77,7 @@ const ContenuTexteFormation = ({
         fullWidth
         margin="normal"
         sx={textFieldStyles}
+        multiline
       />
       <Button
         variant="contained"
