@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Box, Typography, Button } from "@mui/material";
-import axios from "axios";
+import React from "react";
+import { Box, Divider } from "@mui/material";
+import { AttentionBox } from "./attention-text-box";
+import { ConseilBox } from "./conseil-text-box";
 
 export const SousChapText = (props) => {
   return (
@@ -9,12 +10,17 @@ export const SousChapText = (props) => {
         props.textes.map((texte, index) => (
           <Box key={index}>
             <Box sx={{ marginBottom: 5 }}>{texte.texte}</Box>
-            <Box sx={{ marginBottom: 5, bgcolor: "red" }}>
-              <Typography>{texte.texte_attention}</Typography>
+            <Box>
+              <AttentionBox>{texte.texte_attention}</AttentionBox>
             </Box>
-            <Box sx={{ marginBottom: 5, bgcolor: "blue" }}>
-              <Typography>{texte.texte_conseil}</Typography>
+            <Box>
+              <ConseilBox>{texte.texte_conseil}</ConseilBox>
             </Box>
+            <Divider
+              color="white"
+              variant="middle"
+              sx={{ marginTop: 2, marginBottom: 2 }}
+            />
           </Box>
         ))}
     </Box>

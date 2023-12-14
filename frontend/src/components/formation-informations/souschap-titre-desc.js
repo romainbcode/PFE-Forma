@@ -1,8 +1,6 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Box, Typography, Button } from "@mui/material";
-import { useParams } from "react-router-dom";
+import React from "react";
+import { Box, Typography } from "@mui/material";
 import { SousChapText } from "./souschap-text";
-import axios from "axios";
 
 export const SousChapTitreDescritpion = (props) => {
   return (
@@ -11,10 +9,9 @@ export const SousChapTitreDescritpion = (props) => {
         sx={{
           fontStyle: "italic",
           textDecoration: "underline",
-          marginBottom: 2,
         }}
       >
-        {props.titre}
+        {"Partie " + props.numeroSousChapitre + " : " + props.titre}
       </Typography>
       <Typography sx={{ marginBottom: 4 }}>{props.description}</Typography>
       <SousChapText textes={props.texte} />

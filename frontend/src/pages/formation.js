@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Divider, Button } from "@mui/material";
 import { useParams, Link } from "react-router-dom";
 import { Loader } from "../components/loader/loader";
 import { SousChapTitreDescritpion } from "../components/formation-informations/souschap-titre-desc";
@@ -157,87 +157,111 @@ export const Formation = () => {
       <Toaster expand={true} richColors />
       <Box
         sx={{
-          position: "absolute",
-          left: 0,
-          top: "50%",
-          transform: "translate(0%, -50%)",
-          marginLeft: 2,
-        }}
-      >
-        {chapitresFormations &&
-          chapitresFormations.map((chapitre, index) => (
-            <Link
-              reloadDocument
-              to={`/formation/${formation_id}/${chapitre._id}`}
-              style={{
-                textDecoration: "none",
-              }}
-            >
-              <Box
-                sx={{
-                  color: "primary.headLine",
-                  fontWeight: "bold",
-                  textDecoration: "underline",
-                }}
-              >
-                <ListeChapitreFormation chapitre={chapitre} />
-              </Box>
-            </Link>
-          ))}
-      </Box>
-      <Box
-        sx={{
           display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          flexDirection: "row",
+          margin: 4,
         }}
       >
-        <ChapTitreDescritpion
-          titre={chapitreById.titre_chapitre}
-          description={chapitreById.description_chapitre}
-        />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            marginRight: 2,
+          }}
+        >
+          {chapitresFormations &&
+            chapitresFormations.map((chapitre, index) => (
+              <Link
+                reloadDocument
+                to={`/formation/${formation_id}/${chapitre._id}`}
+                style={{
+                  textDecoration: "none",
+                }}
+                key={index}
+              >
+                <Box
+                  sx={{
+                    color: "primary.headLine",
+                    fontWeight: "bold",
+                    textDecoration: "underline",
+                    marginTop: 2,
+                  }}
+                >
+                  <ListeChapitreFormation
+                    chapitre={chapitre}
+                    numeroChapitre={index + 1}
+                  />
+                </Box>
+              </Link>
+            ))}
+        </Box>
 
-        {isloading ? (
-          <Loader />
-        ) : (
-          sousChapitres &&
-          sousChapitres.map((sousChapitre, index) => (
-            <Box key={index}>
-              <SousChapTitreDescritpion
-                titre={sousChapitre.titre_sous_chapitre}
-                description={sousChapitre.description_sous_chapitre}
-                texte={sousChapitre.corps_texte_image}
-              />
-            </Box>
-          ))
-        )}
-      </Box>
-      <Box>
-        {isloading ? (
-          <Loader />
-        ) : (
-          Array.isArray(oui) &&
-          oui.map((q, index) => (
-            <Box key={index}>
-              <AffichageQuiz
-                question={q.question}
-                answers={q.reponse}
-                numQuestion={index + 1}
-                onQuizClick={(reponse) =>
-                  handleQuizClick(index, q._id, reponse)
-                }
-              />
-            </Box>
-          ))
-        )}
-        <Button variant="contained" color="success" onClick={() => onSubmit()}>
-          TET
-        </Button>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box>
+            <ChapTitreDescritpion
+              titre={chapitreById.titre_chapitre}
+              description={chapitreById.description_chapitre}
+            />
+            <Divider
+              color="white"
+              variant="middle"
+              sx={{ marginTop: 2, marginBottom: 2 }}
+            />
+          </Box>
 
-        <PopUpValidationReponsesQuiz
-          open={openPopUp}
-          onClose={handleClosePopUp}
-        />
+          {isloading ? (
+            <Loader />
+          ) : (
+            sousChapitres &&
+            sousChapitres.map((sousChapitre, index) => (
+              <Box key={index}>
+                <SousChapTitreDescritpion
+                  titre={sousChapitre.titre_sous_chapitre}
+                  description={sousChapitre.description_sous_chapitre}
+                  texte={sousChapitre.corps_texte_image}
+                  numeroSousChapitre={index + 1}
+                />
+              </Box>
+            ))
+          )}
+          <Box>
+            {isloading ? (
+              <Loader />
+            ) : (
+              Array.isArray(oui) &&
+              oui.map((q, index) => (
+                <Box key={index}>
+                  <AffichageQuiz
+                    question={q.question}
+                    answers={q.reponse}
+                    numQuestion={index + 1}
+                    onQuizClick={(reponse) =>
+                      handleQuizClick(index, q._id, reponse)
+                    }
+                  />
+                </Box>
+              ))
+            )}
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => onSubmit()}
+            >
+              Valider le quiz
+            </Button>
+
+            <PopUpValidationReponsesQuiz
+              open={openPopUp}
+              onClose={handleClosePopUp}
+            />
+          </Box>
+        </Box>
       </Box>
     </Box>
   );
