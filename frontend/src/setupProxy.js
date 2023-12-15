@@ -6,7 +6,6 @@ module.exports = function (app) {
     createProxyMiddleware({
       target: "http://localhost:3000",
       changeOrigin: true,
-      pathRewrite: { "^/api-node": "" },
     })
   );
   app.use(
@@ -14,7 +13,6 @@ module.exports = function (app) {
     createProxyMiddleware({
       target: "http://localhost:3002",
       changeOrigin: true,
-      pathRewrite: { "^/api-python": "" },
     })
   );
 };
