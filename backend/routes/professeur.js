@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { createQuiz } = require("../controllers/quizController");
+const { createQuiz, updateQuiz } = require("../controllers/quizController");
 const {
   createFormation,
   getFormationsByProfesseur,
@@ -13,5 +13,6 @@ router.post("/addFormation", isTeacher, createFormation);
 router.post("/addQuiz", isTeacher, createQuiz);
 router.post("/professeur/formations", isTeacher, getFormationsByProfesseur);
 router.post("/professeur/addQuiz/formation", isTeacher, addQuizInFormation);
-router.post("/professeur/update/quiz", isTeacher, updateFormation);
+router.post("/professeur/update/formation", isTeacher, updateFormation);
+router.post("/professeur/update/quiz", isTeacher, updateQuiz);
 module.exports = router;

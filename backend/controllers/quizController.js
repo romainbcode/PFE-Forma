@@ -94,3 +94,26 @@ exports.addNoteQuiz = async (req, res, next) => {
     });
   }
 };
+
+exports.updateQuiz = async (req, res, next) => {
+  try {
+    const { quiz_id, titre, question_reponse } = req.body;
+    const data = {
+      titre: titre,
+      question_reponse: question_reponse,
+    };
+
+    const quizUpdate = await Quiz.findByIdAndUpdate(quiz_id, data, {
+      new: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      quizUpdate,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+    });
+  }
+};
