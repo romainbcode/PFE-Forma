@@ -170,7 +170,7 @@ export const UpdateFormation = () => {
     try {
       values["formation_id"] = formation_id;
       await axios.post(
-        url_back_node + "/professeur/update/quiz",
+        url_back_node + "/professeur/update/formation",
         values,
         config
       );
