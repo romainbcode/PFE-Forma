@@ -6,6 +6,8 @@ import axios from "axios";
 import { Loader } from "../components/loader/loader";
 import { useAuth0 } from "@auth0/auth0-react";
 
+const url_back_node = process.env.REACT_APP_BACKNODE;
+
 export const FormationInscrite = () => {
   const [formationsInscrit, setFormationsInscrit] = useState([]);
   const [isloading, setIsLoading] = useState(true);
@@ -21,7 +23,7 @@ export const FormationInscrite = () => {
 
     try {
       const { data } = await axios.post(
-        "/api-node/user/getFormations",
+        url_back_node + "/user/getFormations",
         {
           id_user_auth: user.sub,
         },

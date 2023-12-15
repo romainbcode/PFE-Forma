@@ -10,6 +10,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { AffichageQuiz } from "../components/formation-informations/affichage-quiz.js";
 import { Toaster, toast } from "sonner";
 import { PopUpValidationReponsesQuiz } from "../components/pop-ups/pop-up-validationReponsesQuiz.js";
+
+const url_back_node = process.env.REACT_APP_BACKNODE;
+
 export const Formation = () => {
   const { formation_id, chapitre_id } = useParams();
 
@@ -31,7 +34,7 @@ export const Formation = () => {
     };
     try {
       const { data } = await axios.get(
-        "/api-node/formation/" + formation_id + "/" + chapitre_id,
+        url_back_node + "/formation/" + formation_id + "/" + chapitre_id,
         config
       );
       setChapitreById(data.chapitreById);
@@ -59,7 +62,7 @@ export const Formation = () => {
     };
     try {
       await axios.post(
-        "/api-node/user/addFormationInscription",
+        url_back_node + "/user/addFormationInscription",
         {
           id_user_auth: user.sub,
           id_formation: formation_id,
@@ -84,7 +87,7 @@ export const Formation = () => {
     };
     try {
       const { data } = await axios.post(
-        "/api-node/quiz",
+        url_back_node + "/quiz",
         {
           id_quiz: quizId,
         },
@@ -138,7 +141,7 @@ export const Formation = () => {
     try {
       /*
       await axios.post(
-        "/api-node/user/questionReponse/sendReponses",
+        url_back_node + "/user/questionReponse/sendReponses",
         {
           id_user_auth: user.sub,
           quiz_id: quizId,

@@ -8,6 +8,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import axios from "axios";
 
+const url_back_node = process.env.REACT_APP_BACKNODE;
+
 export const QuizsInFormation = (props) => {
   const [formationById, setFormationById] = useState([]);
   const [chapitresFormation, setChapitresFormation] = useState([]);
@@ -31,7 +33,7 @@ export const QuizsInFormation = (props) => {
     };
     try {
       const { data } = await axios.get(
-        "/api-node/formation/" + formation_id,
+        url_back_node + "/formation/" + formation_id,
         config
       );
       setFormationById(data.formationById);
@@ -59,7 +61,7 @@ export const QuizsInFormation = (props) => {
     };
     try {
       const { data } = await axios.post(
-        "/api-node/user/quizs",
+        url_back_node + "/user/quizs",
         {
           id_user_auth: user.sub,
         },
@@ -98,7 +100,7 @@ export const QuizsInFormation = (props) => {
     };
     try {
       const { data } = await axios.post(
-        "/api-node/professeur/addQuiz/formation",
+        url_back_node + "/professeur/addQuiz/formation",
         {
           id_formation: id_formation,
           id_quiz: id_quiz,

@@ -8,6 +8,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import axios from "axios";
 
+const url_back_node = process.env.REACT_APP_BACKNODE;
+
 export const FormationAccueil = (props) => {
   const [formationById, setFormationById] = useState([]);
   const [chapitresFormation, setChapitresFormation] = useState([]);
@@ -29,7 +31,7 @@ export const FormationAccueil = (props) => {
     };
     try {
       const { data } = await axios.get(
-        "/api-node/formation/" + formation_id,
+        url_back_node + "/formation/" + formation_id,
         config
       );
       setFormationById(data.formationById);

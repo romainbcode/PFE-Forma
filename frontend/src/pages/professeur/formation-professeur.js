@@ -6,6 +6,8 @@ import axios from "axios";
 import { Loader } from "../../components/loader/loader";
 import { useAuth0 } from "@auth0/auth0-react";
 
+const url_back_node = process.env.REACT_APP_BACKNODE;
+
 export const FormationProfesseur = () => {
   const [formationsProfesseur, setFormationsProfesseur] = useState([]);
   const [isloading, setIsLoading] = useState(true);
@@ -20,7 +22,7 @@ export const FormationProfesseur = () => {
     };
     try {
       const { data } = await axios.post(
-        "/api-node/professeur/formations",
+        url_back_node + "/professeur/formations",
         {
           id_user_auth: user.sub,
         },

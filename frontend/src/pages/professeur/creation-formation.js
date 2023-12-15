@@ -11,6 +11,8 @@ import * as yup from "yup";
 import { useAuth0 } from "@auth0/auth0-react";
 import ChapitreFormation from "../../components/formulaire-formation/chapitre-formation";
 
+const url_back_node = process.env.REACT_APP_BACKNODE;
+
 const textFieldStyles = {
   width: "50%",
   fieldset: {
@@ -155,7 +157,7 @@ export const CreationFormation = () => {
     };
     try {
       values["id_user_auth"] = user.sub;
-      await axios.post("/api-node/addFormation", values, config);
+      await axios.post(url_back_node + "/addFormation", values, config);
       toast.success("Création de la formation avec succès !");
     } catch (error) {
       toast.error("Erreur lors de la création de la formation !");

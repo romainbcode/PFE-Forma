@@ -6,6 +6,8 @@ import axios from "axios";
 import { Loader } from "../components/loader/loader";
 import { useAuth0 } from "@auth0/auth0-react";
 
+const url_back_node = process.env.REACT_APP_BACKNODE;
+
 export const ChoixFormation = () => {
   const [formationsRecentes, setFormationsRecentes] = useState([]);
   const [isloading, setIsLoading] = useState(true);
@@ -19,7 +21,10 @@ export const ChoixFormation = () => {
       },
     };
     try {
-      const { data } = await axios.get("/api-node/formations/recente", config);
+      const { data } = await axios.get(
+        url_back_node + "/formations/recente",
+        config
+      );
       setFormationsRecentes(data.formations);
       setIsLoading(false);
     } catch (error) {

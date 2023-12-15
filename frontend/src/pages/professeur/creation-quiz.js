@@ -15,6 +15,8 @@ import * as yup from "yup";
 import { useAuth0 } from "@auth0/auth0-react";
 import { QuestionReponseQuiz } from "../../components/formulaire-quiz/question-reponse-quiz";
 
+const url_back_node = process.env.REACT_APP_BACKNODE;
+
 const textFieldStyles = {
   width: "100%",
   input: {
@@ -87,7 +89,7 @@ export const CreationQuiz = () => {
     };
     try {
       values["id_user_auth"] = user.sub;
-      await axios.post("/api-node/addQuiz", values, config);
+      await axios.post(url_back_node + "/addQuiz", values, config);
       toast.success("Création du quiz avec succès !");
     } catch (error) {
       toast.error("Erreur lors de la création du quiz !");

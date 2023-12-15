@@ -9,6 +9,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Toaster, toast } from "sonner";
 import { useAuth0 } from "@auth0/auth0-react";
 
+const url_back_node = process.env.REACT_APP_BACKNODE;
+
 export const AdminDashboard = () => {
   const [formations, setFormations] = useState([]);
   const { getAccessTokenSilently } = useAuth0();
@@ -21,7 +23,10 @@ export const AdminDashboard = () => {
       },
     };
     try {
-      const { data } = await axios.get("/api-node/formations/recente", config);
+      const { data } = await axios.get(
+        url_back_node + "/formations/recente",
+        config
+      );
       setFormations(data.formations);
     } catch (error) {
       console.log(error);
@@ -37,7 +42,10 @@ export const AdminDashboard = () => {
     };
     if (window.confirm("Are you sure you want to delete this post?")) {
       try {
-        await axios.delete(`/api-node/admin/supprime/formation/${id}`, config);
+        await axios.delete(
+          url_back_node + `/admin/supprime/formation/${id}`,
+          config
+        );
         toast.success("Suppresion de la formation avec succès !");
         getFormations();
       } catch (error) {
