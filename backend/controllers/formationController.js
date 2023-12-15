@@ -127,3 +127,27 @@ exports.addQuizInFormation = async (req, res, next) => {
     });
   }
 };
+
+exports.updateFormation = async (req, res, next) => {
+  try {
+    const { formation_id, titre, description, chapitre } = req.body;
+    const data = {
+      titre: titre,
+      description: description,
+      chapitre: chapitre,
+    };
+
+    const formationUpdate = await Formation.findByIdAndUpdate(
+      formation_id,
+      data,
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      formationUpdate,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
