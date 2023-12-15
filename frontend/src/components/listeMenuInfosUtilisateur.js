@@ -2,6 +2,15 @@ import React from "react";
 import { Box } from "@mui/material";
 import { Link } from "react-router-dom";
 export const ListeMenuInfosUtilisateur = () => {
+  const handleMouseEnter = (e) => {
+    e.target.style.textDecoration = "underline";
+    e.target.style.textDecorationColor = "#ff8906"; // changez 'red' par la couleur désirée
+  };
+
+  const handleMouseLeave = (e) => {
+    e.target.style.textDecoration = "none";
+  };
+
   return (
     <Box
       style={{
@@ -13,26 +22,38 @@ export const ListeMenuInfosUtilisateur = () => {
         transform: "translate(0%, -50%)",
       }}
     >
-      <Link to="/utilisateur/badges" style={linkStyle}>
+      <Link
+        to="/utilisateur/badges"
+        style={linkStyle}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         Badges
       </Link>
-      <Link to="/utilisateur/informations" style={linkStyle}>
+      <Link
+        to="/utilisateur/informations"
+        style={linkStyle}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         Informations
       </Link>
-      <Link to="/utilisateur/scores" style={linkStyle}>
+      <Link
+        to="/utilisateur/scores"
+        style={linkStyle}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         Scores
-      </Link>
-      <Link to="/logout" style={linkStyle}>
-        Déconnexion
       </Link>
     </Box>
   );
 };
 
 const linkStyle = {
-  margin: "10px", // Ajoutez l'espacement souhaité entre les liens
-  fontWeight: "bold", // Mettez le texte en gras
-  textDecoration: "none", // Supprimez le soulignement par défaut des liens
+  margin: "10px",
+  fontWeight: "bold",
+  textDecoration: "none",
   color: "#fffffe",
 };
 export default ListeMenuInfosUtilisateur;

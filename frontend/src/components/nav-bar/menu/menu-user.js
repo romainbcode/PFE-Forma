@@ -55,9 +55,9 @@ export const MenuUser = ({ anchorEl, open, onClose }) => {
   }));
 
   const userItems = [
-    { path: "/", label: "Information" },
-    { path: "/", label: "Sécurité" },
-    { path: "/", label: "Deconnexion" },
+    { path: "/utilisateur/badges", label: "Badges" },
+    { path: "/utilisateur/informations", label: "Information" },
+    { path: "/utilisateur/scores", label: "Scores" },
   ];
 
   return (
