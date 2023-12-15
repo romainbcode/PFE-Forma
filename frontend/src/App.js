@@ -16,7 +16,7 @@ import { FormationProfesseur } from "./pages/professeur/formation-professeur";
 import { QuizsInFormation } from "./pages/professeur/quizs-in-formation";
 import { FormationProfesseurUpdate } from "./pages/professeur/update-formation/formation-professeur-update";
 import { UpdateFormation } from "./pages/professeur/update-formation/update-formation";
-
+import { QuizProfesseurUpdate } from "./pages/professeur/update-quiz/quiz-professeur-update";
 export const App = () => {
   return (
     <Routes>
@@ -48,6 +48,10 @@ export const App = () => {
       <Route
         path="/professeur/formation/update/:formation_id"
         element={<UpdateFormation />}
+      />
+      <Route
+        path="/professeur/quiz/update"
+        element={<QuizProfesseurUpdate />}
       />
       <Route
         path="/professeur/formation/quiz-in/:formation_id"

@@ -68,6 +68,7 @@ export const MenuFormation = ({ anchorEl, open, onClose, roleUser }) => {
       path: "/professeur/list/formations/update",
       label: "Modifier sa formation",
     },
+    { path: "/professeur/quiz/update", label: "Modifier vos quizs" },
   ];
 
   const adminItems = [
