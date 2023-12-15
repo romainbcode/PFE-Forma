@@ -60,7 +60,14 @@ export const MenuFormation = ({ anchorEl, open, onClose, roleUser }) => {
   const profItems = [
     { path: "/formations/create", label: "Créer une formation" },
     { path: "/quizs/create", label: "Créer un quiz" },
-    { path: "/professeur/formations", label: "Afficher ses formations" },
+    {
+      path: "/professeur/formations",
+      label: "Ajouter des quizs dans sa formation",
+    },
+    {
+      path: "/professeur/list/formations/update",
+      label: "Modifier sa formation",
+    },
   ];
 
   const adminItems = [
