@@ -1,24 +1,36 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, TextField, Slide } from "@mui/material";
+import { Box, Typography, Button, TextField } from "@mui/material";
 import { SendHorizontal } from "lucide-react";
 import { Bot } from "lucide-react";
 import { ChevronsDown } from "lucide-react";
 import { ChevronsUp } from "lucide-react";
+import { LoaderEcriture } from "./loader-ecriture/loader-ecriture";
+import { UserCircle2 } from "lucide-react";
+import axios from "axios";
 
 export const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [showFullChatbot, setshowFullChatbot] = useState(true);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (userInput.trim() !== "") {
-      const chatbotResponse = "C'est une réponse du chatbot.";
+      setIsLoading(true);
+      const userInputEncode = encodeURIComponent(userInput);
+      const reponse = await axios.get(
+        "http://127.0.0.1:3003/IA/generateText/" + userInputEncode
+      );
+      let chatbotResponse = reponse.data.trim();
+      chatbotResponse = chatbotResponse.split(" "); // Divise la chaîne en un tableau de mots
+      chatbotResponse.shift(); // Supprime le premier élément du tableau
+      const chatbotResponseStr = chatbotResponse.join(" "); // Recombine le tableau en une chaîne de caractères
       setMessages([
         ...messages,
-        { userMessage: userInput, chatMessage: chatbotResponse },
+        { userMessage: userInput, chatMessage: chatbotResponseStr },
       ]);
-      console.log(messages);
       setUserInput("");
+      setIsLoading(false);
     }
   };
 
@@ -28,6 +40,7 @@ export const Chatbot = () => {
 
   const handleInputKeyPress = (e) => {
     if (e.key === "Enter") {
+      e.preventDefault();
       handleSendMessage();
     }
   };
@@ -98,44 +111,100 @@ export const Chatbot = () => {
               </Box>
             </Box>
           </Button>
-          {messages.map((message, index) => (
-            <Box key={index}>
-              {message.userMessage && (
-                <Box
-                  className="user-message"
-                  sx={{
-                    backgroundColor: "primary.secondary",
-                    borderRadius: "10px",
-                    padding: "5px",
-                    margin: "5px",
-                    width: "80%",
-                  }}
-                >
-                  {message.userMessage}
-                </Box>
-              )}
-              {message.chatMessage && (
-                <Box
-                  className="chat-message"
-                  sx={{
-                    backgroundColor: "primary.tertiary",
-                    borderRadius: "10px",
-                    padding: "5px",
-                    margin: "5px",
-                    width: "80%",
-                  }}
-                >
-                  {message.chatMessage}
-                </Box>
-              )}
-            </Box>
-          ))}
+          {isLoading && (messages.length >= 0 || messages.length === 0) ? (
+            <LoaderEcriture />
+          ) : (
+            messages.map((message, index) => (
+              <Box
+                sx={{
+                  width: "100%",
+                  bgcolor: "primary.background",
+                }}
+                key={index}
+              >
+                {message.userMessage && (
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "right",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginRight: "10px",
+                    }}
+                  >
+                    <Box
+                      className="user-message"
+                      sx={{
+                        backgroundColor: "primary.secondary",
+                        borderRadius: "10px",
+                        padding: "5px",
+                        margin: "5px",
+                        width: "80%",
+                        textAlign: "justify",
+                        dispay: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        textAlign: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {message.userMessage}
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <UserCircle2 />
+                    </Box>
+                  </Box>
+                )}
+                {message.chatMessage && (
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginLeft: "10px",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Bot />
+                    </Box>
+                    <Box
+                      className="chat-message"
+                      sx={{
+                        backgroundColor: "primary.tertiary",
+                        borderRadius: "10px",
+                        padding: "5px",
+                        margin: "5px",
+                        width: "80%",
+                        textAlign: "justify",
+                      }}
+                    >
+                      {message.chatMessage}
+                    </Box>
+                  </Box>
+                )}
+              </Box>
+            ))
+          )}
           <Box
             className="chatbot-input"
             sx={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              borderTop: "2px solid",
+              borderColor: "primary.button_background",
             }}
           >
             <form style={{ width: "80%" }}>
@@ -145,9 +214,11 @@ export const Chatbot = () => {
                 label="Une question ?"
                 variant="outlined"
                 fullWidth
+                multiline={true}
                 value={userInput}
                 onChange={handleInputChange}
-                onKeyPress={handleInputKeyPress}
+                onKeyDown={handleInputKeyPress}
+                autoComplete="off"
                 sx={{
                   margin: "5px 0 5px 5px",
                   "& label": { color: "#FFFFFE" },
