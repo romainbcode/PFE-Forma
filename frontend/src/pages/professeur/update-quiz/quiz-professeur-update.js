@@ -7,6 +7,8 @@ import {
   MenuItem,
   Stack,
   TextField,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { FormationCard } from "../../../components/formationcard/formationCard";
@@ -132,21 +134,44 @@ export const QuizProfesseurUpdate = () => {
         <Typography sx={{ marginBottom: 4 }}>
           Choississez le quiz que vous souhaitez modifier !
         </Typography>
+        <FormControl fullWidth>
+          <InputLabel
+            id="demo-simple-select-label"
+            sx={{ color: "primary.paragraph" }} // Changez la couleur ici
+          >
+            Votre choix
+          </InputLabel>
+          <Select
+            value={selectedQuiz}
+            onChange={handleQuizSelect}
+            defaultValue=""
+            sx={{
+              width: "300px",
+              color: "red",
 
-        <Select
-          value={selectedQuiz}
-          onChange={handleQuizSelect}
-          label="Sélectionner un titre"
-          defaultValue=""
-          sx={{ width: "300px", color: "red" }}
-        >
-          {Array.isArray(quizList) &&
-            quizList.map((quiz, index) => (
-              <MenuItem key={index} value={quiz._id}>
-                {quiz.titre}
-              </MenuItem>
-            ))}
-        </Select>
+              "&.MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "red",
+                },
+                "&:hover fieldset": {
+                  borderColor: "yellow",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "green",
+                },
+              },
+            }}
+            displayEmpty
+            inputProps={{ "aria-label": "Without label" }}
+          >
+            {Array.isArray(quizList) &&
+              quizList.map((quiz, index) => (
+                <MenuItem key={index} value={quiz._id}>
+                  {quiz.titre}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
         <Toaster expand={true} richColors />
         <Formik
           onSubmit={onSubmit}
