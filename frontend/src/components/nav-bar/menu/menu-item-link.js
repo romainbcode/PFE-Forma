@@ -6,7 +6,16 @@ import { BookText } from "lucide-react";
 export const MenuItemLink = ({ to, children, onClose }) => {
   return (
     <MenuItem onClick={onClose} disableRipple>
-      <Link to={to} style={{ textDecoration: "none", color: "black" }}>
+      <Link
+        to={to}
+        style={{
+          textDecoration: "none",
+          color: "black",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
         <BookText />
         {children}
       </Link>
