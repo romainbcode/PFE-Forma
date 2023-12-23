@@ -55,6 +55,7 @@ export const MenuFormation = ({ anchorEl, open, onClose, roleUser }) => {
   const userItems = [
     { path: "/formations", label: "Formations" },
     { path: "/utilisateur/formation/inscrit", label: "Formations inscrit" },
+    { path: "/cours/disponible", label: "Cours disponible" },
   ];
 
   const profItems = [
@@ -69,6 +70,7 @@ export const MenuFormation = ({ anchorEl, open, onClose, roleUser }) => {
       label: "Modifier sa formation",
     },
     { path: "/professeur/quiz/update", label: "Modifier vos quizs" },
+    { path: "/cours/creation", label: "Ajouter un créneau pour votre cours" },
   ];
 
   const adminItems = [
