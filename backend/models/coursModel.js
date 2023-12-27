@@ -41,6 +41,19 @@ const CoursSchema = new mongoose.Schema(
           trim: true,
           required: [true, "Un cours doit forcemment avoir une heure de fin."],
         },
+        userInscrit: [
+          {
+            id_user_auth_subscription: {
+              type: String,
+              unique: true,
+              trim: true,
+              required: [
+                true,
+                "Un utilisateur dot forcemment avoir un id provenant de auth0.",
+              ],
+            },
+          },
+        ],
       },
     ],
   },

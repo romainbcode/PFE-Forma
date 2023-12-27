@@ -5,9 +5,16 @@ const {
   addNoteQuiz,
 } = require("../controllers/quizController");
 const { addScoreFormationUser } = require("../controllers/userController");
+const {
+  getAllCours,
+  addUserInscritCours,
+} = require("../controllers/coursController");
 const { isUser } = require("../middleware/auth");
 
 router.post("/getTrueReponse", isUser, getAllTrueReponseQuizById);
 router.post("/user/addScoreQuiz", isUser, addScoreFormationUser);
 router.post("/quiz/addNote", isUser, addNoteQuiz);
+router.get("/getAllCours", isUser, getAllCours);
+router.post("/cours/userSubscription", isUser, addUserInscritCours);
+
 module.exports = router;
