@@ -20,7 +20,7 @@ export const Formation = () => {
   const [sousChapitres, setSousChapitres] = useState([]);
   const [chapitresFormations, setChapitresFormation] = useState([]);
   const [quizId, setQuizId] = useState("");
-  const [oui, setOui] = useState([]);
+  const [quiz, setQuiz] = useState([]);
   const [isloading, setIsLoading] = useState(true);
 
   const { user, getAccessTokenSilently } = useAuth0();
@@ -78,7 +78,7 @@ export const Formation = () => {
     addFormationInscription();
   });
 
-  const test = useCallback(async () => {
+  const getQuizById = useCallback(async () => {
     const token = await getAccessTokenSilently();
     const config = {
       headers: {
@@ -93,24 +93,22 @@ export const Formation = () => {
         },
         config
       );
-      setOui(data.quiz.question_reponse);
-      console.log("coucou", data.quiz.question_reponse);
+      setQuiz(data.quiz.question_reponse);
     } catch (error) {
       console.log("ERREUR", error);
     }
   });
 
-  const memoizedQuiz = useMemo(() => test, [test]);
+  const memoizedQuiz = useMemo(() => getQuizById, [getQuizById]);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (oui.length === 0) {
-        // Si FormationsInscrit est vide, appelez à nouveau la fonction
+      if (quiz.length === 0) {
         await memoizedQuiz();
       }
     };
     fetchData();
-  }, [oui, memoizedQuiz]);
+  }, [quiz, memoizedQuiz]);
 
   const [reponses, setReponses] = useState({});
   const [openPopUp, setOpenPopUp] = useState(false);
@@ -139,7 +137,6 @@ export const Formation = () => {
       },
     };
     try {
-      /*
       await axios.post(
         url_back_node + "/user/questionReponse/sendReponses",
         {
@@ -148,7 +145,7 @@ export const Formation = () => {
           reponses: reponses,
         },
         config
-      );*/
+      );
       toast.success("Vos réponses au quiz ont bien été enregistré !");
       handleOpenPopUp();
     } catch (error) {
@@ -166,39 +163,46 @@ export const Formation = () => {
           margin: 4,
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            marginRight: 2,
-          }}
-        >
-          {chapitresFormations &&
-            chapitresFormations.map((chapitre, index) => (
-              <Link
-                reloadDocument
-                to={`/formation/${formation_id}/${chapitre._id}`}
-                style={{
-                  textDecoration: "none",
-                }}
-                key={index}
-              >
-                <Box
-                  sx={{
-                    color: "primary.headLine",
-                    fontWeight: "bold",
-                    textDecoration: "underline",
-                    marginTop: 2,
+        <Box sx={{ width: "25%", marginLeft: 4 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              position: "fixed",
+              top: "50%",
+              left: 0,
+              transform: "translateY(-50%)",
+              width: "15%",
+              margin: 2,
+            }}
+          >
+            {chapitresFormations &&
+              chapitresFormations.map((chapitre, index) => (
+                <Link
+                  reloadDocument
+                  to={`/formation/${formation_id}/${chapitre._id}`}
+                  style={{
+                    textDecoration: "none",
                   }}
+                  key={index}
                 >
-                  <ListeChapitreFormation
-                    chapitre={chapitre}
-                    numeroChapitre={index + 1}
-                  />
-                </Box>
-              </Link>
-            ))}
+                  <Box
+                    sx={{
+                      color: "primary.headLine",
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                      marginTop: 2,
+                    }}
+                  >
+                    <ListeChapitreFormation
+                      chapitre={chapitre}
+                      numeroChapitre={index + 1}
+                    />
+                  </Box>
+                </Link>
+              ))}
+          </Box>
         </Box>
 
         <Box
@@ -238,8 +242,8 @@ export const Formation = () => {
             {isloading ? (
               <Loader />
             ) : (
-              Array.isArray(oui) &&
-              oui.map((q, index) => (
+              Array.isArray(quiz) &&
+              quiz.map((q, index) => (
                 <Box key={index}>
                   <AffichageQuiz
                     question={q.question}
