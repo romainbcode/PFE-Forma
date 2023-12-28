@@ -9,16 +9,13 @@ import {
   TextField,
   InputLabel,
   FormControl,
+  Divider,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import { FormationCard } from "../../../components/formationcard/formationCard";
 import axios from "axios";
-import { Loader } from "../../../components/loader/loader";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Formik, Form, Field, FieldArray } from "formik";
 import { PlusSquare } from "lucide-react";
 import { Toaster, toast } from "sonner";
-import * as yup from "yup";
 import { QuestionReponseQuiz } from "../../../components/formulaire-quiz/question-reponse-quiz";
 
 const url_back_node = process.env.REACT_APP_BACKNODE;
@@ -130,48 +127,65 @@ export const QuizProfesseurUpdate = () => {
         flexDirection: "column",
       }}
     >
-      <Box>
-        <Typography sx={{ marginBottom: 4 }}>
+      <Box sx={{ margin: 2 }}>
+        <Typography variant="h5" sx={{ marginBottom: 4 }}>
           Choississez le quiz que vous souhaitez modifier !
         </Typography>
-        <FormControl fullWidth>
-          <InputLabel
-            id="demo-simple-select-label"
-            sx={{ color: "primary.paragraph" }} // Changez la couleur ici
-          >
-            Votre choix
-          </InputLabel>
-          <Select
-            value={selectedQuiz}
-            onChange={handleQuizSelect}
-            defaultValue=""
-            sx={{
-              width: "300px",
-              color: "red",
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <FormControl>
+            <InputLabel
+              id="demo-simple-select-label"
+              sx={{ color: "primary.paragraph" }}
+            >
+              Quiz à modifier
+            </InputLabel>
+            <Select
+              label="Quiz à modifier"
+              value={selectedQuiz}
+              onChange={handleQuizSelect}
+              defaultValue=""
+              sx={{
+                width: "300px",
+                color: "red",
 
-              "&.MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "red",
+                "&.MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "primary.button_background",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "primary.headLine",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "primary.headLine",
+                  },
                 },
-                "&:hover fieldset": {
-                  borderColor: "yellow",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "green",
-                },
-              },
-            }}
-            displayEmpty
-            inputProps={{ "aria-label": "Without label" }}
-          >
-            {Array.isArray(quizList) &&
-              quizList.map((quiz, index) => (
-                <MenuItem key={index} value={quiz._id}>
-                  {quiz.titre}
-                </MenuItem>
-              ))}
-          </Select>
-        </FormControl>
+              }}
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+            >
+              {Array.isArray(quizList) &&
+                quizList.map((quiz, index) => (
+                  <MenuItem key={index} value={quiz._id}>
+                    {quiz.titre}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </Box>
+        <Divider
+          color="white"
+          variant="middle"
+          sx={{
+            marginTop: 3,
+            marginBottom: 2,
+          }}
+        />
         <Toaster expand={true} richColors />
         <Formik
           onSubmit={onSubmit}
@@ -199,15 +213,13 @@ export const QuizProfesseurUpdate = () => {
                   <Box
                     sx={{
                       width: "100%",
-                      paddingLeft: 3,
-                      paddingRight: 3,
                     }}
                   >
                     <Typography
                       variant="h5"
                       sx={{ pb: 4, color: "primary.headLine" }}
                     >
-                      Créer son quiz
+                      Modifiez et/ou ajoutez des éléments au quiz !
                     </Typography>
                     <Box>
                       <Stack
@@ -279,7 +291,7 @@ export const QuizProfesseurUpdate = () => {
                       variant="contained"
                       color="success"
                     >
-                      Créer le quiz
+                      Modifier le quiz
                     </Button>
                   </Box>
                 </Box>
