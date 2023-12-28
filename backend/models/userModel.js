@@ -12,6 +12,9 @@ const UserSchema = new mongoose.Schema(
         "Un utilisateur dot forcemment avoir un id provenant du auth0.",
       ],
     },
+    id_user_agenda: {
+      type: String,
+    },
     scores: [
       {
         id_quiz: {

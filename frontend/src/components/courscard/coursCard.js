@@ -76,16 +76,66 @@ export const CoursCard = (props) => {
       }
       //config
     );
-    //Créer un calendier dans google agenda
-    const dataInsertGoogleAgenda = await axios.post(
-      url_back_node + "/insertGoogleAgenda",
+    //Récupère l'identifiant de l'agenda stocké dans la BDD
+    const getIdGoogleAgenda = await axios.post(
+      url_back_node + "/user/getIdGoogleAgenda",
       {
-        token_google:
-          dataTokenGoogle.data.message[0].identities[0].access_token,
-        summary: "test",
-      }
-      //config
+        id_user_auth: props.id_prof,
+      },
+      config
     );
+    //Si il existe déjà, alors pas besoin de le créer
+    if (getIdGoogleAgenda.data.user.id_user_agenda !== "") {
+      console.log(
+        "id deja existant",
+        getIdGoogleAgenda.data.user.id_user_agenda
+      );
+      const dataInsertGoogleAgendaEvenement = await axios.post(
+        url_back_node + "/insertEventInAgenda",
+        {
+          token_google:
+            dataTokenGoogle.data.message[0].identities[0].access_token,
+          id_agenda: getIdGoogleAgenda.data.user.id_user_agenda,
+        }
+        //config
+      );
+      console.log("resulat", dataInsertGoogleAgendaEvenement);
+      console.log("evenement créée 1");
+    } else {
+      //Créer un calendier dans google agenda
+      const dataInsertGoogleAgenda = await axios.post(
+        url_back_node + "/insertGoogleAgenda",
+        {
+          token_google:
+            dataTokenGoogle.data.message[0].identities[0].access_token,
+          summary: "test",
+        }
+        //config
+      );
+      console.log(dataInsertGoogleAgenda.data.message.id);
+      //Ajoute l'id dans la mongodb -> User
+      const addIdGoogleAgenda = await axios.post(
+        url_back_node + "/user/addIdGoogleAgenda",
+        {
+          id_user_auth: props.id_prof,
+          id_user_google_agenda: dataInsertGoogleAgenda.data.message.id,
+        },
+        config
+      );
+      console.log("id agenda créée");
+      const dataInsertGoogleAgendaEvenement = await axios.post(
+        url_back_node + "/insertEventInAgenda",
+        {
+          token_google:
+            dataTokenGoogle.data.message[0].identities[0].access_token,
+          id_agenda: dataInsertGoogleAgenda.data.message.id,
+        }
+        //config
+      );
+      console.log("resulat", dataInsertGoogleAgendaEvenement);
+      console.log("evenement créée 2");
+    }
+
     if (data.status === 200) {
       toast.error(data.data.message);
     } else if (data.status === 201) {

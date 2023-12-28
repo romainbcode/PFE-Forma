@@ -159,3 +159,52 @@ exports.addScoreFormationUser = async (req, res, next) => {
     });
   }
 };
+
+exports.addIdGoogleAgenda = async (req, res, next) => {
+  const { id_user_auth, id_user_google_agenda } = req.body;
+  console.log(id_user_auth, id_user_google_agenda);
+  try {
+    const user = await User.findOneAndUpdate(
+      {
+        id_user_auth: id_user_auth,
+      },
+      {
+        $set: {
+          id_user_agenda: id_user_google_agenda,
+        },
+      },
+      { new: true }
+    );
+
+    res.status(201).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+    });
+  }
+};
+
+exports.getIdGoogleAgenda = async (req, res, next) => {
+  const { id_user_auth } = req.body;
+
+  try {
+    const user = await User.findOne(
+      {
+        id_user_auth: id_user_auth,
+      },
+      "id_user_agenda"
+    );
+
+    res.status(201).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+    });
+  }
+};

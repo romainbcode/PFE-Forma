@@ -201,7 +201,6 @@ app.get("/getCalendarList", async (req, res) => {
 
 app.post("/insertGoogleAgenda", async (req, res) => {
   const { token_google, summary } = req.body;
-  console.log(token_google, summary);
   const options = {
     method: "POST",
     url: "https://www.googleapis.com/calendar/v3/calendars",
@@ -220,37 +219,38 @@ app.post("/insertGoogleAgenda", async (req, res) => {
       res.status(401).json({ success: false, message: error });
     });
 });
+
+app.post("/insertEventInAgenda", async (req, res) => {
+  const { token_google, id_agenda } = req.body;
+  const options = {
+    method: "POST",
+    url: `https://www.googleapis.com/calendar/v3/calendars/${id_agenda}/events`,
+    headers: {
+      Authorization: `Bearer ${token_google}`,
+    },
+    data: {
+      summary: "Event TEST",
+      location: "Dijon",
+      description: "Event test description à Dijon",
+      start: {
+        dateTime: "2023-12-30T09:00:00-07:00",
+      },
+      end: {
+        dateTime: "2023-12-30T10:00:00-07:00",
+      },
+    },
+  };
+  axios(options)
+    .then((response) => {
+      console.log(response.data);
+      res.send("ok");
+    })
+    .catch((error) => {
+      console.log(error);
+      res.send("pas ok");
+    });
+});
 /*
-app.get('/insertEventInAgenda', async(req, res)=>{
-
-    const options = { 
-        method: "POST",
-        url: "https://www.googleapis.com/calendar/v3/calendars/f3c6fd5e9bf041fe24d364e88d20dc505060f4ed7a29298fa143e8c3d5bcaaa4@group.calendar.google.com/events",
-        headers: { Authorization: `Bearer ya29.a0AfB_byAZ4tlOkTnBbpHAsnQR1ZdJ1D2WGOuAdVpDR8fP6RFBNbEywKw1aKOiyHwmXsNEHAkqDs7BzQdQrF8gM-_6yZqyyq8bHxxbjZ3AT3QBEeadBZKrKIS5J_Y5_AmAsfGMYQ24_l7WoYRDMK7lzjH6lsY8e-oeEuIaCgYKAUMSARESFQGOcNnC61pRklEyLG8pkgiPFP61iQ0170`},
-        data: {
-            summary: 'Event TEST',
-            location: 'Dijon',
-            description: "Event test description à Dijon",
-            start: {
-                dateTime: '2023-10-27T09:00:00-07:00',
-            },
-            end: {
-                dateTime: '2023-10-27T10:00:00-07:00',
-            },
-        }
-      };
-      axios(options)
-        .then(response => {
-          console.log(response.data);
-          res.send('ok')
-        })
-        .catch(error => {
-          console.log(error);
-          res.send("pas ok")
-        });
-
-})
-
 app.get('/', async (req, res) => {
     res.send(req.oidc.accessToken);
 });
