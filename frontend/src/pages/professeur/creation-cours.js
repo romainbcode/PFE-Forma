@@ -38,6 +38,24 @@ const textFieldStyles = {
   },
 };
 
+const textFieldStyles2 = {
+  width: "100%",
+  input: {
+    color: "primary.headLine",
+  },
+  "& label": { color: "primary.paragraph" },
+  "& label.Mui-focused": { color: "#FFFFFE" },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      border: "2px solid",
+      borderColor: "primary.button_background",
+    },
+    "&:hover fieldset": {
+      borderColor: "primary.headLine",
+    },
+  },
+};
+
 export const CreationCours = () => {
   const { user, getAccessTokenSilently } = useAuth0();
   const [dateCours, setDateCours] = useState("");
@@ -50,7 +68,31 @@ export const CreationCours = () => {
     heurefin: "",
   };
 
-  const validationSchema = yup.object({});
+  const validationSchema = yup.object({
+    titre: yup
+      .string()
+      .required("Votre cours doit avoir un titre !")
+      .max(50, "Le titre doit contenir moins de 50 caractères"),
+    description: yup
+      .string()
+      .required("Votre cours doit avoir une description !")
+      .max(50, "La description doit contenir moins de 50 caractères"),
+    date: yup.string().required("Vous devez choisir un jour !"),
+    heuredebut: yup
+      .number()
+      .min(0, "Impossible de mettre une heure négative.")
+      .max(24, "Impossible de mettre une heure supérieur à 24.")
+      .required(
+        "Votre formation doit obligatoirement commencer à une certaine heure."
+      ),
+    heurefin: yup
+      .number()
+      .min(0, "Impossible de mettre une heure négative.")
+      .max(24, "Impossible de mettre une heure supérieur à 24.")
+      .required(
+        "Votre formation doit obligatoirement terminer à une certaine heure."
+      ),
+  });
 
   const createNewCours = async (values) => {
     const token = await getAccessTokenSilently();
@@ -95,8 +137,6 @@ export const CreationCours = () => {
         onSubmit={onSubmit}
         initialValues={initialValues}
         validationSchema={validationSchema}
-        //Permet de ne pas faire la vérification quand on quitte le focus d'un élement
-        validateOnBlur={false}
         //Permet de ne pas faire la vérification à chaque changement
         validateOnChange={false}
       >
@@ -106,12 +146,12 @@ export const CreationCours = () => {
             <Form>
               <Box
                 sx={{
-                  bgcolor: "primary.greenLight",
                   height: "100vh",
                   width: "100%",
                   display: "flex",
                   justifyContent: "center",
                   pt: 3,
+                  pb: 10,
                 }}
               >
                 <Box
@@ -137,7 +177,7 @@ export const CreationCours = () => {
                       sx={textFieldStyles}
                       autoComplete="off"
                       name="titre"
-                      placeholder="Titre"
+                      placeholder="Titre du cours"
                       label="Titre du cours"
                       value={values.titre}
                       as={TextField}
@@ -155,8 +195,8 @@ export const CreationCours = () => {
                       sx={textFieldStyles}
                       autoComplete="off"
                       name="description"
-                      placeholder="description"
-                      label="description du cours"
+                      placeholder="Description du cours"
+                      label="Description du cours"
                       value={values.description}
                       as={TextField}
                       error={touched.description && Boolean(errors.description)}
@@ -169,6 +209,7 @@ export const CreationCours = () => {
                       justifyContent: "center",
                       flexDirection: "column",
                       alignItems: "center",
+                      textAlign: "center",
                       ".rdp-day_selected": {
                         backgroundColor: "primary.button_background",
                         color: "primary.headLine",
@@ -184,25 +225,29 @@ export const CreationCours = () => {
                       onSelect={setSelected}
                       footer={footer}
                       locale={fr}
+                      style={{
+                        boxShadow: "0 3px 10px #000",
+                        padding: "30px",
+                        borderRadius: 10,
+                      }}
                     />
                   </Box>
                   <Box
                     sx={{
-                      mt: 1,
                       mb: 2,
                       width: "100%",
                       display: "flex",
                       flexDirection: "row",
-                      justifyContent: "center",
                       alignItems: "center",
+                      mt: 2,
                     }}
                   >
                     <Field
-                      sx={textFieldStyles}
+                      sx={textFieldStyles2}
                       autoComplete="off"
                       name="heuredebut"
-                      placeholder="heuredebut"
-                      label="heuredebut"
+                      placeholder="Heure de début"
+                      label="Heure de début"
                       value={values.heuredebut}
                       as={TextField}
                       error={touched.heuredebut && Boolean(errors.heuredebut)}
@@ -212,11 +257,11 @@ export const CreationCours = () => {
                       -
                     </Typography>
                     <Field
-                      sx={textFieldStyles}
+                      sx={textFieldStyles2}
                       autoComplete="off"
                       name="heurefin"
-                      placeholder="heurefin"
-                      label="heurefin"
+                      placeholder="Heure de fin"
+                      label="Heure de fin"
                       value={values.heurefin}
                       as={TextField}
                       error={touched.heurefin && Boolean(errors.heurefin)}
