@@ -1,13 +1,25 @@
 import React, { useState } from "react";
 import { Chatbot } from "../chat-bot/chat-bot";
 import axios from "axios";
-import { Box, Typography, Button, Link, Paper, Container } from "@mui/material";
-import { Loader } from "../components/loader/loader";
+import { Box, Typography, Button, Link, Paper } from "@mui/material";
+import logo_robot from "../assets/robot.png";
+import logo_direct from "../assets/diffusion-en-direct.png";
+import logo_formation from "../assets/education.png";
 
 export const Homepage = () => {
   const [summary, setSummary] = useState("");
   const [description, setDescription] = useState("");
-  const [isloading, setLoading] = useState(false);
+  const [hoverChatbot, setHoverChatbot] = useState(false);
+  const [hoverFormation, setHoverFormation] = useState(false);
+  const [hoverCoursDirect, setHoverCoursDirect] = useState(false);
+
+  const handleMouseEnter = (setter) => {
+    setter(true);
+  };
+
+  const handleMouseLeave = (setter) => {
+    setter(false);
+  };
 
   const handleSubmit = async (event) => {
     try {
@@ -124,16 +136,49 @@ export const Homepage = () => {
               zIndex: 1000,
             },
           }}
+          onMouseEnter={() => handleMouseEnter(setHoverChatbot)}
+          onMouseLeave={() => handleMouseLeave(setHoverChatbot)}
         >
           <Typography
             sx={{
               textAlign: "center",
               fontWeight: "bold",
-              fontSize: "30px",
+              fontSize: "25px",
             }}
           >
             IA
           </Typography>
+          {!hoverChatbot ? (
+            <Box
+              sx={{
+                marginLeft: 2,
+                marginRight: 2,
+                marginBottom: 2,
+                textAlign: "center",
+              }}
+            >
+              <img
+                src={logo_robot}
+                alt="Description de l'image"
+                style={{ maxWidth: "80%", maxHeight: "80%" }}
+              />
+            </Box>
+          ) : (
+            <Typography
+              sx={{
+                marginLeft: 2,
+                marginRight: 2,
+                marginBottom: 2,
+                textAlign: "justify",
+                fontSize: "12px",
+              }}
+            >
+              Rencontrez notre chatbot intelligent, disponible 24/7 pour
+              répondre à vos questions sur nos formations. Rapide, efficace et
+              toujours prêt à aider, il rend votre expérience sur notre
+              plateforme plus facile et interactive.
+            </Typography>
+          )}
         </Paper>
         <Paper
           sx={{
@@ -152,6 +197,8 @@ export const Homepage = () => {
               zIndex: 1000,
             },
           }}
+          onMouseEnter={() => handleMouseEnter(setHoverFormation)}
+          onMouseLeave={() => handleMouseLeave(setHoverFormation)}
         >
           <Typography
             sx={{
@@ -162,6 +209,37 @@ export const Homepage = () => {
           >
             Formation
           </Typography>
+          {!hoverFormation ? (
+            <Box
+              sx={{
+                marginLeft: 2,
+                marginRight: 2,
+                marginBottom: 2,
+                textAlign: "center",
+              }}
+            >
+              <img
+                src={logo_formation}
+                alt="Description de l'image"
+                style={{ maxWidth: "80%", maxHeight: "80%" }}
+              />
+            </Box>
+          ) : (
+            <Typography
+              sx={{
+                marginLeft: 2,
+                marginRight: 2,
+                marginBottom: 2,
+                textAlign: "justify",
+                fontSize: "12px",
+              }}
+            >
+              Explorez une vaste gamme de formations conçues par des experts.
+              Apprenez à votre rythme avec des ressources de qualité, adaptées à
+              tous les niveaux et besoins. Votre parcours d'apprentissage
+              personnalisé commence ici.
+            </Typography>
+          )}
         </Paper>
         <Paper
           sx={{
@@ -180,16 +258,50 @@ export const Homepage = () => {
               zIndex: 1000,
             },
           }}
+          onMouseEnter={() => handleMouseEnter(setHoverCoursDirect)}
+          onMouseLeave={() => handleMouseLeave(setHoverCoursDirect)}
         >
           <Typography
             sx={{
               textAlign: "center",
               fontWeight: "bold",
-              fontSize: "30px",
+              fontSize: "24px",
             }}
           >
             Cours en direct
           </Typography>
+          {!hoverCoursDirect ? (
+            <Box
+              sx={{
+                marginLeft: 2,
+                marginRight: 2,
+                marginBottom: 2,
+                marginTop: 1,
+                textAlign: "center",
+              }}
+            >
+              <img
+                src={logo_direct}
+                alt="Description de l'image"
+                style={{ maxWidth: "80%", maxHeight: "80%" }}
+              />
+            </Box>
+          ) : (
+            <Typography
+              sx={{
+                marginLeft: 2,
+                marginRight: 2,
+                marginBottom: 2,
+                textAlign: "justify",
+                fontSize: "12px",
+              }}
+            >
+              Participez à nos cours en direct sur Google Classroom pour une
+              expérience d'apprentissage interactive. Échangez en temps réel
+              avec des enseignants et des apprenants du monde entier, et
+              bénéficiez d'une rétroaction instantanée.
+            </Typography>
+          )}
         </Paper>
       </Box>
 
