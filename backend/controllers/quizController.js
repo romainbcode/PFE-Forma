@@ -40,6 +40,7 @@ exports.getQuizById = async (req, res, next) => {
 
 exports.getAllTrueReponseQuizById = async (req, res, next) => {
   const { id_quiz } = req.body;
+  console.log("id_quiz", id_quiz);
   try {
     const quiz = await Quiz.findById(id_quiz);
     if (!quiz) {
@@ -68,7 +69,7 @@ exports.getAllTrueReponseQuizById = async (req, res, next) => {
 };
 
 exports.addNoteQuiz = async (req, res, next) => {
-  const { id_quiz, id_user_auth, score_pourcentage } = req.body;
+  const { id_quiz, id_user_auth, id_chapitre, score_pourcentage } = req.body;
 
   try {
     const quiz = await Quiz.findByIdAndUpdate(
@@ -77,6 +78,7 @@ exports.addNoteQuiz = async (req, res, next) => {
         $push: {
           note: {
             id_user_auth: id_user_auth,
+            id_chapitre: id_chapitre,
             score_pourcentage: score_pourcentage,
           },
         },

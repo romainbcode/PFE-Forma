@@ -65,6 +65,13 @@ const QuizSchema = new mongoose.Schema(
             "Une note doit forcemment être associé à un utilisateur.",
           ],
         },
+        id_chapitre: {
+          type: String,
+          required: [
+            true,
+            "L'id du chapitre doit forcemment être renseigné pour le score.",
+          ],
+        },
         score_pourcentage: {
           type: Number,
           min: [0, "Un score négative n'est pas possible"],
