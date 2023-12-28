@@ -146,11 +146,8 @@ export const Formation = () => {
         },
         config
       );
-      toast.success("Vos réponses au quiz ont bien été enregistré !");
       handleOpenPopUp();
-    } catch (error) {
-      toast.error("Vos réponses au quiz n'ont pas bien été enregistré !");
-    }
+    } catch (error) {}
   };
 
   return (
@@ -269,6 +266,7 @@ export const Formation = () => {
               onClose={handleClosePopUp}
               quiz_id={quizId}
               reponses={reponses}
+              chapitre_id={chapitre_id}
             />
           </Box>
         </Box>
