@@ -1,15 +1,16 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
-import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import React, { useEffect, useState, useCallback } from "react";
+import { Modal, Box, Button, Typography, Divider } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
+
+const url_back_node = process.env.REACT_APP_BACKNODE;
 
 export const PopUpValidationReponsesQuiz = ({
   open,
   onClose,
   quiz_id,
   reponses,
+  chapitre_id,
 }) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const [compteur, setCompteur] = useState(0);
@@ -26,7 +27,7 @@ export const PopUpValidationReponsesQuiz = ({
       };
       try {
         const { data } = await axios.post(
-          "/api-node/getTrueReponse",
+          url_back_node + "/getTrueReponse",
           {
             id_quiz: quiz_id,
           },
@@ -70,29 +71,29 @@ export const PopUpValidationReponsesQuiz = ({
       };
       try {
         const { data } = await axios.post(
-          "/api-node/user/addScoreQuiz",
+          url_back_node + "/user/addScoreQuiz",
           {
             id_user_auth: user.sub,
             id_quiz: quiz_id,
+            id_chapitre: chapitre_id,
             scores_pourcentage: (compteur / compteurTotal) * 100,
           },
           config
         );
-        console.log("ajout dans user");
       } catch (error) {
         console.log(error);
       }
       try {
         const { data } = await axios.post(
-          "/api-node/quiz/addNote",
+          url_back_node + "/quiz/addNote",
           {
             id_quiz: quiz_id,
             id_user_auth: user.sub,
+            id_chapitre: chapitre_id,
             score_pourcentage: (compteur / compteurTotal) * 100,
           },
           config
         );
-        console.log("ajout dans quiz");
       } catch (error) {
         console.log(error);
       }
@@ -119,14 +120,36 @@ export const PopUpValidationReponsesQuiz = ({
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: 300,
-          bgcolor: "primary.button_background",
+          bgcolor: "primary.background",
+          color: "primary.headLine",
           boxShadow: 24,
           p: 4,
           borderRadius: 5,
+          border: "1px solid",
+          borderColor: (compteur / compteurTotal) * 100 > 75 ? "green" : "red",
         }}
       >
-        <h2>Voici vos résultats : </h2>
-        <p>Vous avez eu {(compteur / compteurTotal) * 100}% de réussite !</p>
+        <Typography sx={{ textAlign: "center" }} variant="h5">
+          Voici vos résultats :{" "}
+        </Typography>
+        <Divider
+          color="white"
+          variant="middle"
+          sx={{ marginTop: 2, marginBottom: 2 }}
+        />
+        <Typography>
+          Vous avez eu {(compteur / compteurTotal) * 100}% de réussite !
+        </Typography>
+        {(compteur / compteurTotal) * 100 > 75 ? (
+          <Typography sx={{ mt: 2, mb: 2, textAlign: "justify" }}>
+            Ce chapitre est validé !{" "}
+          </Typography>
+        ) : (
+          <Typography sx={{ mt: 2, mb: 2, textAlign: "justify" }}>
+            Ce chapitre n'est pas validé. Vous pouvez le recommencer !
+          </Typography>
+        )}
+
         <Button variant="contained" color="error" onClick={() => clickButton()}>
           Fermer
         </Button>
