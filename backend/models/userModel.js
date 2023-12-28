@@ -22,6 +22,13 @@ const UserSchema = new mongoose.Schema(
             "L'id du quiz doit forcemment être renseigné pour le score.",
           ],
         },
+        id_chapitre: {
+          type: String,
+          required: [
+            true,
+            "L'id du chapitre doit forcemment être renseigné pour le score.",
+          ],
+        },
         scores_pourcentage: {
           type: Number,
           required: [true, "Un quiz doit forcemment avoir un score"],

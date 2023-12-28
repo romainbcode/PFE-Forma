@@ -130,7 +130,7 @@ exports.getAllQuizsUser = async (req, res, next) => {
 };
 
 exports.addScoreFormationUser = async (req, res, next) => {
-  const { id_user_auth, id_quiz, scores_pourcentage } = req.body;
+  const { id_user_auth, id_quiz, id_chapitre, scores_pourcentage } = req.body;
 
   try {
     const user = await User.findOneAndUpdate(
@@ -141,6 +141,7 @@ exports.addScoreFormationUser = async (req, res, next) => {
         $push: {
           scores: {
             id_quiz: id_quiz,
+            id_chapitre: id_chapitre,
             scores_pourcentage: scores_pourcentage,
           },
         },
