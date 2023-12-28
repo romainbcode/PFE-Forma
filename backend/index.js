@@ -143,7 +143,7 @@ app.get('/updateClient', async(req, res)=>{
       });
 })*/
 
-app.get("/getTokenGoogle/:tokenauth", async (req, res) => {
+app.post("/getTokenGoogle", async (req, res) => {
   /*console.log("okoktoken", req)
     let { token_type, access_token, refresh } = req.oidc.accessToken;
     console.log("prout", access_token, refresh)
@@ -158,54 +158,34 @@ app.get("/getTokenGoogle/:tokenauth", async (req, res) => {
     //console.log(products.data[0].identities[0])
     res.send(`O: ${products.data[0].identities[0].access_token}`);
     */
-  tokenAuth = req.params.tokenauth;
-  console.log(req);
+  const { tokenauth } = req.body;
+  console.log(tokenauth);
   const options2 = {
     method: "GET",
     url: `https://${domaine}/api/v2/users`,
     headers: {
-      Authorization: `Bearer ${tokenAuth}`,
+      Authorization: `Bearer ${tokenauth}`,
     },
   };
   await axios(options2)
     .then((response) => {
-      console.log(response);
-      res.send({ message: "réponse token google", message: response.data[0] });
+      console.log("Repons", response);
+      res.status(200).json({
+        success: true,
+        message: response.data,
+      });
     })
     .catch((error) => {
-      res.send(error);
+      res.status(401).json({ success: false, message: error });
     });
 });
 
-/*
-app.get('/getCalendarList', async (req, res) => {
-
-    const options = { 
-        method: "GET",
-        url: "https://www.googleapis.com/calendar/v3/users/me/calendarList",
-        headers: { Authorization: `Bearer ya29.a0AfB_byAZ4tlOkTnBbpHAsnQR1ZdJ1D2WGOuAdVpDR8fP6RFBNbEywKw1aKOiyHwmXsNEHAkqDs7BzQdQrF8gM-_6yZqyyq8bHxxbjZ3AT3QBEeadBZKrKIS5J_Y5_AmAsfGMYQ24_l7WoYRDMK7lzjH6lsY8e-oeEuIaCgYKAUMSARESFQGOcNnC61pRklEyLG8pkgiPFP61iQ0170`}
-      };
-      axios(options)
-        .then(response => {
-          console.log(response.data);
-          res.send('ok')
-        })
-        .catch(error => {
-          console.log(error);
-          res.send("pas ok")
-        });
-});  */
-
-app.post("/insertGoogleAgenda", async (req, res) => {
+app.get("/getCalendarList", async (req, res) => {
   const options = {
-    method: "POST",
-    url: "https://www.googleapis.com/calendar/v3/calendars",
+    method: "GET",
+    url: "https://www.googleapis.com/calendar/v3/users/me/calendarList",
     headers: {
-      Authorization: `Bearer ya29.a0AfB_byCsRbFxRYwNdLuC94idRsVCdsmH4ztlRSfXET7-WghLkJmcljc0sLdcLIQ6vEm0VzSnPLpW_dqL-GPO61HCDCkLfmjSztIpxqqrhstXkcodZPYbIVyK3Hc3kCTpEy_E0rD-Fs39qDcPlIeMJ82Q6CzqL7v6ZUDlaCgYKAVcSARESFQGOcNnC8La3NQMtxx1fijpruVskKQ0171`,
-    },
-    data: {
-      summary: req.body.summary,
-      description: req.body.description,
+      Authorization: `Bearer ya29.a0AfB_byAYnaTMRzBufrY5XvnmFjBdXbjGXmjIXMyhNMU-fXdhwfnJR304dLU-yqoFbAp_WBUXVw4LxtOESaBetksdlXpZkewobfolRRbxzm0laWap_8LnjbGLFEsZaEuIccnUki1GvTuTvBnhP0X3BVj8H0BITIKCHW25aCgYKATYSARESFQHGX2Mi3WyUUrZjRnIHvUVz15Ry9g0171`,
     },
   };
   axios(options)
@@ -214,10 +194,30 @@ app.post("/insertGoogleAgenda", async (req, res) => {
       res.send("ok");
     })
     .catch((error) => {
-      //console.log(error);
-      console.log(req.body.summary);
       console.log(error);
       res.send("pas ok");
+    });
+});
+
+app.post("/insertGoogleAgenda", async (req, res) => {
+  const { token_google, summary } = req.body;
+  console.log(token_google, summary);
+  const options = {
+    method: "POST",
+    url: "https://www.googleapis.com/calendar/v3/calendars",
+    headers: {
+      Authorization: `Bearer ${token_google}`,
+    },
+    data: {
+      summary: summary,
+    },
+  };
+  await axios(options)
+    .then((response) => {
+      res.status(200).json({ success: true, message: response.data });
+    })
+    .catch((error) => {
+      res.status(401).json({ success: false, message: error });
     });
 });
 /*
