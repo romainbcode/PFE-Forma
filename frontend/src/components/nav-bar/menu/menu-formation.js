@@ -4,6 +4,9 @@ import { MenuSection } from "./menu-section";
 import { styled, alpha } from "@mui/material/styles";
 
 const color_paragraphe = "#a7a9be";
+const color_button_background = "#ff8906";
+const color_background = "#252525";
+const color_main = "#fffffe";
 
 export const MenuFormation = ({ anchorEl, open, onClose, roleUser }) => {
   const StyledMenu = styled((props) => (
@@ -22,31 +25,25 @@ export const MenuFormation = ({ anchorEl, open, onClose, roleUser }) => {
   ))(({ theme }) => ({
     "& .MuiPaper-root": {
       borderRadius: 20,
-      //marginTop: theme.spacing(1),
       minWidth: 180,
-      color: "black",
       boxShadow:
         "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
-      "& .MuiMenu-list": {
-        padding: "0",
-      },
+      backgroundColor: color_background,
+      color: color_main,
 
       "& .MuiMenuItem-root": {
         //Logos quand le menu s'ouvre
-        "& .MuiSvgIcon-root": {
-          fontSize: 18,
-          color: color_paragraphe,
-          marginRight: theme.spacing(1.5),
-        },
-        "&:active": {
-          backgroundColor: alpha(
-            theme.palette.primary.main,
-            theme.palette.action.selectedOpacity
-          ),
+        "& .lucide-book-text": {
+          fontSize: 20,
+          marginRight: "10px",
+          color: color_button_background,
         },
         //Hover quand des sous-menus quand menu est ouvert
         "&:hover": {
-          backgroundColor: "red",
+          backgroundColor: color_button_background,
+          "& .lucide-book-text": {
+            color: color_main,
+          },
         },
       },
     },

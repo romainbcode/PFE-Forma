@@ -10,10 +10,11 @@ export const MenuItemLink = ({ to, children, onClose }) => {
         to={to}
         style={{
           textDecoration: "none",
-          color: "black",
           display: "flex",
+          color: "#fffffe",
           flexDirection: "row",
-          justifyContent: "center",
+          justifyContent: "left",
+          width: "100%",
         }}
       >
         <BookText />

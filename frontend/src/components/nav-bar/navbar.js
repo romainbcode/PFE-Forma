@@ -1,91 +1,3 @@
-/*import { useAuth0 } from "@auth0/auth0-react";
-import React, {useState} from "react";
-import { LoginButton } from "./login-button";
-import { LogoutButton } from "./logout-button";
-import axios from 'axios'
-
-export const Navbar = () => {
-  const { isAuthenticated } = useAuth0();
-  const [tokenAuth, setTokenAuth] = useState("")
-
-  const callAPIGoogle = async () => {
-  
-    try {
-      
-
-      const options = {
-          method: 'GET',
-          url: 'http://localhost:3000/getTokenGoogle/'+tokenAuth,
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          
-        };
-        axios(options)
-      .then(response => {
-          console.log(response);
-      })
-      .catch(error => {
-          console.log(error);
-      });
-
-    } catch (e) {
-      console.log(e.message);
-    }
-
-    
-  };
-
-  const callAPI = async () => {
-  
-    try {
-      
-
-      const options = {
-          method: 'POST',
-          url: 'http://localhost:3000/getTokenAuth',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          
-        };
-        axios(options)
-      .then(response => {
-        setTokenAuth(response.data.token_access)
-          console.log(response.data.token_access);
-      })
-      .catch(error => {
-          console.log(error);
-      });
-
-    } catch (e) {
-      console.log(e.message);
-    }
-
-    
-  };
-
-  return (
-    <div className="nav-bar__buttons">
-        <button onClick={callAPI} style={{width:'100px', height:'50px'}}>TEST API AUTH</button>
-        <button onClick={callAPIGoogle} style={{width:'100px', height:'50px'}}>TEST API GOOGLE</button>
-      {!isAuthenticated && (
-        <>
-          <LoginButton />
-        </>
-      )}
-      {isAuthenticated && (
-        <>
-          <LogoutButton />
-        </>
-      )}
-    </div>
-    
-  );
-};
-
-export default Navbar*/
-
 import * as React from "react";
 import {
   AppBar,
@@ -95,18 +7,12 @@ import {
   Typography,
   Menu,
   Container,
-  Tooltip,
   MenuItem,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { BookCopy, Home, BookText } from "lucide-react";
+import { BookCopy, Home } from "lucide-react";
 import { styled, alpha } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import EditIcon from "@mui/icons-material/Edit";
-import Divider from "@mui/material/Divider";
-import ArchiveIcon from "@mui/icons-material/Archive";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import axios from "axios";
 import { LoginButton } from "./login-button";
@@ -370,58 +276,6 @@ export const Navbar = () => {
             >
               <Home color="#ff8906" style={{ marginLeft: 5, marginRight: 5 }} />
             </Link>
-            {/* <Button
-              id="demo-customized-buttonContatez"
-              aria-controls={
-                openMenuContactez ? "demo-customized-menuContactez" : undefined
-              }
-              aria-haspopup="true"
-              aria-expanded={openMenuContactez ? "true" : undefined}
-              variant="contained"
-              disableElevation
-              onClick={handleClickMenuContactez}
-              endIcon={<KeyboardArrowDownIcon />}
-              sx={{
-                bgcolor: "transparent",
-                color: color_headLine,
-                fontWeight: "bold",
-                ":hover": {
-                  bgcolor: color_buttonBackground,
-                  color: color_headLine,
-                },
-              }}
-            >
-              Contactez
-            </Button>
-            <StyledMenu
-              id="demo-customized-menuContactez"
-              MenuListProps={{
-                "aria-labelledby": "demo-customized-buttonContactez",
-              }}
-              anchorEl={anchorMenuContactez}
-              open={openMenuContactez}
-              onClose={handleCloseMenuContactez}
-            >
-              <MenuItem onClick={handleCloseMenuContactez} disableRipple>
-                <EditIcon />
-                Edit
-              </MenuItem>
-              <MenuItem onClick={handleCloseMenuContactez} disableRipple>
-                <FileCopyIcon />
-                Duplicate
-              </MenuItem>
-
-              <Divider sx={{ my: 1 }} />
-
-              <MenuItem onClick={handleCloseMenuContactez} disableRipple>
-                <ArchiveIcon />
-                Archive
-              </MenuItem>
-              <MenuItem onClick={handleCloseMenuContactez} disableRipple>
-                <MoreHorizIcon />
-                More
-              </MenuItem>
-            </StyledMenu> */}
           </Box>
 
           <Box
