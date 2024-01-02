@@ -268,13 +268,23 @@ export const Navbar = () => {
               <></>
             )}
 
-            <Link
-              style={{
-                textDecoration: "none",
-              }}
-              to="/"
-            >
-              <Home color="#ff8906" style={{ marginLeft: 5, marginRight: 5 }} />
+            <Link to="/">
+              <Button
+                sx={{
+                  bgcolor: "transparent",
+                  color: color_buttonBackground,
+                  fontWeight: "bold",
+                  ":hover": {
+                    color: color_headLine,
+                    bgcolor: "transparent",
+                  },
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Home />
+              </Button>
             </Link>
           </Box>
 
@@ -341,8 +351,10 @@ export const Navbar = () => {
             {isAuthenticated ? (
               <Box
                 sx={{
-                  flexGrow: 1,
                   display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
                 }}
               >
                 <Button
@@ -357,16 +369,21 @@ export const Navbar = () => {
                   variant="contained"
                   disableElevation
                   onClick={handleClickMenuUtilisateur}
-                  endIcon={<UserCircle2 color="#ff8906" />}
                   sx={{
                     bgcolor: "transparent",
-                    color: color_headLine,
+                    color: color_buttonBackground,
                     fontWeight: "bold",
                     ":hover": {
-                      bgcolor: "red",
+                      color: color_headLine,
+                      bgcolor: "transparent",
                     },
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
-                ></Button>
+                >
+                  <UserCircle2 />
+                </Button>
                 <MenuUser
                   anchorEl={anchorMenuUtilisateur}
                   open={openMenuUtilisateur}
