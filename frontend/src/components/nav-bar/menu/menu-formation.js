@@ -1,9 +1,8 @@
 import React from "react";
 import { Menu } from "@mui/material";
 import { MenuSection } from "./menu-section";
-import { styled, alpha } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
-const color_paragraphe = "#a7a9be";
 const color_button_background = "#ff8906";
 const color_background = "#252525";
 const color_main = "#fffffe";

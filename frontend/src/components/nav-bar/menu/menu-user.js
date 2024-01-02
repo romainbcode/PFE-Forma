@@ -1,11 +1,11 @@
 import React from "react";
-import { Menu, MenuItem } from "@mui/material";
+import { Menu } from "@mui/material";
 import { MenuSection } from "./menu-section";
-import { styled, alpha } from "@mui/material/styles";
-import { EditIcon, ArchiveIcon, FileCopyIcon } from "@mui/icons-material";
-import Divider from "@mui/material/Divider";
+import { styled } from "@mui/material/styles";
 
-const color_paragraphe = "#a7a9be";
+const color_main = "#fffffe";
+const color_background = "#252525";
+const color_button_background = "#ff8906";
 
 export const MenuUser = ({ anchorEl, open, onClose }) => {
   const StyledMenu = styled((props) => (
@@ -24,31 +24,24 @@ export const MenuUser = ({ anchorEl, open, onClose }) => {
   ))(({ theme }) => ({
     "& .MuiPaper-root": {
       borderRadius: 20,
-      //marginTop: theme.spacing(1),
       minWidth: 180,
-      color: "black",
+      color: color_main,
       boxShadow:
         "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
-      "& .MuiMenu-list": {
-        padding: "0",
-      },
-
+      backgroundColor: color_background,
       "& .MuiMenuItem-root": {
         //Logos quand le menu s'ouvre
-        "& .MuiSvgIcon-root": {
-          fontSize: 18,
-          color: color_paragraphe,
-          marginRight: theme.spacing(1.5),
-        },
-        "&:active": {
-          backgroundColor: alpha(
-            theme.palette.primary.main,
-            theme.palette.action.selectedOpacity
-          ),
+        "& .lucide-book-text": {
+          fontSize: 20,
+          color: color_button_background,
+          marginRight: "10px",
         },
         //Hover quand des sous-menus quand menu est ouvert
         "&:hover": {
-          backgroundColor: "red",
+          backgroundColor: color_button_background,
+          "& .lucide-book-text": {
+            color: color_main,
+          },
         },
       },
     },
