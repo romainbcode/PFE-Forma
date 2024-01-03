@@ -21,6 +21,35 @@ exports.createQuiz = async (req, res, next) => {
   }
 };
 
+exports.getQuizsRecent = async (req, res, next) => {
+  try {
+    const quizs = await Quiz.find().sort({ createdAt: -1 });
+    res.status(200).json({
+      success: true,
+      quizs,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+    });
+  }
+};
+
+exports.supprimeQuiz = async (req, res, next) => {
+  try {
+    const quiz = await Quiz.findByIdAndDelete(req.params.id);
+    res.status(200).json({
+      success: true,
+      message: "Quiz supprimé avec succès !",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Erreur lors de la suppression du quiz !",
+    });
+  }
+};
+
 exports.getQuizById = async (req, res, next) => {
   const { id_quiz } = req.body;
   try {

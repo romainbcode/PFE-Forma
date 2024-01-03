@@ -14,7 +14,10 @@ const {
 const {
   createUserQuestionReponse,
 } = require("../controllers/user_question_reponseController");
-const { getQuizById } = require("../controllers/quizController");
+const {
+  getQuizById,
+  getQuizsRecent,
+} = require("../controllers/quizController");
 
 const { isUser } = require("../middleware/auth");
 
@@ -35,5 +38,6 @@ router.post(
   isUser,
   createUserQuestionReponse
 );
+router.get("/quizs/recente", isUser, getQuizsRecent);
 
 module.exports = router;
