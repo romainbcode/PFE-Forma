@@ -117,12 +117,12 @@ export const CreationQuiz = () => {
             <Form>
               <Box
                 sx={{
-                  bgcolor: "primary.greenLight",
                   height: "100vh",
                   width: "100%",
                   display: "flex",
                   justifyContent: "center",
                   pt: 3,
+                  pb: 3,
                 }}
               >
                 <Box
@@ -132,12 +132,33 @@ export const CreationQuiz = () => {
                     paddingRight: 3,
                   }}
                 >
-                  <Typography
-                    variant="h5"
-                    sx={{ pb: 4, color: "primary.headLine" }}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "left",
+                      flexDirection: "column",
+                    }}
                   >
-                    Créer son quiz
-                  </Typography>
+                    <Typography
+                      variant="h5"
+                      sx={{ pb: 2, color: "primary.headLine" }}
+                    >
+                      Créez votre quiz
+                    </Typography>
+                    <Typography sx={{ color: "primary.paragraph" }}>
+                      Vous pouvez ajouter autant de questions et de réponses que
+                      vous le souhaitez. En cochant une réponse, vous indiquez
+                      que celle-ci est vraie. Une seule réponse vraie par
+                      question est permise. Vous pourrez ensuite, dans le menu
+                      'Ajouter des quiz à votre formation', attribuer ce quiz à
+                      l'une de vos formations.
+                    </Typography>
+                    <Divider
+                      color="white"
+                      variant="middle"
+                      sx={{ marginTop: 3, marginBottom: 4 }}
+                    />
+                  </Box>
                   <Box>
                     <Stack
                       direction={{ xs: "column", sm: "row" }}

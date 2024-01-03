@@ -1,10 +1,8 @@
-import React, { useCallback, useMemo, useEffect, useState } from "react";
-import { Box, Typography, Button, Stack, TextField } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Typography, Button, Divider, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Loader } from "../../components/loader/loader";
 import { Formik, Form, Field, FieldArray } from "formik";
-import { Trash2 } from "lucide-react";
 import { PlusSquare } from "lucide-react";
 import { Toaster, toast } from "sonner";
 import * as yup from "yup";
@@ -35,7 +33,6 @@ const textFieldStyles = {
 };
 
 export const CreationFormation = () => {
-  const [isloading, setLoading] = useState(false);
   const { user, getAccessTokenSilently } = useAuth0();
 
   const initialValues = {
@@ -183,29 +180,48 @@ export const CreationFormation = () => {
           <Form>
             <Box
               sx={{
-                bgcolor: "primary.greenLight",
                 height: "100vh",
                 width: "100%",
                 display: "flex",
                 justifyContent: "center",
                 pt: 3,
+                pb: 3,
               }}
             >
               <Box
                 sx={{
                   width: "100%",
-                  padding: 3,
+                  paddingLeft: 3,
+                  paddingRight: 3,
                 }}
               >
-                <Typography
-                  variant="h5"
-                  sx={{ pb: 4, color: "primary.headLine" }}
-                >
-                  Créer sa formation
-                </Typography>
                 <Box
                   sx={{
-                    mt: 1,
+                    display: "flex",
+                    justifyContent: "left",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    sx={{ pb: 2, color: "primary.headLine" }}
+                  >
+                    Créez votre formation
+                  </Typography>
+                  <Typography sx={{ color: "primary.paragraph" }}>
+                    Vous pouvez ajouter autant de chapitres, de sous-chapitres
+                    et de textes que vous le souhaitez. Si vous ne parvenez pas
+                    à valider la création de votre formation, essayez de réduire
+                    la longueur de vos titres, descriptions, etc.
+                  </Typography>
+                  <Divider
+                    color="white"
+                    variant="middle"
+                    sx={{ marginTop: 3, marginBottom: 4 }}
+                  />
+                </Box>
+                <Box
+                  sx={{
                     mb: 2,
                     width: "100%",
                     display: "flex",

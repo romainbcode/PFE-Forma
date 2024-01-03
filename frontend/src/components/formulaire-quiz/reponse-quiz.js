@@ -50,7 +50,14 @@ export const ReponseQuiz = ({ questionIndex, reponseIndex, formik }) => {
               .etat_reponse
           }
           onChange={handleChange}
-          sx={{ marginRight: 2, marginLeft: 2 }}
+          sx={{
+            marginRight: 2,
+            marginLeft: 2,
+            color: "primary.button_background",
+            "&.Mui-checked": {
+              color: "primary.button_background",
+            },
+          }}
         />
       </Box>
       <Box>

@@ -8,8 +8,7 @@ import {
   Divider,
 } from "@mui/material";
 import axios from "axios";
-import { Formik, Form, Field, FieldArray } from "formik";
-import { PlusSquare } from "lucide-react";
+import { Formik, Form, Field } from "formik";
 import { Toaster, toast } from "sonner";
 import * as yup from "yup";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -115,8 +114,6 @@ export const CreationCours = () => {
   };
   const onSubmit = (values) => {
     values["date"] = format(selected, "dd/MM/yyyy");
-    console.log(values);
-
     createNewCours(values);
   };
   const [selected, setSelected] = useState(false);
@@ -161,12 +158,29 @@ export const CreationCours = () => {
                     paddingRight: 3,
                   }}
                 >
-                  <Typography
-                    variant="h5"
-                    sx={{ pb: 4, color: "primary.headLine" }}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "left",
+                      flexDirection: "column",
+                    }}
                   >
-                    Créer un créneau pour son cours
-                  </Typography>
+                    <Typography
+                      variant="h5"
+                      sx={{ pb: 2, color: "primary.headLine" }}
+                    >
+                      Créez votre cours
+                    </Typography>
+                    <Typography sx={{ color: "primary.paragraph" }}>
+                      Vous pouvez choisir n'importe quel jour pour vos cours.
+                      Ceux-ci se feront en direct sur Google Classroom.
+                    </Typography>
+                    <Divider
+                      color="white"
+                      variant="middle"
+                      sx={{ marginTop: 3, marginBottom: 4 }}
+                    />
+                  </Box>
 
                   <Stack
                     direction={{ xs: "column", sm: "row" }}
