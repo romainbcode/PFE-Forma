@@ -19,12 +19,9 @@ exports.createCoursWithTeacherId = async (req, res, next) => {
       width: 500,
       crop: "scale",
     });
-    console.log(cours_image);
-    console.log("la");
     const teacherDejaFaitCours = await Cours.findOne({
       id_user_auth: id_user_auth,
     });
-    console.log("la1");
     if (!teacherDejaFaitCours) {
       const teacherCoursFirst = await Cours.create({
         id_user_auth: id_user_auth,
@@ -47,7 +44,6 @@ exports.createCoursWithTeacherId = async (req, res, next) => {
         teacherCoursFirst,
       });
     } else if (teacherDejaFaitCours) {
-      console.log("la3");
       const teacherCours = await Cours.findOneAndUpdate(
         {
           id_user_auth: id_user_auth,
