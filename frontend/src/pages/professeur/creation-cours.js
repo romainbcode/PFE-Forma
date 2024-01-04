@@ -59,7 +59,6 @@ const textFieldStyles2 = {
 
 export const CreationCours = () => {
   const { user, getAccessTokenSilently } = useAuth0();
-  const [dateCours, setDateCours] = useState("");
 
   const initialValues = {
     titre: "",
@@ -79,7 +78,6 @@ export const CreationCours = () => {
       .string()
       .required("Votre cours doit avoir une description !")
       .max(50, "La description doit contenir moins de 50 caractères"),
-    date: yup.string().required("Vous devez choisir un jour !"),
     heuredebut: yup
       .string()
       .required(
@@ -98,10 +96,10 @@ export const CreationCours = () => {
         /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
         "L'heure de fin doit être au format HH:mm."
       ),
+    image: yup.mixed().required("Vous devez mettre une image !"),
   });
 
   const createNewCours = async (values) => {
-    console.log("aaaaa");
     const token = await getAccessTokenSilently();
     const config = {
       headers: {
@@ -117,14 +115,18 @@ export const CreationCours = () => {
       );
       toast.success("Création du cours avec succès !");
     } catch (error) {
-      toast.error("Erreur lors de la création du cours !");
+      toast.error(
+        "Erreur lors de la création du cours ! (Possiblement une image de trop grande qualité)"
+      );
     }
   };
   const onSubmit = (values) => {
-    console.log("inij");
-    values["date"] = format(selected, "dd/MM/yyyy");
-    console.log(values);
-    createNewCours(values);
+    if (selected) {
+      values["date"] = format(selected, "dd/MM/yyyy");
+      createNewCours(values);
+    } else {
+      toast.error("Vous devez obligatoirement choisir une date !");
+    }
   };
   const [selected, setSelected] = useState(false);
 
