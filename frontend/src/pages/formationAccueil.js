@@ -65,7 +65,7 @@ export const FormationAccueil = (props) => {
   };
 
   return (
-    <Box>
+    <Box sx={{ padding: 2 }}>
       {formationById.titre + " date de création : "}
       {dateCreation}
       {isloading ? (
@@ -77,12 +77,15 @@ export const FormationAccueil = (props) => {
             <ChapitreDescriptionAccueil
               titre={chapitreFormation.titre_chapitre}
               description={chapitreFormation.description_chapitre}
+              color_border={"primary.button_background"}
             />
           </Box>
         ))
       )}
       <Link to={`/formation/${formationById._id}/${idPremierChapitre}`}>
-        <Button onClick={mailUtilisateur()}>Commencer la formation</Button>
+        <Button onClick={mailUtilisateur()} variant="contained" color="success">
+          Commencer la formation
+        </Button>
       </Link>
     </Box>
   );
