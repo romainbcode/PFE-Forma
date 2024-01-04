@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./coursCard.css";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, CardMedia, Card } from "@mui/material";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Toaster, toast } from "sonner";
@@ -148,7 +148,33 @@ export const CoursCard = (props) => {
       <Box class="card">
         <Box class="card-border-top"></Box>
         <Box>{props.titre}</Box>
-        <Box class="img"></Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            mt: 1,
+          }}
+        >
+          <CardMedia
+            component="img"
+            sx={{
+              width: "60%",
+              height: "60%",
+              borderRadius: "20%",
+              border: "1px solid",
+              borderColor: "primary.button_background",
+              transitionDuration: "1s",
+              "&:hover": {
+                cursor: "pointer",
+                height: "65%",
+                width: "65%",
+                transitionDuration: "1s",
+              },
+              objectFit: "contain",
+            }}
+            image={props.image}
+          />
+        </Box>
         <Box sx={{ textAlign: "center" }}>
           <Typography> </Typography>
         </Box>

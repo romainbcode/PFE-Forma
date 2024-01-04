@@ -57,6 +57,7 @@ export const CoursDisponible = () => {
                       titre={cours.titre}
                       description={cours.description}
                       id={cours._id}
+                      image={cours.image ? cours.image.url : ""}
                     />
                   </Box>
                 ))}

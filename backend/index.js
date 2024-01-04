@@ -27,7 +27,13 @@ mongoose
   });
 
 app.use(morgan("dev"));
-app.use(express.json());
+app.use(bodyParser.json({ limit: "5mb" }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "5mb",
+    extended: true,
+  })
+);
 
 app.use(cors());
 
@@ -41,34 +47,6 @@ app.use("/", routerProf);
 app.use("/", routerChargement);
 app.use("/", routerAdmin);
 app.use("/", routerUser);
-
-/*
-app.get('/addCourse', async(req, res)=>{
-    const options={
-        method: "POST",
-        url: "https://classroom.googleapis.com/v1/courses",
-        headers: {
-            Authorization: `Bearer ya29.a0AfB_byA8-9tQj2uw0GVF3PYOzPB-doQxXNIHIUQgp-Yyfea122V_NJY0bju8aXpICU6vtOytLJnx1yCtCtcEbtzRMg3eYCm-z5ELm-Uyu_dHxv95KoZ23JEh5fxCisa65wX1zLg7sW0Q-m-1PAebSRnY66ZPPjkT2gU1aCgYKAZASARESFQGOcNnC_iQPZIcLU9W4VlzoCC2loA0171`,
-          },
-        data:{
-            "name": "cours de francais",
-            "ownerId": "me"
-        }
-        
-    }
-
-    axios(options)
-    .then(response => {
-        console.log(response.data);
-        res.send('ok')
-      })
-      .catch(error => {
-        console.log(error);
-        res.send("pas ok")
-      });
-})
-
-*/
 
 app.post("/getRoleUser2", async (req, res) => {
   //const id_user = req.params.id_user;
@@ -103,9 +81,6 @@ app.post("/getTokenAuth", async (req, res) => {
       client_secret: cliend_secret,
       audience: `https://${domaine}/api/v2/`,
       grant_type: "client_credentials",
-
-      //Lien qui explique pourquoi avec l'api qu'on utilise il est pas possible d'avoir de refreshtoken : https://community.auth0.com/t/having-trouble-enabling-allow-offline-access/30803/2
-      //code: 'mettre le token que je recois au moment de l'authentification',
     },
   };
   await axios(options)
@@ -119,45 +94,7 @@ app.post("/getTokenAuth", async (req, res) => {
     });
 });
 
-/*
-//Mettre uniquement le grant type : authorizatiion_code (inutile il y est deja)
-app.get('/updateClient', async(req, res)=>{
-    var options = {
-        method: 'PATCH',
-        url:`https://${process.env.DOMAINE}/api/v2/clients/${process.env.CLIENT_ID}`,
-        headers: {
-          'content-type': 'application/json',
-          authorization: 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZBZ0NQUFF6MUtrMGtjS1NmeTFQNyJ9.eyJpc3MiOiJodHRwczovL3Rlc3RwZmUuZXUuYXV0aDAuY29tLyIsInN1YiI6Imdvb2dsZS1vYXV0aDJ8MTExNzE3ODUyMDU0MjM0MDUxNDU2IiwiYXVkIjpbImh0dHBzOi8vdGVzdHBmZS5ldS5hdXRoMC5jb20vYXBpL3YyLyIsImh0dHBzOi8vdGVzdHBmZS5ldS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjk4NDExODE0LCJleHAiOjE2OTg0OTgyMTQsImF6cCI6ImdSRVdyQlA3N0RKclY5b1hwZlBQSjJibWxkYzZINTIzIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCJ9.c01G12bTj-vjJXMVU8Hz7y8uxetloKpEluAiYTpaVEb5pfmPKw8kgWgwShzBXTlwOW-hpjKQrXJ1ZrgWLf0VKxqBEIH485yM4bIc2HvEWfIcbu4OgnNKGLyAhKKCLvg5z5E6bmjU0Sgdy-6egUniZooE0GSaN0zFp3s-khRdEcOh72TUH2J_RHqGMVZk2EopKt03D9l4whdRA7pmtykvEgs6UjreW-UcTYspbsXLFaxJfJ8V1GC6x85GFSA23muFIDcIgi6XLW7k_UvgH42BH9Us-bfSP1BcSinael4gEHfjQCphUvLX8j57fJ76zWwju4-7loiFm4_41kP7zQuK2A',
-          'cache-control': 'no-cache'
-        },
-        data: {grant_types: ['authorization_code, client_credentials']}
-      };
-      
-      axios(options)
-      .then( response=> {
-        console.log(response.data);
-        res.send("ok")
-      }).catch(error =>{
-        console.error(error);
-        res.send("pas ok")
-      });
-})*/
-
 app.post("/getTokenGoogle", async (req, res) => {
-  /*console.log("okoktoken", req)
-    let { token_type, access_token, refresh } = req.oidc.accessToken;
-    console.log("prout", access_token, refresh)
-    const products = await axios.get(`https://${process.env.DOMAINE}/api/v2/users`, {
-        headers: {
-            Authorization: `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZBZ0NQUFF6MUtrMGtjS1NmeTFQNyJ9.eyJpc3MiOiJodHRwczovL3Rlc3RwZmUuZXUuYXV0aDAuY29tLyIsInN1YiI6ImdSRVdyQlA3N0RKclY5b1hwZlBQSjJibWxkYzZINTIzQGNsaWVudHMiLCJhdWQiOiJodHRwczovL3Rlc3RwZmUuZXUuYXV0aDAuY29tL2FwaS92Mi8iLCJpYXQiOjE2OTg0MTYxMzAsImV4cCI6MTY5ODUwMjUzMCwiYXpwIjoiZ1JFV3JCUDc3REpyVjlvWHBmUFBKMmJtbGRjNkg1MjMiLCJzY29wZSI6InJlYWQ6dXNlcnMgdXBkYXRlOmNsaWVudHMgcmVhZDp1c2VyX2lkcF90b2tlbnMgcmVhZDpyb2xlcyByZWFkOmNsaWVudF9jcmVkZW50aWFscyIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.P2zFC_YrAZSb9KdVKQng7m0YIfzZdAKI0z15teKhHUD89E61zqi3Tq013NCrR1TC4oNvCr8uw-FI6dfVJ2WHnacWHCPBwj7xG2HZvHQQCANd3d6Q0jkpWb9fzQ83k4IR7ajvfLBmRz56My5wvhoC9mQZUMxC8AtVPPahK2d588FpDIjrt4Jy8oaZVG6QWmfiEAfqR9W2Iwle9UM_kCN46e3eGLwNP8QCoSOnZAZWVJA8l0LITcirpEpiBmzqGTUymk9_TZHJe1XcnoqSz30CwYDqpUJHAs814mI85zoKvMuSIXknUR75TgOmpO6yOihpUFTywQwCOwg1223O8iutsw`,            
-        },
-        
-        
-    });
-    //console.log(products.data)
-    //console.log(products.data[0].identities[0])
-    res.send(`O: ${products.data[0].identities[0].access_token}`);
-    */
   const { tokenauth } = req.body;
   console.log(tokenauth);
   const options2 = {
@@ -250,11 +187,6 @@ app.post("/insertEventInAgenda", async (req, res) => {
       res.send("pas ok");
     });
 });
-/*
-app.get('/', async (req, res) => {
-    res.send(req.oidc.accessToken);
-});
-*/
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

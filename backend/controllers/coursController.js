@@ -1,12 +1,30 @@
 const Cours = require("../models/coursModel");
+const cloudinary = require("../utils/cloudinary");
+
 exports.createCoursWithTeacherId = async (req, res, next) => {
-  const { id_user_auth, titre, description, date, heuredebut, heurefin } =
-    req.body;
+  const {
+    id_user_auth,
+    titre,
+    description,
+    date,
+    heuredebut,
+    heurefin,
+    image,
+  } = req.body;
 
   try {
+    const cours_image = await cloudinary.uploader.upload(image, {
+      folder: "cours_image",
+      height: 500,
+      width: 500,
+      crop: "scale",
+    });
+    console.log(cours_image);
+    console.log("la");
     const teacherDejaFaitCours = await Cours.findOne({
       id_user_auth: id_user_auth,
     });
+    console.log("la1");
     if (!teacherDejaFaitCours) {
       const teacherCoursFirst = await Cours.create({
         id_user_auth: id_user_auth,
@@ -17,6 +35,10 @@ exports.createCoursWithTeacherId = async (req, res, next) => {
             dateJour: date,
             dateHeureDebut: heuredebut,
             dateHeureFin: heurefin,
+            image: {
+              public_id: cours_image.public_id,
+              url: cours_image.secure_url,
+            },
           },
         ],
       });
@@ -25,6 +47,7 @@ exports.createCoursWithTeacherId = async (req, res, next) => {
         teacherCoursFirst,
       });
     } else if (teacherDejaFaitCours) {
+      console.log("la3");
       const teacherCours = await Cours.findOneAndUpdate(
         {
           id_user_auth: id_user_auth,
@@ -38,6 +61,10 @@ exports.createCoursWithTeacherId = async (req, res, next) => {
                 dateJour: date,
                 dateHeureDebut: heuredebut,
                 dateHeureFin: heurefin,
+                image: {
+                  public_id: cours_image.public_id,
+                  url: cours_image.secure_url,
+                },
               },
             ],
           },
@@ -50,6 +77,7 @@ exports.createCoursWithTeacherId = async (req, res, next) => {
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(400).json({
       success: false,
     });

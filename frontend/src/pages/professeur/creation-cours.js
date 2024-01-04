@@ -15,6 +15,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { DayPicker } from "react-day-picker";
+import Dropzone from "react-dropzone";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import "react-day-picker/dist/style.css";
 const url_back_node = process.env.REACT_APP_BACKNODE;
 
@@ -65,6 +67,7 @@ export const CreationCours = () => {
     date: "",
     heuredebut: "",
     heurefin: "",
+    image: null,
   };
 
   const validationSchema = yup.object({
@@ -78,22 +81,27 @@ export const CreationCours = () => {
       .max(50, "La description doit contenir moins de 50 caractères"),
     date: yup.string().required("Vous devez choisir un jour !"),
     heuredebut: yup
-      .number()
-      .min(0, "Impossible de mettre une heure négative.")
-      .max(24, "Impossible de mettre une heure supérieur à 24.")
+      .string()
       .required(
         "Votre formation doit obligatoirement commencer à une certaine heure."
+      )
+      .matches(
+        /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
+        "L'heure de début doit être au format HH:mm."
       ),
     heurefin: yup
-      .number()
-      .min(0, "Impossible de mettre une heure négative.")
-      .max(24, "Impossible de mettre une heure supérieur à 24.")
+      .string()
       .required(
         "Votre formation doit obligatoirement terminer à une certaine heure."
+      )
+      .matches(
+        /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
+        "L'heure de fin doit être au format HH:mm."
       ),
   });
 
   const createNewCours = async (values) => {
+    console.log("aaaaa");
     const token = await getAccessTokenSilently();
     const config = {
       headers: {
@@ -113,7 +121,9 @@ export const CreationCours = () => {
     }
   };
   const onSubmit = (values) => {
+    console.log("inij");
     values["date"] = format(selected, "dd/MM/yyyy");
+    console.log(values);
     createNewCours(values);
   };
   const [selected, setSelected] = useState(false);
@@ -281,6 +291,98 @@ export const CreationCours = () => {
                       error={touched.heurefin && Boolean(errors.heurefin)}
                       helperText={touched.heurefin && errors.heurefin}
                     />
+                  </Box>
+                  <Box
+                    sx={{
+                      p: 1,
+                      borderRadius: "10px",
+                      boxShadow: "0 3px 10px #000",
+                      border: "2px dashed",
+                      borderColor: "primary.button_background",
+                    }}
+                  >
+                    <Dropzone
+                      acceptedFiles=".jpg,.jpeg,.png"
+                      multiple={false}
+                      //maxFiles={3}
+                      onDrop={(acceptedFiles) => {
+                        acceptedFiles.map((file, index) => {
+                          const reader = new FileReader();
+                          reader.readAsDataURL(file);
+                          reader.onloadend = () => {
+                            formik.setFieldValue("image", reader.result);
+                          };
+                        });
+                      }}
+                    >
+                      {({ getRootProps, getInputProps, isDragActive }) => (
+                        <Box
+                          {...getRootProps()}
+                          p="1rem"
+                          sx={{
+                            "&:hover": { cursor: "pointer" },
+                          }}
+                        >
+                          <input name="banner" {...getInputProps()} />
+                          {isDragActive ? (
+                            <>
+                              <p style={{ textAlign: "center" }}>
+                                <CloudUploadIcon
+                                  sx={{
+                                    color: "primary.button_background",
+                                    mr: 2,
+                                  }}
+                                />
+                              </p>
+                              <Typography
+                                style={{
+                                  textAlign: "center",
+                                }}
+                              >
+                                Déposer ici !
+                              </Typography>
+                            </>
+                          ) : values.image === null ? (
+                            <>
+                              <p style={{ textAlign: "center" }}>
+                                <CloudUploadIcon
+                                  sx={{
+                                    color: "primary.button_background",
+                                    mr: 2,
+                                  }}
+                                />
+                              </p>
+                              <Typography
+                                style={{
+                                  textAlign: "center",
+                                }}
+                              >
+                                Glissez déposer votre image ici ou cliquer pour
+                                choisir dans vos dossiers
+                              </Typography>
+                            </>
+                          ) : (
+                            <>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: "space-around",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Box>
+                                  <img
+                                    style={{ maxWidth: "100px" }}
+                                    src={values.image}
+                                    alt=""
+                                  />
+                                </Box>
+                              </Box>
+                            </>
+                          )}
+                        </Box>
+                      )}
+                    </Dropzone>
                   </Box>
                   <Button
                     sx={{ mt: 2 }}
