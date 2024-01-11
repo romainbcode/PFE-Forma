@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import { Box, Typography, Button, Grid } from "@mui/material";
+import { Box, Typography, Divider, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import { FormationCard } from "../../components/formationcard/formationCard";
 import axios from "axios";
@@ -50,11 +50,35 @@ export const FormationProfesseur = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
+        p: 2,
       }}
     >
       <Box>
-        <Typography sx={{ marginBottom: 4 }}>Mes formations : </Typography>
-        <Grid container spacing={{ xs: 2, md: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "left",
+            flexDirection: "column",
+          }}
+        >
+          <Typography variant="h5" sx={{ pb: 2, color: "primary.headLine" }}>
+            Mes formations
+          </Typography>
+          <Typography sx={{ color: "primary.paragraph" }}>
+            En cliquant sur le bouton "S'inscrire", le créneau du cours va
+            automatiquement s'ajouter à votre compte calendrier Google.
+          </Typography>
+          <Divider
+            color="white"
+            variant="middle"
+            sx={{ marginTop: 3, marginBottom: 6 }}
+          />
+        </Box>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
           {isloading ? (
             <Loader />
           ) : (

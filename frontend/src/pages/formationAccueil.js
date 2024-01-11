@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, Divider } from "@mui/material";
 import { useParams, Link } from "react-router-dom";
 import { Loader } from "../components/loader/loader";
 import { ChapitreDescriptionAccueil } from "../components/chapitre-description-accueil";
@@ -66,12 +66,30 @@ export const FormationAccueil = (props) => {
 
   return (
     <Box sx={{ padding: 2 }}>
-      {formationById.titre + " date de création : "}
-      {dateCreation}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "left",
+          flexDirection: "column",
+        }}
+      >
+        <Typography variant="h5" sx={{ pb: 2, color: "primary.headLine" }}>
+          {formationById.titre} créé le {dateCreation}
+        </Typography>
+        <Typography sx={{ color: "primary.paragraph" }}>
+          Consultez ci-dessous la liste de tous les chapitres avec leur
+          description.
+        </Typography>
+        <Divider
+          color="white"
+          variant="middle"
+          sx={{ marginTop: 3, marginBottom: 2 }}
+        />
+      </Box>
       {isloading ? (
         <Loader />
       ) : (
-        chapitresFormation &&
+        Array.isArray(chapitresFormation) &&
         chapitresFormation.map((chapitreFormation, index) => (
           <Box key={index}>
             <ChapitreDescriptionAccueil

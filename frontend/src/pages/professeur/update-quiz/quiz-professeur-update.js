@@ -125,12 +125,30 @@ export const QuizProfesseurUpdate = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
+        p: 2,
       }}
     >
-      <Box sx={{ margin: 2 }}>
-        <Typography variant="h5" sx={{ marginBottom: 4 }}>
-          Choississez le quiz que vous souhaitez modifier !
-        </Typography>
+      <Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "left",
+            flexDirection: "column",
+          }}
+        >
+          <Typography variant="h5" sx={{ pb: 2, color: "primary.headLine" }}>
+            Choisissez le quiz que vous souhaitez modifier
+          </Typography>
+          <Typography sx={{ color: "primary.paragraph" }}>
+            Sélectionnez le quiz à modifier, puis vous pourrez ajouter,
+            supprimer ou encore modifier le contenu de celui-ci.
+          </Typography>
+          <Divider
+            color="white"
+            variant="middle"
+            sx={{ marginTop: 3, marginBottom: 3 }}
+          />
+        </Box>
         <Box
           sx={{
             display: "flex",
@@ -215,12 +233,6 @@ export const QuizProfesseurUpdate = () => {
                       width: "100%",
                     }}
                   >
-                    <Typography
-                      variant="h5"
-                      sx={{ pb: 4, color: "primary.headLine" }}
-                    >
-                      Modifiez et/ou ajoutez des éléments au quiz !
-                    </Typography>
                     <Box>
                       <Stack
                         direction={{ xs: "column", sm: "row" }}

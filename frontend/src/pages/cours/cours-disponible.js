@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import { Box } from "@mui/material";
+import { Box, Typography, Divider, Grid } from "@mui/material";
 import axios from "axios";
 import { Loader } from "../../components/loader/loader";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -35,37 +35,65 @@ export const CoursDisponible = () => {
   }, [memoizedAllCours]);
 
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        p: 2,
+      }}
+    >
       <Box
         sx={{
           display: "flex",
+          justifyContent: "left",
           flexDirection: "column",
         }}
       >
-        COURS DISPO
-        {isloading ? (
-          <Loader />
-        ) : (
-          Array.isArray(allCours) &&
-          allCours.map((coursByProf, index) => (
-            <Box sx={{ display: "flex", flexDirection: "row", margin: 2 }}>
-              {Array.isArray(coursByProf.cours) &&
-                coursByProf.cours.map((cours, index) => (
-                  <Box sx={{ marginRight: 2, marginLeft: 2 }}>
-                    <CoursCard
-                      id_prof={coursByProf.id_user_auth}
-                      titre={cours.titre}
-                      description={cours.description}
-                      id={cours._id}
-                      image={cours.image ? cours.image.url : ""}
-                    />
-                  </Box>
-                ))}
-            </Box>
-          ))
-        )}
+        <Typography variant="h5" sx={{ pb: 2, color: "primary.headLine" }}>
+          Cours disponibles
+        </Typography>
+        <Typography sx={{ color: "primary.paragraph" }}>
+          En cliquant sur le bouton "S'inscrire", le créneau du cours va
+          automatiquement s'ajouter à votre compte calendrier Google.
+        </Typography>
+        <Divider
+          color="white"
+          variant="middle"
+          sx={{ marginTop: 3, marginBottom: 4 }}
+        />
       </Box>
-    </>
+      <Box>
+        <Grid container spacing={{ xs: 2, md: 3 }}>
+          {isloading ? (
+            <Loader />
+          ) : (
+            Array.isArray(allCours) &&
+            allCours.map((coursByProf, index) => (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "row",
+                }}
+              >
+                {Array.isArray(coursByProf.cours) &&
+                  coursByProf.cours.map((cours, index) => (
+                    <Box sx={{ m: 2 }}>
+                      <CoursCard
+                        id_prof={coursByProf.id_user_auth}
+                        titre={cours.titre}
+                        description={cours.description}
+                        id={cours._id}
+                        image={cours.image ? cours.image.url : ""}
+                      />
+                    </Box>
+                  ))}
+              </Box>
+            ))
+          )}
+        </Grid>
+      </Box>
+    </Box>
   );
 };
 

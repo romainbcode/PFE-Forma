@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import { Box, Typography, Button, Grid } from "@mui/material";
+import { Box, Typography, Divider, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import { FormationCard } from "../components/formationcard/formationCard";
 import axios from "axios";
@@ -56,15 +56,40 @@ export const FormationInscrite = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
+        p: 2,
       }}
     >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "left",
+          flexDirection: "column",
+        }}
+      >
+        <Typography variant="h5" sx={{ pb: 2, color: "primary.headLine" }}>
+          Formations commencées
+        </Typography>
+        <Typography sx={{ color: "primary.paragraph" }}>
+          Sélectionnez l'une des formations en cours là où vous l'aviez laissée.
+          Les résultats des quizs sont accessibles dans la partie "Scores" de
+          l'utilisateur.
+        </Typography>
+        <Divider
+          color="white"
+          variant="middle"
+          sx={{ marginTop: 3, marginBottom: 6 }}
+        />
+      </Box>
       <Box>
-        <Typography sx={{ marginBottom: 4 }}>Formations en cours : </Typography>
-        <Grid container spacing={{ xs: 2, md: 3 }}>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
           {isloading ? (
             <Loader />
           ) : (
-            formationsInscrit &&
+            Array.isArray(formationsInscrit) &&
             formationsInscrit.map((formationRecente, index) => (
               <Link to={`/formation/${formationRecente._id}`}>
                 <Grid

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import { Box, Typography, Button, Grid } from "@mui/material";
+import { Box, Typography, Divider, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import { FormationCard } from "../../../components/formationcard/formationCard";
 import axios from "axios";
@@ -49,13 +49,35 @@ export const FormationProfesseurUpdate = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
+        p: 2,
       }}
     >
       <Box>
-        <Typography sx={{ marginBottom: 4 }}>
-          Choississez la formation que vous souhaitez modifier !
-        </Typography>
-        <Grid container spacing={{ xs: 2, md: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "left",
+            flexDirection: "column",
+          }}
+        >
+          <Typography variant="h5" sx={{ pb: 2, color: "primary.headLine" }}>
+            Choisissez la formation que vous souhaitez modifier
+          </Typography>
+          <Typography sx={{ color: "primary.paragraph" }}>
+            Sélectionnez la formation à modifier, puis vous pourrez ajouter,
+            supprimer ou encore modifier le contenu de celle-ci.
+          </Typography>
+          <Divider
+            color="white"
+            variant="middle"
+            sx={{ marginTop: 3, marginBottom: 6 }}
+          />
+        </Box>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
           {isloading ? (
             <Loader />
           ) : (

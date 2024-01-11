@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import { Box, Typography, Button, Grid } from "@mui/material";
+import { Box, Typography, Button, Grid, Divider } from "@mui/material";
 import { Link } from "react-router-dom";
 import { FormationCard } from "../components/formationcard/formationCard";
 import axios from "axios";
@@ -43,15 +43,39 @@ export const ChoixFormation = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
+        padding: 2,
       }}
     >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "left",
+          flexDirection: "column",
+        }}
+      >
+        <Typography variant="h5" sx={{ pb: 2, color: "primary.headLine" }}>
+          Formations disponibles
+        </Typography>
+        <Typography sx={{ color: "primary.paragraph" }}>
+          Sélectionnez une formation ci-dessous et vérifiez vos connaissances en
+          répondant aux quizs présents dans celle-ci.
+        </Typography>
+        <Divider
+          color="white"
+          variant="middle"
+          sx={{ marginTop: 3, marginBottom: 6 }}
+        />
+      </Box>
       <Box>
-        <Typography sx={{ marginBottom: 4 }}>Formations récentes : </Typography>
-        <Grid container spacing={{ xs: 2, md: 3 }}>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
           {isloading ? (
             <Loader />
           ) : (
-            formationsRecentes &&
+            Array.isArray(formationsRecentes) &&
             formationsRecentes.map((formationRecente, index) => (
               <Link to={`/formation/${formationRecente._id}`}>
                 <Grid

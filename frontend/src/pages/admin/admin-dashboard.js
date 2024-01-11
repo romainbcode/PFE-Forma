@@ -226,8 +226,30 @@ export const AdminDashboard = () => {
   return (
     <>
       <Toaster expand={true} richColors />
-      <Box sx={{ display: "flex", mt: 10 }}>
-        <Box sx={{ height: 403, width: "50%", mr: 2, ml: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "left",
+          flexDirection: "column",
+          p: 2,
+        }}
+      >
+        <Typography variant="h5" sx={{ pb: 2, color: "primary.headLine" }}>
+          Dashboard administrateur
+        </Typography>
+        <Typography sx={{ color: "primary.paragraph" }}>
+          Consultez l'ensemble des formations et des quiz disponibles sur
+          l'application. Vous pouvez éventuellement les supprimer ou les
+          modifier.
+        </Typography>
+        <Divider
+          color="white"
+          variant="middle"
+          sx={{ marginTop: 3, marginBottom: 2 }}
+        />
+      </Box>
+      <Box sx={{ display: "flex" }}>
+        <Box sx={{ height: 412, width: "50%", mr: 2, ml: 2 }}>
           <DataGrid
             getRowId={(row) => row._id}
             sx={{
@@ -247,7 +269,7 @@ export const AdminDashboard = () => {
             rowsPerPageOptions={[3]}
           />
         </Box>
-        <Box sx={{ height: 403, width: "50%", mr: 2, ml: 2 }}>
+        <Box sx={{ height: 412, width: "50%", mr: 2, ml: 2 }}>
           <DataGrid
             getRowId={(row) => row._id}
             sx={{

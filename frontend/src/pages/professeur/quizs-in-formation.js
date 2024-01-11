@@ -120,7 +120,7 @@ export const QuizsInFormation = (props) => {
       {isloading ? (
         <Loader />
       ) : (
-        chapitresFormation &&
+        Array.isArray(chapitresFormation) &&
         chapitresFormation.map((chapitreFormation, index) => (
           <Box key={index}>
             <ChapitreDescriptionAccueil
