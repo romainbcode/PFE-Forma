@@ -76,6 +76,25 @@ exports.addInscriptionFormationUser = async (req, res, next) => {
   }
 };
 
+exports.getDateInscription = async (req, res, next) => {
+  const { id_user_auth } = req.body;
+
+  try {
+    const user = await User.findOne({
+      id_user_auth: id_user_auth,
+    });
+    let dateCreation = user.createdAt;
+    res.status(200).json({
+      success: true,
+      dateCreation,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+    });
+  }
+};
+
 exports.getAllFormationsInscrites = async (req, res, next) => {
   const { id_user_auth } = req.body;
 
