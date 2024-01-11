@@ -8,44 +8,37 @@ import { Toaster, toast } from "sonner";
 const url_back_node = process.env.REACT_APP_BACKNODE;
 
 export const CoursCard = (props) => {
+  let dateString = props.dateJour; // au format JJ/MM/AAAA
+  let timeString = props.dateDebut; // au format HH:MM
+  let offset = "+01:00"; // Décalage horaire souhaité
+
+  // Séparation des composants de la date
+  let dateParts = dateString.split("/");
+  let day = parseInt(dateParts[0], 10);
+  let month = parseInt(dateParts[1], 10) - 1; // Les mois en JavaScript commencent à 0 pour janvier
+  let year = parseInt(dateParts[2], 10);
+
+  // Séparation des composants de l'heure
+  let timeParts = timeString.split(":");
+  let hours = parseInt(timeParts[0], 10);
+  let minutes = parseInt(timeParts[1], 10);
+
+  let combinedDateDebut = new Date(Date.UTC(year, month, day, hours, minutes));
+  combinedDateDebut = combinedDateDebut.toISOString().replace(".000Z", offset);
+  let dateDebutString = combinedDateDebut.toString();
+
+  timeString = props.dateFin;
+
+  timeParts = timeString.split(":");
+  hours = parseInt(timeParts[0], 10);
+  minutes = parseInt(timeParts[1], 10);
+
+  let combinedDateFin = new Date(Date.UTC(year, month, day, hours, minutes));
+  combinedDateFin = combinedDateFin.toISOString().replace(".000Z", offset);
+  let dateFinString = combinedDateFin.toString();
+
   const { getAccessTokenSilently, user } = useAuth0();
   const [tokenAuth, setTokenAuth] = useState();
-  const getTokenAuthAPI = async () => {
-    try {
-      const options = {
-        method: "POST",
-        url: "http://localhost:3000/getTokenAuth",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      axios(options)
-        .then((response) => {
-          setTokenAuth(response.data.token_access);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
-
-  const testGETGoogleToken = async (event, config) => {
-    try {
-      console.log("ok");
-      const data = await axios.post(
-        url_back_node + "/getTokenGoogle",
-        {
-          tokenauth: tokenAuth,
-        },
-        config
-      );
-      console.log("data", data);
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
 
   const test = async () => {
     const token = await getAccessTokenSilently();
@@ -63,11 +56,13 @@ export const CoursCard = (props) => {
       },
       config
     );
+
     //Get Token API Auth0
     const dataTokenAuth = await axios.post(
       url_back_node + "/getTokenAuth"
       //config
     );
+
     //Get Token google in order to use Google API's
     const dataTokenGoogle = await axios.post(
       url_back_node + "/getTokenGoogle",
@@ -76,6 +71,7 @@ export const CoursCard = (props) => {
       }
       //config
     );
+
     //Récupère l'identifiant de l'agenda stocké dans la BDD
     const getIdGoogleAgenda = await axios.post(
       url_back_node + "/user/getIdGoogleAgenda",
@@ -84,23 +80,22 @@ export const CoursCard = (props) => {
       },
       config
     );
+
     //Si il existe déjà, alors pas besoin de le créer
     if (getIdGoogleAgenda.data.user.id_user_agenda !== "") {
-      console.log(
-        "id deja existant",
-        getIdGoogleAgenda.data.user.id_user_agenda
-      );
-      const dataInsertGoogleAgendaEvenement = await axios.post(
+      await axios.post(
         url_back_node + "/insertEventInAgenda",
         {
           token_google:
             dataTokenGoogle.data.message[0].identities[0].access_token,
           id_agenda: getIdGoogleAgenda.data.user.id_user_agenda,
+          title: props.titre,
+          description: props.description,
+          dateHeureDebut: dateDebutString,
+          dateHeureFin: dateFinString,
         }
         //config
       );
-      console.log("resulat", dataInsertGoogleAgendaEvenement);
-      console.log("evenement créée 1");
     } else {
       //Créer un calendier dans google agenda
       const dataInsertGoogleAgenda = await axios.post(
@@ -112,9 +107,9 @@ export const CoursCard = (props) => {
         }
         //config
       );
-      console.log(dataInsertGoogleAgenda.data.message.id);
+
       //Ajoute l'id dans la mongodb -> User
-      const addIdGoogleAgenda = await axios.post(
+      await axios.post(
         url_back_node + "/user/addIdGoogleAgenda",
         {
           id_user_auth: props.id_prof,
@@ -122,19 +117,31 @@ export const CoursCard = (props) => {
         },
         config
       );
-      console.log("id agenda créée");
-      const dataInsertGoogleAgendaEvenement = await axios.post(
+
+      await axios.post(
         url_back_node + "/insertEventInAgenda",
         {
           token_google:
             dataTokenGoogle.data.message[0].identities[0].access_token,
           id_agenda: dataInsertGoogleAgenda.data.message.id,
+          title: props.titre,
+          description: props.description,
+          dateHeureDebut: dateDebutString,
+          dateHeureFin: dateFinString,
         }
         //config
       );
-      console.log("resulat", dataInsertGoogleAgendaEvenement);
-      console.log("evenement créée 2");
     }
+
+    //Créer un cours dans GoogleClassRoom
+    await axios.post(
+      url_back_node + "/insertCourse",
+      {
+        token_google:
+          dataTokenGoogle.data.message[0].identities[0].access_token,
+      }
+      //config
+    );
 
     if (data.status === 200) {
       toast.error(data.data.message);

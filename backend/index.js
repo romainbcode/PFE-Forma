@@ -158,7 +158,15 @@ app.post("/insertGoogleAgenda", async (req, res) => {
 });
 
 app.post("/insertEventInAgenda", async (req, res) => {
-  const { token_google, id_agenda } = req.body;
+  const {
+    token_google,
+    id_agenda,
+    title,
+    description,
+    dateJour,
+    dateHeureDebut,
+    dateHeureFin,
+  } = req.body;
   const options = {
     method: "POST",
     url: `https://www.googleapis.com/calendar/v3/calendars/${id_agenda}/events`,
@@ -166,14 +174,13 @@ app.post("/insertEventInAgenda", async (req, res) => {
       Authorization: `Bearer ${token_google}`,
     },
     data: {
-      summary: "Event TEST",
-      location: "Dijon",
-      description: "Event test description à Dijon",
+      summary: title,
+      description: description,
       start: {
-        dateTime: "2023-12-30T09:00:00-07:00",
+        dateTime: dateHeureDebut,
       },
       end: {
-        dateTime: "2023-12-30T10:00:00-07:00",
+        dateTime: dateHeureFin,
       },
     },
   };
@@ -185,6 +192,30 @@ app.post("/insertEventInAgenda", async (req, res) => {
     .catch((error) => {
       console.log(error);
       res.send("pas ok");
+    });
+});
+
+app.post("/insertCourse", async (req, res) => {
+  const { token_google } = req.body;
+  const options = {
+    method: "POST",
+    url: `https://classroom.googleapis.com/v1/courses`,
+    headers: {
+      Authorization: `Bearer ${token_google}`,
+    },
+    data: {
+      name: "test name",
+      ownerId: "me",
+    },
+  };
+  axios(options)
+    .then((response) => {
+      console.log(response.data);
+      res.send("ok cours");
+    })
+    .catch((error) => {
+      console.log(error);
+      res.send("pas ok cours");
     });
 });
 
