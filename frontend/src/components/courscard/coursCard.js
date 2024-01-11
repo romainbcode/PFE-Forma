@@ -179,6 +179,11 @@ export const CoursCard = (props) => {
           <Typography> </Typography>
         </Box>
         <Typography class="job">{props.description} </Typography>
+        <Typography class="job">
+          {props.dateDebut} - {props.dateFin}
+        </Typography>
+        <Typography class="job">{props.dateJour} </Typography>
+
         <Button
           onClick={() => {
             test();

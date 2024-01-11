@@ -63,7 +63,11 @@ export const CoursDisponible = () => {
         />
       </Box>
       <Box>
-        <Grid container spacing={{ xs: 2, md: 3 }}>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
           {isloading ? (
             <Loader />
           ) : (
@@ -83,6 +87,9 @@ export const CoursDisponible = () => {
                         id_prof={coursByProf.id_user_auth}
                         titre={cours.titre}
                         description={cours.description}
+                        dateDebut={cours.dateHeureDebut}
+                        dateFin={cours.dateHeureFin}
+                        dateJour={cours.dateJour}
                         id={cours._id}
                         image={cours.image ? cours.image.url : ""}
                       />
