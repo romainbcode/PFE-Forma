@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Box, Typography, Button, LinearProgress } from "@mui/material";
+import { Box, Typography, Divider, LinearProgress } from "@mui/material";
 import { useParams, Link } from "react-router-dom";
 import { Loader } from "../../../components/loader/loader";
 import { ChapitreDescriptionAccueil } from "../../../components/chapitre-description-accueil";
@@ -96,12 +96,34 @@ export const ChapitreScore = (props) => {
 
   return (
     <Box sx={{ padding: 2 }}>
-      {formationById.titre + " date de création : "}
-      {dateCreation}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "left",
+          flexDirection: "column",
+        }}
+      >
+        <Typography variant="h5" sx={{ pb: 2, color: "primary.headLine" }}>
+          {formationById.titre}
+        </Typography>
+        <Typography sx={{ color: "primary.paragraph" }}>
+          Vous avez la possibilité de suivre votre progression dans cette
+          formation. Pour chaque quiz, le pourcentage le plus élevé atteint est
+          indiqué. Un quiz est considéré comme réussi et apparaîtra en vert si
+          vous obtenez plus de 75 %. Un quiz raté sera affiché en rouge, tandis
+          qu'un quiz auquel vous n'avez pas encore participé sera indiqué en
+          bleu.
+        </Typography>
+        <Divider
+          color="white"
+          variant="middle"
+          sx={{ marginTop: 3, marginBottom: 2 }}
+        />
+      </Box>
       {isloading ? (
         <Loader />
       ) : (
-        formationScore &&
+        Array.isArray(formationScore) &&
         formationScore.map((formation, index) => (
           <Box key={index} sx={{ mb: 4 }}>
             <ChapitreDescriptionAccueil

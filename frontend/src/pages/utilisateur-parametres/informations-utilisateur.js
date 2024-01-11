@@ -80,6 +80,9 @@ export const InformationsUtilisateur = () => {
         <Box
           sx={{
             width: "70%",
+            boxShadow: "0 8px 14px 0 rgba(0, 0, 0, 0.2)",
+            borderRadius: "20px",
+            p: 2,
           }}
         >
           <Box>

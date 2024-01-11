@@ -1,6 +1,6 @@
 import { ListeMenuInfosUtilisateur } from "../../../components/listeMenuInfosUtilisateur";
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import { Box, Typography, Button, Grid } from "@mui/material";
+import { Box, Typography, Divider, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import { FormationCard } from "../../../components/formationcard/formationCard";
 import axios from "axios";
@@ -45,7 +45,7 @@ export const ScoresUtilisateur = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (formationsInscrit.length === 0) {
-        // Si FormationsInscrit est vide, appelez à nouveau la fonction
+        // Si FormationsInscrit est vide, appel à nouveau la fonction
         await memoizedFormationsInscrit();
       }
     };
@@ -64,9 +64,26 @@ export const ScoresUtilisateur = () => {
         }}
       >
         <Box>
-          <Typography sx={{ marginBottom: 4 }}>
-            Formations en cours :{" "}
-          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "left",
+              flexDirection: "column",
+            }}
+          >
+            <Typography variant="h5" sx={{ pb: 2, color: "primary.headLine" }}>
+              Formations commencées
+            </Typography>
+            <Typography sx={{ color: "primary.paragraph" }}>
+              Cliquez sur une formation pour consulter son état d'avancement en
+              observant les pourcentages de réussite de vos quiz.
+            </Typography>
+            <Divider
+              color="white"
+              variant="middle"
+              sx={{ marginTop: 3, marginBottom: 6 }}
+            />
+          </Box>
           <Grid
             container
             spacing={{ xs: 2, md: 3 }}
@@ -78,7 +95,7 @@ export const ScoresUtilisateur = () => {
             {isloading ? (
               <Loader />
             ) : (
-              formationsInscrit &&
+              Array.isArray(formationsInscrit) &&
               formationsInscrit.map((formationRecente, index) => (
                 <Link to={`/utilisateur/scores/${formationRecente._id}`}>
                   <Grid
