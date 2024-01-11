@@ -26,14 +26,6 @@ export const ListeMenuInfosUtilisateur = () => {
       }}
     >
       <Link
-        to="/utilisateur/badges"
-        style={linkStyle}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        Badges
-      </Link>
-      <Link
         to="/utilisateur/informations"
         style={linkStyle}
         onMouseEnter={handleMouseEnter}
