@@ -27,7 +27,11 @@ const Auth0ProviderWithNavigate = ({ children }) => {
         screen_hint: "signup",
         audience: audience,
         prompt: "consent",
-        scope: "openid email profile read:users read:roles",
+        scope:
+          "openid email profile read:users read:roles offline_access https://www.googleapis.com/auth/classroom.courses",
+        include_granted_scopes: true,
+        connection: "google-oauth2",
+        connection_scope: "https://www.googleapis.com/auth/classroom.courses",
       }}
       onRedirectCallback={onRedirectCallback}
     >
