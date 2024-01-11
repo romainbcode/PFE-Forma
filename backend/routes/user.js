@@ -6,6 +6,7 @@ const {
 } = require("../controllers/quizController");
 const {
   addScoreFormationUser,
+  getAllScores,
   addIdGoogleAgenda,
   getIdGoogleAgenda,
 } = require("../controllers/userController");
@@ -22,5 +23,6 @@ router.get("/getAllCours", isUser, getAllCours);
 router.post("/cours/userSubscription", isUser, addUserInscritCours);
 router.post("/user/addIdGoogleAgenda", isUser, addIdGoogleAgenda);
 router.post("/user/getIdGoogleAgenda", isUser, getIdGoogleAgenda);
+router.post("/user/getAllScores", isUser, getAllScores);
 
 module.exports = router;

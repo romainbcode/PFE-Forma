@@ -7,9 +7,8 @@ import { CreationFormation } from "./pages/professeur/creation-formation";
 import { FormationAccueil } from "./pages/formationAccueil";
 import { Formation } from "./pages/formation";
 import { CreationQuiz } from "./pages/professeur/creation-quiz";
-import { BadgesUtilisateur } from "./pages/utilisateur-parametres/badges-utilisateur";
 import { InformationsUtilisateur } from "./pages/utilisateur-parametres/informations-utilisateur";
-import { ScoresUtilisateur } from "./pages/utilisateur-parametres/scores-utilisateur";
+import { ScoresUtilisateur } from "./pages/utilisateur-parametres/scores/scores-utilisateur";
 import { FormationInscrite } from "./pages/formationInscrite";
 import { AdminDashboard } from "./pages/admin/admin-dashboard";
 import { FormationProfesseur } from "./pages/professeur/formation-professeur";
@@ -19,6 +18,7 @@ import { UpdateFormation } from "./pages/professeur/update-formation/update-form
 import { QuizProfesseurUpdate } from "./pages/professeur/update-quiz/quiz-professeur-update";
 import { CoursDisponible } from "./pages/cours/cours-disponible";
 import { CreationCours } from "./pages/professeur/creation-cours";
+import { ChapitreScore } from "./pages/utilisateur-parametres/scores/chapitre-score";
 export const App = () => {
   return (
     <Routes>
@@ -35,12 +35,15 @@ export const App = () => {
         path="/utilisateur/formation/inscrit"
         element={<FormationInscrite />}
       />
-      <Route path="/utilisateur/badges" element={<BadgesUtilisateur />} />
       <Route
         path="/utilisateur/informations"
         element={<InformationsUtilisateur />}
       />
       <Route path="/utilisateur/scores" element={<ScoresUtilisateur />} />
+      <Route
+        path="/utilisateur/scores/:formation_id"
+        element={<ChapitreScore />}
+      />
       <Route path="/admin/dashboard/formations" element={<AdminDashboard />} />
       <Route path="/professeur/formations" element={<FormationProfesseur />} />
       <Route

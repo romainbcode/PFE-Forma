@@ -16,10 +16,13 @@ export const ListeMenuInfosUtilisateur = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        position: "absolute",
-        left: 0,
+        justifyContent: "center",
+        position: "fixed",
         top: "50%",
-        transform: "translate(0%, -50%)",
+        left: 0,
+        transform: "translateY(-50%)",
+        width: "15%",
+        margin: 2,
       }}
     >
       <Link

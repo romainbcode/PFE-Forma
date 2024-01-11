@@ -111,6 +111,25 @@ exports.getAllFormationsInscrites = async (req, res, next) => {
   }
 };
 
+exports.getAllScores = async (req, res, next) => {
+  const { id_user_auth } = req.body;
+  try {
+    const user = await User.findOne({
+      id_user_auth: id_user_auth,
+    });
+    const formation_scores = user.scores;
+
+    res.status(200).json({
+      success: true,
+      formation_scores,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+    });
+  }
+};
+
 exports.getAllQuizsUser = async (req, res, next) => {
   const { id_user_auth } = req.body;
   try {

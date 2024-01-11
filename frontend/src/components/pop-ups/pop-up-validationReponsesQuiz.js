@@ -62,7 +62,7 @@ export const PopUpValidationReponsesQuiz = ({
   }, [open, getTrueReponsesQuiz]);
 
   const clickButton = async (req, res, next) => {
-    if ((compteur / compteurTotal) * 100 >= 75) {
+    if ((compteur / compteurTotal) * 100 >= 0) {
       const token = await getAccessTokenSilently();
       const config = {
         headers: {
