@@ -49,24 +49,27 @@ export const MenuFormation = ({ anchorEl, open, onClose, roleUser }) => {
   }));
 
   const userItems = [
-    { path: "/formations", label: "Formations" },
+    { path: "/formations", label: "Formations disponibles" },
     { path: "/utilisateur/formation/inscrit", label: "Formations inscrit" },
-    { path: "/cours/disponible", label: "Cours disponible" },
+    { path: "/cours/disponible", label: "Cours disponibles" },
   ];
 
   const profItems = [
     { path: "/formations/create", label: "Créer une formation" },
     { path: "/quizs/create", label: "Créer un quiz" },
     {
+      path: "/cours/creation",
+      label: "Organiser un cours sur GoogleClassRoom",
+    },
+    {
       path: "/professeur/formations",
-      label: "Ajouter des quizs dans sa formation",
+      label: "Ajouter des quizs dans une formation",
     },
     {
       path: "/professeur/list/formations/update",
-      label: "Modifier sa formation",
+      label: "Modifier une formation",
     },
-    { path: "/professeur/quiz/update", label: "Modifier vos quizs" },
-    { path: "/cours/creation", label: "Ajouter un créneau pour votre cours" },
+    { path: "/professeur/quiz/update", label: "Modifier un quiz" },
   ];
 
   const adminItems = [
