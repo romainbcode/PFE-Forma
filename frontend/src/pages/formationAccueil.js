@@ -16,7 +16,6 @@ export const FormationAccueil = (props) => {
   const [dateCreation, setDateCreation] = useState();
   const [idPremierChapitre, setIdPremierChapitre] = useState("");
   const [isloading, setIsLoading] = useState(true);
-  const [etatEnvoieMail, setEtatEnvoieMail] = useState(false);
 
   const { formation_id } = useParams();
 
@@ -101,7 +100,11 @@ export const FormationAccueil = (props) => {
         ))
       )}
       <Link to={`/formation/${formationById._id}/${idPremierChapitre}`}>
-        <Button onClick={mailUtilisateur()} variant="contained" color="success">
+        <Button
+          onClick={() => mailUtilisateur()}
+          variant="contained"
+          color="success"
+        >
           Commencer la formation
         </Button>
       </Link>
