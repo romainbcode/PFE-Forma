@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, TextField } from "@mui/material";
+import { Box, Typography, Button, TextField, Divider } from "@mui/material";
 import { SendHorizontal } from "lucide-react";
 import { Bot } from "lucide-react";
 import { ChevronsDown } from "lucide-react";
@@ -60,7 +60,7 @@ export const Chatbot = () => {
       }}
     >
       {!showFullChatbot ? (
-        <Box>
+        <Box sx={{ borderRadius: "12px ", bgcolor: "primary.background" }}>
           <Button
             onClick={switchChatbotHeader}
             sx={{
@@ -111,6 +111,19 @@ export const Chatbot = () => {
               </Box>
             </Box>
           </Button>
+          <Typography
+            sx={{
+              p: 1,
+              fontSize: 10,
+              color: "primary.paragraph",
+              textAlign: "justify",
+            }}
+          >
+            Les réponses de ce chatbot sont uniquement informatives. Pour
+            obtenir des informations détaillées, veuillez consulter un
+            enseignant disponible sur Google Classroom.
+          </Typography>
+          <Divider color="white" variant="middle" sx={{ marginBottom: 1 }} />
           {isLoading && (messages.length >= 0 || messages.length === 0) ? (
             <LoaderEcriture />
           ) : (

@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import { Chatbot } from "../chat-bot/chat-bot";
-import axios from "axios";
 import { Box, Typography, Button, Link, Paper } from "@mui/material";
 import logo_robot from "../assets/robot.png";
 import logo_direct from "../assets/diffusion-en-direct.png";
 import logo_formation from "../assets/education.png";
 
 export const Homepage = () => {
-  const [summary, setSummary] = useState("");
-  const [description, setDescription] = useState("");
   const [hoverChatbot, setHoverChatbot] = useState(false);
   const [hoverFormation, setHoverFormation] = useState(false);
   const [hoverCoursDirect, setHoverCoursDirect] = useState(false);
@@ -19,41 +15,6 @@ export const Homepage = () => {
 
   const handleMouseLeave = (setter) => {
     setter(false);
-  };
-
-  const handleSubmit = async (event) => {
-    try {
-      event.preventDefault();
-      console.log(summary, description);
-
-      const options = {
-        method: "post",
-        url: "http://localhost:3000/insertGoogleAgenda",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          summary: summary,
-          description: description,
-        },
-      };
-      axios(options)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
-
-  const handleChangeSummary = (event) => {
-    setSummary(event.target.value);
-  };
-  const handleChangeDescription = (event) => {
-    setDescription(event.target.value);
   };
 
   return (
@@ -304,10 +265,6 @@ export const Homepage = () => {
           )}
         </Paper>
       </Box>
-
-      <div style={{ position: "absolute", bottom: 0, right: 0 }}>
-        <Chatbot />
-      </div>
     </>
   );
 };

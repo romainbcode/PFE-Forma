@@ -10,7 +10,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { AffichageQuiz } from "../components/formation-informations/affichage-quiz.js";
 import { Toaster, toast } from "sonner";
 import { PopUpValidationReponsesQuiz } from "../components/pop-ups/pop-up-validationReponsesQuiz.js";
-
+import { Chatbot } from "../chat-bot/chat-bot.js";
 const url_back_node = process.env.REACT_APP_BACKNODE;
 
 export const Formation = () => {
@@ -271,6 +271,9 @@ export const Formation = () => {
           </Box>
         </Box>
       </Box>
+      <div style={{ position: "fixed", bottom: 0, right: 0 }}>
+        <Chatbot />
+      </div>
     </Box>
   );
 };
