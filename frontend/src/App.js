@@ -42,10 +42,7 @@ export const App = () => {
   });
   return (
     <Routes>
-      <Route
-        path="/"
-        element={<PrivateRoute element={<Homepage />} roles={[1, 2, 3]} />}
-      />
+      <Route path="/" element={<Homepage />} />
       <Route
         path="/formations"
         element={
@@ -65,9 +62,7 @@ export const App = () => {
       />
       <Route
         path="/utilisateur/formation/inscrit"
-        element={
-          <PrivateRoute element={<FormationInscrite />} roles={[1, 2, 3]} />
-        }
+        element={<FormationInscrite />}
       />
       <Route
         path="/utilisateur/informations"

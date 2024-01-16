@@ -45,11 +45,11 @@ export const Homepage = () => {
               fontWeight: "bold",
             }}
           >
-            Formez vous sur Nom_APP
+            EduVolution
           </Typography>
           <Typography
             sx={{
-              marginTop: 10,
+              marginTop: 6,
               color: "primary.paragraph",
               fontSize: 20,
               textAlign: "justify",

@@ -18,6 +18,7 @@ import axios from "axios";
 import { LoginButton } from "./login-button";
 import { LogoutButton } from "./logout-button";
 import { UserCircle2 } from "lucide-react";
+import logo_app from "../../assets/logo_app.png";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -294,7 +295,7 @@ export const Navbar = () => {
               alignItems: "center",
             }}
           >
-            <BookCopy color="#fffffe" />
+            <img width={75} height={75} src={logo_app} alt="logo_app" />
 
             <Typography
               variant="h6"
@@ -307,7 +308,7 @@ export const Navbar = () => {
                 textDecoration: "none",
               }}
             >
-              Nom_APP
+              EduVolution
             </Typography>
           </Box>
 
