@@ -10,18 +10,21 @@ export const LogoutButton = () => {
   };
 
   return (
-    <Button className="button__logout" onClick={handleLogout}
-      sx={{bgcolor: 'transparent',
-      borderRadius: '5px',
-      padding: '5px 20px',
-      transition: 'background-color 0.3s',
-      fontWeight:'bold',
-      "&:hover":{
-        color:'primary.button_background'
-      }
-      }}    
+    <Button
+      className="button__logout"
+      onClick={handleLogout}
+      sx={{
+        bgcolor: "transparent",
+        borderRadius: "5px",
+        padding: "5px 20px",
+        transition: "background-color 0.3s",
+        fontWeight: "bold",
+        "&:hover": {
+          color: "primary.button_background",
+        },
+      }}
     >
-      Log Out
+      Deconnexion
     </Button>
   );
 };

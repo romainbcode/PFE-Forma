@@ -21,7 +21,7 @@ export const LoginButton = () => {
         fontWeight: "bold",
       }}
     >
-      Log In
+      Connexion
     </Button>
   );
 };

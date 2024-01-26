@@ -125,7 +125,7 @@ export const ChapitreScore = (props) => {
       ) : (
         Array.isArray(formationScore) &&
         formationScore.map((formation, index) => (
-          <Box key={index} sx={{ mb: 4 }}>
+          <Box key={index} sx={{ mb: 4, pl: 4, pr: 4 }}>
             <ChapitreDescriptionAccueil
               titre={formation.titre}
               description={formation.description}

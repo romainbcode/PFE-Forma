@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Box, Typography, Button, Select, Chip, MenuItem } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Select,
+  Divider,
+  MenuItem,
+} from "@mui/material";
 import { useParams, Link } from "react-router-dom";
 import { Loader } from "../../components/loader/loader";
 import { ChapitreDescriptionAccueil } from "../../components/chapitre-description-accueil";
@@ -114,8 +121,26 @@ export const QuizsInFormation = (props) => {
   };
 
   return (
-    <Box>
-      {formationById.titre}
+    <Box sx={{ p: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "left",
+          flexDirection: "column",
+        }}
+      >
+        <Typography variant="h5" sx={{ pb: 2, color: "primary.headLine" }}>
+          Ajoutez des quizs dans votre formation : {formationById.titre}
+        </Typography>
+        <Typography sx={{ color: "primary.paragraph" }}>
+          Vous pouvez ajouter un quiz par chapitre dans une formation.
+        </Typography>
+        <Divider
+          color="white"
+          variant="middle"
+          sx={{ marginTop: 3, marginBottom: 4 }}
+        />
+      </Box>
 
       {isloading ? (
         <Loader />
@@ -132,7 +157,7 @@ export const QuizsInFormation = (props) => {
               value={titreQuizs[index] ? titreQuizs[index] : " "}
               onChange={(event) => handleChange(event, index)}
               defaultValue=""
-              sx={{ width: "300px", color: "red" }}
+              sx={{ width: "300px", color: "white", mr: 5 }}
             >
               {Array.isArray(quizs) &&
                 quizs.map((quiz, index2) => (
